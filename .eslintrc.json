@@ -1,0 +1,89 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": "airbnb",
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly",
+    "__DEV__": true,
+    "DB": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "legacyDecorators": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "no-throw-literal": "off",
+    "block-spacing": "warn",
+    "eol-last": "warn",
+    "import/prefer-default-export": "off",
+    "quote-props": "warn",
+    "quotes": "warn",
+    "space-infix-ops": "warn",
+    "arrow-spacing": "warn",
+    "padded-blocks": "warn",
+    "comma-spacing": "warn",
+    "max-len": ["warn", 180],
+    "comma-dangle": "off",
+    "import/no-named-as-default": "off",
+    "no-empty": "off",
+    "no-trailing-spaces": "off",
+    "no-underscore-dangle": "off",
+    "no-multiple-empty-lines": "warn",
+    "key-spacing": "warn",
+    "import/order": "warn",
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "all",
+        "argsIgnorePattern": "(^_$)|(^__)|(req)|(res)|(next)",
+        "varsIgnorePattern": "(^_$)|(^__)"
+      }
+    ],
+    "no-nested-ternary": "off",
+    "semi": "warn",
+    "global-require": "off",
+    "implicit-arrow-linebreak": ["off", "below"],
+    "object-curly-spacing": ["warn", "never"],
+    "object-curly-newline": [
+      "warn",
+      {
+        "ObjectExpression": {
+          "multiline": true,
+          "minProperties": 5
+        },
+        "ObjectPattern": {
+          "multiline": true
+        },
+        "ImportDeclaration": {
+          "multiline": true,
+          "minProperties": 3
+        },
+        "ExportDeclaration": {
+          "multiline": true,
+          "minProperties": 3
+        }
+      }
+    ],
+    "react/prop-types": "off",
+    "react/no-array-index-key": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "indent": ["warn", 4],
+    "react/jsx-indent": ["warn", 4],
+    "react/jsx-indent-props": ["warn", 4],
+    "react/jsx-closing-bracket-location": ["warn", "tag-aligned"]
+  }
+}
