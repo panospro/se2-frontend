@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef /*/
 /// <reference types="cypress" />
 
 Cypress.on('window:before:load', (win) => {
