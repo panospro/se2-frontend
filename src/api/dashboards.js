@@ -22,3 +22,4 @@ export const checkDashboardPassword = (dashboardId, password) => dashboardsApi.p
 export const selectShareDashboard = (dashboardId) => dashboardsApi.post('share-dashboard', {json: {dashboardId}}).json();
 
 export const submitPassword = (dashboardId, password) => dashboardsApi.post('change-password', {json: {dashboardId, password}}).json();
+//
