@@ -37,4 +37,5 @@ export const AppContainer = (props) => {
     );
 };
 
+// Default export of withRouter with AppContainer as argument
 export default withRouter(AppContainer);
