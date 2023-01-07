@@ -408,4 +408,5 @@ const createGauge = ({id, type, initialState, user, owner}) => (
     />
 );
 
+// Default export createGauge
 export default createGauge;
