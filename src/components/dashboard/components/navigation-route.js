@@ -2,6 +2,10 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -25,6 +29,7 @@ import robotIcon from '../../../assets/robot.png';
 
 const mqtt = require('mqtt');
 
+// Style FormHeader
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -36,6 +41,7 @@ const FormHeader = styled.div`
     color: #16335B;
 `;
 
+// Style FormSubHeader
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;
@@ -46,6 +52,7 @@ const FormSubHeader = styled.div`
     color: #16335B;
 `;
 
+// Style SettingsDiv
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -53,12 +60,14 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
+// Style CustomCanvas
 const CustomCanvas = styled.canvas`
     z-index: 3;
     background: rgba(255, 255, 255, 0.2);
     cursor: crosshair;
 `;
 
+// Style CustomDiv
 const CustomDiv = styled.div`
     width: 100%;
     height: 100%;

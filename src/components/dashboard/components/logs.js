@@ -1,4 +1,8 @@
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import {
     Drawer,
@@ -29,6 +33,10 @@ const formatDate = (date) => {
 };
 
 class Logs extends React.Component {
+    // Takes in a date object and returns a formatted string representation of that date. First gets the day, month and year values from the date object and stores them
+    // in separate variables. It then gets the hour, minute and second values and stores them in separate variables as well.
+    // Then checks the length of each of these values and if the length is 1, it adds a leading zero to the value. For example, if the month is 9, the value will be changed to 09.
+    // Finally, the function returns a string that is formatted as "dd/mm/yyyy, hh:mm:ss", using the day, month, year, hour, minute and second values that were extracted from the date object.
     constructor(props) {
         super(props);
 
@@ -70,10 +78,12 @@ class Logs extends React.Component {
         this.closeFilter = this.closeFilter.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.connectToTopic();
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         if (this.rxStomp !== null) {
             this.rxStomp.deactivate();
@@ -83,10 +93,15 @@ class Logs extends React.Component {
         }
     }
 
+    // Takes value as argument and is called when the component needs to show or hide a loading spinner and the spinnerOpen property is used to determine whether the spinner 
+    // should be shown or hidden. When the value of the spinnerOpen property is true, the spinner is shown and when it is false, the spinner is hidden.
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
+    // Called when the component receives a message. It updates several properties in the component's state based on the time span between the current time and the time
+    // of the previous message, as well as the minimum, maximum and mean time spans between messages. It also increments a counter for the number of messages received.
+    // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     messageReceived(payload) {
         const {variable, maxMessages, id} = this.state;
         try {
@@ -136,6 +151,8 @@ class Logs extends React.Component {
         } catch {}
     }
 
+    // Connects to a STOMP source, subscribes to a specified topic and receives and processes messages received from the topic, closing a spinner
+    // after the initial receipt is received.
     connectStompSource(source) {
         const {name, topic} = this.state;
         try {
@@ -170,6 +187,7 @@ class Logs extends React.Component {
         } catch {}
     }
 
+    // Connects to an MQTT source, subscribes to a specified topic, and processes messages received from the topic, closing a spinner after the connection is established.
     connectMqttSource(source) {
         const {topic} = this.state;
         try {
@@ -198,6 +216,8 @@ class Logs extends React.Component {
         } catch {}
     }
 
+    // Retrieves the details for a specified source and connects to a specified topic using either a STOMP or MQTT connection, displaying an error message
+    // if there is a problem finding the source or connecting to the topic.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);
@@ -215,10 +235,12 @@ class Logs extends React.Component {
         }
     }
 
+    // Filters the message
     filterMessages() {
         this.setState({filterDrawerOpen: true});
     }
 
+    // Clears the message
     clearMessages() {
         this.setState({
             logs: [],
@@ -226,6 +248,7 @@ class Logs extends React.Component {
         });
     }
 
+    // Export the message
     exportMessages() {
         const {logs} = this.state;
         let allLogs = '';
@@ -240,22 +263,27 @@ class Logs extends React.Component {
         fileDownload(allLogs, 'logs.txt');
     }
 
+    // Change the filter
     changeFilter(event) {
         this.setState({filter: event.target.value});
     }
 
+    // Remove the filter
     removeFilter() {
         this.setState({filter: ''});
     }
 
+    // Close the filter
     closeFilter() {
         this.setState({filterDrawerOpen: false});
     }
 
+    // Resize 
     resize(width, height) {
         this.setState({width, height});
     }
 
+    // Render the logs
     render() {
         const {spinnerOpen, id, name, logs, counter, timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal, colorKeys, colorValues, filter, filterDrawerOpen, width, height} = this.state;
 
@@ -567,6 +595,8 @@ class Logs extends React.Component {
     }
 }
 
+// Takes an object as an argument with the properties id, type, initialState, user and owner to customize the appearance or behavior of the button or group of buttons.
+// The function returns a JSX element called Json, with the properties id, type, initialState, user and owner being passed to it. 
 const createLogs = ({id, type, initialState, user, owner}) => (
     <Logs
         id={id}
@@ -577,4 +607,5 @@ const createLogs = ({id, type, initialState, user, owner}) => (
     />
 );
 
+// Default export createLogs
 export default createLogs;
