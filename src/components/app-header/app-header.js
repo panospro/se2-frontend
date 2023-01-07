@@ -1,5 +1,9 @@
 /* eslint-disable max-len */
 /* eslint-disable react/no-did-update-set-state */
+
+/*
+* Import several modules
+*/
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -21,6 +25,7 @@ import homeIcon from '../../assets/home.png';
 import logoutWhiteIcon from '../../assets/logoutWhite.png';
 import homeWhiteIcon from '../../assets/homeWhite.png';
 
+// Style the StyledBox
 const StyledBox = styled(Box)`
     width: 100%;
     position: relative;
@@ -29,6 +34,7 @@ const StyledBox = styled(Box)`
     align-items: center;
 `;
 
+// Style the StyledIcon
 const StyledIcon = styled.img`
     max-height: 100%;
     cursor: pointer;
@@ -36,6 +42,7 @@ const StyledIcon = styled.img`
     padding: 5px;
 `;
 
+// Style the ButtonsDiv
 const ButtonsDiv = styled.div`
     height: 100%;
     margin-left: auto;
@@ -45,10 +52,12 @@ const ButtonsDiv = styled.div`
     padding: 10px;
 `;
 
+// Style the StyledButtonIcon
 const StyledButtonIcon = styled.img.attrs((props) => ({src: props.icon}))`
     position: relative;
 `;
 
+// Style the StyledText
 const StyledText = styled(Text)`
     color: #16335B;
     font-size: 16px;
@@ -56,7 +65,12 @@ const StyledText = styled(Text)`
     font-weight: 550;
 `;
 
+// Function that returns JSX. Takes six properties: text, info, icon, iconWhite, handler and changeHeader.
 const ButtonWithText = ({text, info, icon, iconWhite, handler, changeHeader}) => (
+    // Tooltip is wrapped around a Button and is styled to the Button. These styles will set textAlign to center and the width and height of StyledButtonIcon 
+    // to either 20px or 40px depending on the value of changeHeader. Then the also renders some JSX based on the value of changeHeader. 
+    // If the value is true, the will not render the StyledText. If the value of changeHeader is false, 
+    // the will render the StyledText with the text passed to it as the content.
     <Tooltip
         key={`tooltip_${text}`}
         popoverClassName="item-info-tooltip"
@@ -71,7 +85,10 @@ const ButtonWithText = ({text, info, icon, iconWhite, handler, changeHeader}) =>
     </Tooltip>
 );
 
+// Class that represents a header in a React app.
 export class AppHeader extends React.Component {
+    // A constructor that sets up the's state and binds the pushHistory, clearAuth, goBack to the instance 
+    // and lastly the state based on the values of isAuthenticated and pathname properties of props object.
     constructor(props) {
         super(props);
         this.pushHistory = props.history.push;
@@ -84,6 +101,7 @@ export class AppHeader extends React.Component {
         };
     }
 
+    // Updates and returns the values of an object. The values are props.isAuthenticated and props.location.pathname
     static getDerivedStateFromProps(props) {
         return {
             isAuthenticated: props.isAuthenticated,
@@ -91,6 +109,12 @@ export class AppHeader extends React.Component {
         };
     }
 
+    // Returns JSX that represents the visual structure of header. The JSX includes a logo, a series of buttons and a divider. 
+    // The content and behavior of buttons depend on the value of isAuthenticated state property. 
+    // If the value of isAuthenticated is true, the buttons will be rendered. If the value of isAuthenticated is false, the buttons will not be rendered.
+    // Then Style height and background of StyledBox based on the value of changeHeader. The changeHeader is set based on the value of path state property and whether 
+    // it starts with the string /dashboards/ and does not start with the string /dashboards/edit/.
+    // It also uses the ButtonWithText, which is passed several props, including icon, iconWhite, text, info, handler and changeHeader.
     render() {
         const {isAuthenticated, path} = this.state;
         const changeHeader = (path.startsWith('/dashboards/') && !(path.startsWith('/dashboards/edit/')));
@@ -135,14 +159,18 @@ export class AppHeader extends React.Component {
     }
 }
 
+// Takes in a state argument and returns an object with a isAuthenticated, which checks if the user is authenticated and a user.
 export const mapState = (state) => ({isAuthenticated: checkIsAuthenticated(state), user: state.auth.user});
 
+// Returns an object with a clearAuth. The value of clearAuth property is a function that dispatches the clear action from the actions.auth object when it is called.
 export const mapDispatch = (dispatch) => ({
     clearAuth: () => {
         dispatch(actions.auth.clear());
     }
 });
 
+// Function is the result of wrapping the AppHeader with the connect higher-order. In the connect higher-order is passed the mapState and mapDispatch,
+// which allows the AppHeader to have access to the values of the isAuthenticated and user properties in the store as well as the clearAuth action.
 export default withRouter(connect(
     mapState,
     mapDispatch
