@@ -95,6 +95,10 @@ const CustomDiv = styled.div`
 `;
 
 class NavigationRoute extends React.Component {
+    // Takes in a date object and returns a formatted string representation of that date. First gets the day, month and year values from the date object and stores them
+    // in separate variables. It then gets the hour, minute and second values and stores them in separate variables as well.
+    // Then checks the length of each of these values and if the length is 1, it adds a leading zero to the value. For example, if the month is 9, the value will be changed to 09.
+    // Finally, the function returns a string that is formatted as "dd/mm/yyyy, hh:mm:ss", using the day, month, year, hour, minute and second values that were extracted from the date object.
     constructor(props) {
         super(props);
 
@@ -183,6 +187,7 @@ class NavigationRoute extends React.Component {
         this.closeImage = this.closeImage.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.connectToTopic();
         const {id} = this.state;
@@ -190,6 +195,7 @@ class NavigationRoute extends React.Component {
         this.resize(imageDiv.offsetWidth, imageDiv.offsetHeight);
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         if (this.rxStomp !== null) {
             this.rxStomp.deactivate();
@@ -199,6 +205,7 @@ class NavigationRoute extends React.Component {
         }
     }
 
+    // What happens when the mouse goes upwards
     onMouseUp(e) {        
         if (this.canvas.current) {
             const {left, right, top, bottom} = this.canvas.current.getBoundingClientRect();
@@ -214,6 +221,7 @@ class NavigationRoute extends React.Component {
         }
     }
 
+    // What happens when the mouse goes downwards
     onMouseUpGoto(e) {        
         if (this.gotoCanvas.current) {
             const {left, right, top, bottom} = this.gotoCanvas.current.getBoundingClientRect();
@@ -229,10 +237,14 @@ class NavigationRoute extends React.Component {
         }
     }
 
+    // Takes value as argument and is called when the component needs to show or hide a loading spinner and the spinnerOpen property is used to determine whether the spinner 
+    // should be shown or hidden. When the value of the spinnerOpen property is true, the spinner is shown and when it is false, the spinner is hidden.
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
-
+    
+    // Displays a received message that is expected to contain an image, sending a request for annotations and updating the state to store the image and 
+    // its dimensions before resizing the image and displaying it in a div element.
     messageReceivedMap(payload) {
         const {requestAnnotationsTopic, previousImageWidth, previousImageHeight} = this.state;
         try {
@@ -259,6 +271,9 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Processes a received message that is expected to contain pose data, including the width and height of a map, the origin and resolution of the map
+    // and the x and y coordinates and orientation (theta) of the robot. Then calculates the position of the robot on the map in terms of percentages of
+    // the map's dimensions and stores the pose data and map details in the component's state.
     messageReceivedPose(payload) {
         try {
             const {map_width, map_height, origin, resolution, theta, x, y} = payload.data;
@@ -275,6 +290,8 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // ReceivES a message that is expected to contain path data, calculating the positions of the points on a map in terms of percentages of the map's 
+    // dimensions and storing the path data and map details in the component's state.
     messageReceivedPath(payload) {
         try {
             const {map_width, map_height, origin, resolution, path} = payload.data;
@@ -294,6 +311,7 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // This method processes a received message containing annotation data and stores the data and map details in the component's state.
     messageReceivedAnnotations(payload) {
         try {
             const {map_width, map_height, origin, resolution, annotations} = payload.data;
@@ -313,6 +331,7 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Connect to stomp source using RxStomp, listen for messages on different topics and handle them accordingly.
     connectStompSource(source) {
         const {name, mapTopic, poseTopic, pathTopic, getAnnotationsTopic, requestMapTopic} = this.state;
         try {
@@ -352,6 +371,7 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Sets up an MQTT client connection and subscribes to various topics to receive messages which it then handles with specific functions.
     connectMqttSource(source) {
         const {mapTopic, poseTopic, pathTopic, getAnnotationsTopic, requestMapTopic} = this.state;
         try {
@@ -387,6 +407,7 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Connects to the specified source and subscribes to relevant topics.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);
@@ -404,6 +425,8 @@ class NavigationRoute extends React.Component {
         }
     }
 
+    // Resize sets the width and height of the image and its surrounding div and determines whether the display should show small or closed buttons
+    // based on the size of the display.
     resize(width, height) {
         const {id} = this.state;
         const closedButtons = ((width > height && height < 80) || (width < height && width < 100));
@@ -426,12 +449,14 @@ class NavigationRoute extends React.Component {
         });
     }
 
+    // Function to open canvas for annotation and listen for mouse up events.
     annotate() {
         this.setState({canvasOpen: true}, () => {
             document.addEventListener('mouseup', this.onMouseUp, false);
         });
     }
 
+    // Sends a message to a certain topic to navigate to an annotation
     goToPlace(ind) {
         const {setAnnotationGoalTopic, annotations} = this.state;
         try {
@@ -444,12 +469,14 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Opens up a canvas to click on a point and sends the coordinates to a message broker.
     goToPoint() {
         this.setState({gotoCanvasOpen: true}, () => {
             document.addEventListener('mouseup', this.onMouseUpGoto, false);
         });
     }
 
+    // Function cancels the current goal by publishing a message on the cancelGoalTopic.
     cancelGoal() {
         const {cancelGoalTopic} = this.state;
         try {
@@ -461,16 +488,19 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Close annotation canvas and remove mouse event listener.
     closeAnnotate() {
         this.setState({canvasOpen: false});
         document.removeEventListener('mouseup', this.onMouseUp, false);
     }
 
+    // Opens input for new annotation name at given point
     addAnnotation(point) {
         this.tempPoint = point;
         this.setState({annotationNamePopupOpen: true});
     }
 
+    // Sends a message over a message broker to delete an annotation at a specified index in the annotations array
     deleteAnnotation() {       
         const {annotations, changeAnnotationsTopic} = this.state;
         try {
@@ -483,6 +513,8 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Sends a goal to a topic in the form of an (x, y) coordinate, with theta (angle) set to 0, based on a point within the dimensions 
+    // of an image and the resolution, width and height of the map
     sendPointGoal(point) {
         const {imageWidth, imageHeight, resolution, origin, map_width, map_height, setGoalTopic} = this.state;
         const newX = (((point.x / imageWidth) * map_width) * resolution) - origin.x;
@@ -496,20 +528,25 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Closes the 'goto' canvas and removes mouseup event listener.
     closeGotoCanvas() {
         this.setState({gotoCanvasOpen: false});
         document.removeEventListener('mouseup', this.onMouseUpGoto, false);
     }
 
+    // Sets a temporary annotation name based on input.
     changeAnnotationName(event) {
         this.setState({tempAnnotationName: event.target.value});
     }
 
+    // Handles canceling the creation of a new annotation.
     cancelAnnotation() {
         this.tempPoint = null;
         this.setState({tempAnnotationName: '', annotationNamePopupOpen: false});
     }
 
+    // Sends an annotation to change the annotations topic with the given name and pose. The pose is calculated from the given point on the image by converting it to map 
+    // coordinates using the resolution and origin of the map and the width and height of the image and map. The function can be called using either RxStomp or an MQTT client
     sendAnnotation() {          
         const {tempAnnotationName, imageWidth, imageHeight, resolution, origin, map_width, map_height, changeAnnotationsTopic} = this.state;
         const newX = (((this.tempPoint.x / imageWidth) * map_width) * resolution) - origin.x;
