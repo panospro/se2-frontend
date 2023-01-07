@@ -1,3 +1,6 @@
+/*
+* Importing the necessary modules
+*/
 import createIframe from './iframe';
 import createGauge from './gauge';
 import createImage from './image';
@@ -13,6 +16,7 @@ import createUrl from './url';
 import createRest from './rest';
 import createRestRequest from './rest-request';
 
+// Set the values of the object components to the ones imported
 const components = {
     iframe: {component: createIframe},
     gauge: {component: createGauge},
@@ -30,4 +34,5 @@ const components = {
     restRequest: {component: createRestRequest}
 };
 
+// Default export components
 export default components;
