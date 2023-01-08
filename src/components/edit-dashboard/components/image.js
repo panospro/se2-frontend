@@ -90,8 +90,8 @@ class Image extends React.Component {
         };
     }
 
-     // Appears to take in a key and a value argument and call the updateItem function with the
-     // component's id state variable, the key, and the value as arguments.
+    // Appears to take in a key and a value argument and call the updateItem function with the
+    // component's id state variable, the key, and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
@@ -110,7 +110,7 @@ class Image extends React.Component {
         this.sendUpdate('name', value);
     }
 
-    // Opens the pop up and sets values to popoverOpen and tempUrl 
+    // Opens the pop up and sets values to popoverOpen and tempUrl etc.
     openPopup() {
         const {source, topic, variable} = this.state;
         this.setState({
@@ -121,7 +121,7 @@ class Image extends React.Component {
         });
     }
 
-    // Closes the pop up and sets values to popoverOpen and tempUrl 
+    // Closes the pop up and sets values to popoverOpen and tempUrl etc.
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -131,7 +131,7 @@ class Image extends React.Component {
         });
     }
 
-    // Update the url state variable based on the value of the tempUrl state variable and set the popoverOpen state variable to false.
+    // Update the url state variable based on the value of the tempUrl state variable and set the popoverOpen state variable to false etc.
     closeConfirmPopup() {
         const {tempSource, tempTopic, tempVariable} = this.state;
         this.sendUpdate('source', tempSource);
@@ -175,7 +175,7 @@ class Image extends React.Component {
     }
 
     // Render the image. First by getting some values from this.state, which is an object that contains several pieces of state for the component.
-    //  These values are then used in the JSX element that is returned, which is a div element with several nested elements inside it. Some of 
+    // These values are then used in the JSX element that is returned, which is a div element with several nested elements inside it. Some of 
     // these elements are custom or external components and style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
     // component, which is a custom or external component that displays additional information when hovered over. 
     render() {
