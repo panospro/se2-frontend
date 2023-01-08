@@ -1,5 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -15,6 +19,7 @@ import {
     BlueBorderButton, BlueButton, OrangeButton, CustomButton
 } from '../../../lib/buttons';
 
+// Style FormHeader
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -27,6 +32,7 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
+// Style FormSubHeader
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;
@@ -37,6 +43,7 @@ const FormSubHeader = styled.div`
     color: #16335B;
 `;
 
+// Style SettingsDiv
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -44,17 +51,21 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
+// Style textAlignments
 const textAlignments = {
     left: 'Left',
     center: 'Center',
     right: 'Right'
 };
 
+// Style buttonAlignments
 const buttonAlignments = {
     vertical: 'Vertical',
     horizontal: 'Horizontal'
 };
 
+// Takes a string as an argument and returns a boolean. The function attempts to parse the input string as JSON and returns true if the parsing is successful. If an error is thrown while
+// parsing, the function returns false.
 const isValidJson = (input) => {
     try {
         JSON.parse(input);
@@ -65,6 +76,9 @@ const isValidJson = (input) => {
 };
 
 class Buttons extends React.Component {
+    // The component's props are destructured and used to initialize the component's state. 
+    // The component's state is initialized with several, some of which are destructured from the props.initialState object and others of which have default values.
+    // The component also has several class (this.rxStomps, this.mqttClients, etc.) that are initialized with empty arrays.
     constructor(props) {
         super(props);
 
@@ -159,6 +173,9 @@ class Buttons extends React.Component {
         this.clone = this.clone.bind(this);
     }
 
+    // Receives the component's props as an argument and returns an object containing the
+    // state that should be updated, the returned object includes the values of various
+    // in the initialState prop as well as some default values.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -177,21 +194,28 @@ class Buttons extends React.Component {
         };
     }
 
+    // Updates the value of a specific of the component. It takes in the state
+    // to update and the new value, and sends a request to update the component with the new
+    // values. The component's id is also included in the update request.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
+    // Removes the component from the dashboard. It closes the delete confirmation popup and
+    // calls the deleteItem function with the component's id.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
         this.deleteItem(id);
     }
 
+    // Updates the component's name and sends the update to the server
     changeName(value) {
         this.sendUpdate('name', value);
     }
 
+    // Opens a popover and stores the component's current state in a set of temporary variables
     openPopup() {
         const {alignText, buttonsAlign, texts, sources, topics, payloads, isDynamic, colors, backgrounds, backgroundsHover} = this.state;
 
@@ -210,6 +234,7 @@ class Buttons extends React.Component {
         });
     }
 
+    // Closes the popover and resets the temporary variables to their default values
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -228,6 +253,10 @@ class Buttons extends React.Component {
         });
     }
 
+    // Takes the current state variables and updates the component's with them. It also checks
+    // if the payloads of the buttons are valid JSON strings and shows an error if any of them are not. 
+    // Then it sets the state of the component to hide the configuration popover and resets the temporary state 
+    // variables to their default values
     closeConfirmPopup() {
         const {tempAlignText, tempButtonsAlign, tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, tempBackgroundsHover} = this.state;
 
@@ -257,6 +286,8 @@ class Buttons extends React.Component {
         }
     }
 
+    // Takes the current temporary state variables and updates the component's with them. It sets the state of the component to hide the configuration popover and 
+    // resets the temporary state variables to their default values
     confirmPopup() {
         const {tempAlignText, tempButtonsAlign, tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, tempBackgroundsHover} = this.state;
         this.sendUpdate('alignText', tempAlignText);
@@ -272,26 +303,32 @@ class Buttons extends React.Component {
         this.setState({popoverOpen: false, buttonPopoverOpen: false, buttonSelected: null});
     }
 
+    // Opens the delete pop up
     openDelete() {
         this.setState({deletePopupOpen: true});
     }
 
+    // Cpens the delete pop up
     closeDelete() {
         this.setState({deletePopupOpen: false});
     }
 
+    // Opens the popover button
     openButtonPopover(ind) {
         this.setState({popoverOpen: false, buttonPopoverOpen: true, buttonSelected: ind});
     }
 
+    // Changes the alignment of the text of the button
     changeAlignText(value) {
         this.setState({tempAlignText: value});
     }
 
+    // Changes the alignment of the buttons relative to each other
     changeButtonsAlign(value) {
         this.setState({tempButtonsAlign: value});
     }
 
+    // Changes the text of a button
     changeTexts(event, ind) {
         event.stopPropagation();
         const {tempTexts} = this.state;
@@ -299,12 +336,14 @@ class Buttons extends React.Component {
         this.setState({tempTexts});
     }
 
+    // Changes the source of a button
     changeSources(value, ind) {
         const {tempSources} = this.state;
         tempSources[ind] = value;
         this.setState({tempSources});
     }
 
+    // Changes the topic of a button
     changeTopics(event, ind) {
         event.stopPropagation();
         const {tempTopics} = this.state;
@@ -312,6 +351,7 @@ class Buttons extends React.Component {
         this.setState({tempTopics});
     }
 
+    // Changes the payload of a button
     changePayloads(event, ind) {
         event.stopPropagation();
         const {tempPayloads} = this.state;
@@ -319,12 +359,15 @@ class Buttons extends React.Component {
         this.setState({tempPayloads});
     }
 
+    // Changes the dynamic status of a button
     changeIsDynamic(ind) {
         const {tempIsDynamic} = this.state;
         tempIsDynamic[ind] = !(tempIsDynamic[ind]);
         this.setState({tempIsDynamic});
     }
 
+    // Updates the tempColors state with the value of the event target passed 
+    // to it as an argument at the index passed as an argument.
     changeColors(event, ind) {
         event.stopPropagation();
         const {tempColors} = this.state;
@@ -332,6 +375,8 @@ class Buttons extends React.Component {
         this.setState({tempColors});
     }
 
+    // Updates the tempBackgrounds state with the value of the event target passed 
+    // to it as an argument at the index passed as an argument.
     changeBackgrounds(event, ind) {
         event.stopPropagation();
         const {tempBackgrounds} = this.state;
@@ -339,6 +384,8 @@ class Buttons extends React.Component {
         this.setState({tempBackgrounds});
     }
 
+    // Updates the tempBackgroundsHover state with the value of the event target passed 
+    // to it as an argument at the index passed as an argument.
     changeBackgroundsHover(event, ind) {
         event.stopPropagation();
         const {tempBackgroundsHover} = this.state;
@@ -346,6 +393,8 @@ class Buttons extends React.Component {
         this.setState({tempBackgroundsHover});
     }
 
+    // Appends new values to the tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, and
+    // tempBackgroundsHover states and then calls the confirmPopup function.
     addButton() {
         const {tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, tempBackgroundsHover} = this.state;
         tempTexts.push(`Button ${tempTexts.length + 1}`);
@@ -368,6 +417,8 @@ class Buttons extends React.Component {
         }, this.confirmPopup);
     }
 
+    // Removes a button from the list of buttons in the component. It does this by splicing 
+    // the arrays containing the button  
     removeButton(ind) {
         const {tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, tempBackgroundsHover} = this.state;
         tempTexts.splice(ind, 1);
@@ -390,16 +441,28 @@ class Buttons extends React.Component {
         }, this.confirmPopup);
     }
 
+    // Sets the state such that the main configuration popover is open and the button configuration popover is closed, and sets the buttonSelected to null.
     back() {
         this.setState({popoverOpen: true, buttonPopoverOpen: false, buttonSelected: null});
     }
 
+    // Closes the main configuration popover and calls the cloneComponent function with the current component's id.
     clone() {
         const {id} = this.state;
         this.closePopup();
         this.cloneComponent(id);
     }
 
+    // It starts by getting several variables from state. It then returns an array containing a single JSX element, which is a styled div element with several nested children.
+    // These children include another div with a nested EditableText component and a Tag component, a styled div with an id and a class name that changes based on the value of
+    // buttonsAlign in state and several CustomButton components that are mapped over the texts array in state. Each CustomButton also has several style applied
+    // to it that are derived from the corresponding elements in the colors, backgrounds and backgroundsHover arrays in state. When one of these buttons is clicked, the openButtonPopup
+    // function is called with the index of the clicked button as an argument.
+    // Then append two JSX elements to the array returned by the render function. The first element is a PortalOverflowOverlay component that is rendered when the value of buttonPopupOpen 
+    // in state is true. This component has several props applied to it that define its appearance and behavior, such as isOpen, width, height, background, borderRadius, padding, marginLeft
+    // and color. It also has several nested children, including a FormHeader, a FormSubHeader and a SettingsDiv element that contains a TextArea component and two buttons
+    // (a BlueBorderButton and a BlueButton). The TextArea has an onChange prop that is bound to the editPayload function and both buttons have onClick props that are bound
+    // to the closeButtonPopup and changeButtonPayload functions, respectively.
     render() {
         const {id, availableSources, name, alignText, buttonsAlign, texts, colors, backgrounds, backgroundsHover, popoverOpen, buttonPopoverOpen, buttonSelected, deletePopupOpen, tempAlignText, tempButtonsAlign, tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, tempBackgroundsHover} = this.state;
 
@@ -808,6 +871,9 @@ class Buttons extends React.Component {
     }
 }
 
+// Takes an object as an argument with the id, type, initialState, user and owner to customize the appearance or behavior of the button or group of buttons.
+// The function returns a JSX element called Buttons, with the id, type, initialState, user and owner being passed to it. This JSX element Buttons is a component 
+// that represents a UI element in the form of a button or a group of buttons.
 const createButtons = ({id, type, initialState, updateItem, deleteItem, cloneComponent, sources}) => (
     <Buttons
         id={id}
@@ -820,4 +886,5 @@ const createButtons = ({id, type, initialState, updateItem, deleteItem, cloneCom
     />
 );
 
+// Default export createButtons
 export default createButtons;

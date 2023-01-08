@@ -1,5 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/ 
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -14,6 +18,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 
+// Style FormHeader
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -26,6 +31,7 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
+// Style SettingsDiv
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -33,6 +39,10 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
+// Takes in a date object and returns a formatted string representation of that date. First gets the day, month and year values from the date object and stores them
+// in separate variables. It then gets the hour, minute and second values and stores them in separate variables as well.
+// Then checks the length of each of these values and if the length is 1, it adds a leading zero to the value. For example, if the month is 9, the value will be changed to 09.
+// Finally, the function returns a string that is formatted as "dd/mm/yyyy, hh:mm:ss", using the day, month, year, hour, minute and second values that were extracted from the date object.
 const formatDate = (date) => {
     const day = ((String(date.getDate())).length === 1) ? `0${String(date.getDate())}` : String(date.getDate());
     const month = ((String(date.getMonth() + 1)).length === 1) ? `0${String(date.getMonth() + 1)}` : String(date.getMonth() + 1);
@@ -45,6 +55,7 @@ const formatDate = (date) => {
 };
 
 class Alive extends React.Component {
+     // The constructor of the class, that initializes type,state and resize etc.
     constructor(props) {
         super(props);
 
@@ -87,6 +98,8 @@ class Alive extends React.Component {
         this.clone = this.clone.bind(this);
     }
 
+    //  Receives the props passed to a component as an argument and returns an object to update the state and
+    //  is updated with values from the props, with default values specified for certain properties if they are not present in the props.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -98,21 +111,27 @@ class Alive extends React.Component {
         };
     }
 
+    // Update the value of an item in the state and send the update to the server. It takes in two arguments: key, which is the name
+    // of the property being updated, and value, which is the new value for the property.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
+    // Closes a deletePopup and then calls deleteItem with the component's id state as an argument.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
         this.deleteItem(id);
     }
 
+    // Update the name
     changeName(value) {
         this.sendUpdate('name', value);
     }
 
+    // Sets the component's popoverOpen state to true and sets tempSource, tempTopic, and tempTimeout to 
+    // the current values of source, topic, and timeout in the component's state.
     openPopup() {
         const {source, topic, timeout} = this.state;
         this.setState({
@@ -123,6 +142,7 @@ class Alive extends React.Component {
         });
     }
 
+    // Closes the popover
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -132,6 +152,7 @@ class Alive extends React.Component {
         });
     }
 
+    // Sends an update to the server with the new source, topic, and timeout values and closes the popover
     closeConfirmPopup() {
         const {tempSource, tempTopic, tempTimeout} = this.state;
         this.sendUpdate('source', tempSource);
@@ -140,27 +161,33 @@ class Alive extends React.Component {
         this.setState({popoverOpen: false});
     }
 
+    // Opens a popup to confirm the deletion of the component
     openDelete() {
         this.setState({deletePopupOpen: true});
     }
 
+    // Closes the delete popup
     closeDelete() {
         this.setState({deletePopupOpen: false});
     }
 
+    // Updates the component's source in the local state
     changeSource(value) {
         this.setState({tempSource: value});
     }
 
+    // Updates the component's topic in the local state
     changeTopic(event) {
         event.stopPropagation();
         this.setState({tempTopic: event.target.value});
     }
 
+    // Sets the component's tempTimeout state to the provided value
     changeTimeout(value) {
         this.setState({tempTimeout: value});
     }
 
+    // Sets font sizes and other boolean states based on the provided width and height
     resize(width, height) {
         let fontSize = 16;
         let fontSize2 = 16;
@@ -181,12 +208,14 @@ class Alive extends React.Component {
         });
     }
 
+    // Closes the popover and calls the cloneComponent method with the component's id
     clone() {
         const {id} = this.state;
         this.closePopup();
         this.cloneComponent(id);
     }
 
+    // Render alive. The render method returns a JSX element, which will be rendered to the page.
     render() {
         const {id, availableSources, name, popoverOpen, deletePopupOpen, tempSource, tempTopic, tempTimeout, lastSend, activeText, smallIcon, fontSize, fontSize2} = this.state;
 
@@ -431,6 +460,8 @@ class Alive extends React.Component {
     }
 }
 
+// Returns a JSX element representing an instance of a component. The function takes an object as an argument and uses the properties 
+// of the object as props for the returned component.
 const createAlive = ({id, type, initialState, updateItem, deleteItem, cloneComponent, sources}) => (
     <Alive
         id={id}
@@ -443,4 +474,5 @@ const createAlive = ({id, type, initialState, updateItem, deleteItem, cloneCompo
     />
 );
 
+// Default export createAlive
 export default createAlive;
