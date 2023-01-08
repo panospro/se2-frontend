@@ -561,34 +561,45 @@ class NavigationRoute extends React.Component {
         } catch {}
     }
 
+    // Opens a delete annotation popup, closes a select annotation popup andstores the annotation being deleted temporarily. It takes an index or identifier for the annotation
+    // as its parameter.
     openDeleteAnnotation(ind) {
         this.tempDeleteAnnotation = ind;
         this.setState({deleteAnnotationPopupOpen: true, selectAnnotationPopupOpen: false});
     }
 
+    // Closes a delete annotation popup, closes a select annotation popup andstores the annotation being deleted temporarily. It takes an index or identifier for the annotation
+    // as its parameter.
     closeDeleteAnnotation() {
         this.tempDeleteAnnotation = null;
         this.setState({deleteAnnotationPopupOpen: false});
     }
 
+    // Selects a annotation popup, closes a select annotation popup andstores the annotation temporarily. It takes an index or identifier for the annotation
+    // as its parameter.
     selectAnnotation(ind) {
         this.tempSelectedAnnotation = ind;
         this.setState({selectAnnotationPopupOpen: true});
     }
 
+    // Cancels a annotation popup, closes a select annotation popup and stores the annotation being deleted temporarily. It takes an index or identifier for the annotation
+    // as its parameter.
     cancelSelectAnnotation() {
         this.tempSelectedAnnotation = null;
         this.setState({selectAnnotationPopupOpen: false});
     }
 
+    // Updates the state of the object by setting the imagePopupOpen property to true. This method is likely used to open an image popup.
     openImage() {
         this.setState({imagePopupOpen: true});
     }
 
+    // Updates the state of the object by setting  imagePopupOpen property to false. This method is likely used to open an image popup.
     closeImage() {
         this.setState({imagePopupOpen: false});
     }
 
+    // Render navigation-route. The render method returns a JSX element, which will be rendered to the page.
     render() {
         const {spinnerOpen, id, name, image, pose, path, annotations, width, height, orientation, smallButtons, closedButtons, imageWidth, imageHeight, canvasOpen, gotoCanvasOpen, annotationNamePopupOpen, tempAnnotationName, deleteAnnotationPopupOpen, selectAnnotationPopupOpen, imagePopupOpen} = this.state;
         
@@ -1247,6 +1258,9 @@ class NavigationRoute extends React.Component {
     }
 }
 
+
+// Returns a JSX element representing an instance of a component. The function takes an object as an argument and uses the properties 
+// of the object as props for the returned component.
 const createNavigationRoute = ({id, type, initialState, user, owner}) => (
     <NavigationRoute 
         id={id}
@@ -1257,4 +1271,5 @@ const createNavigationRoute = ({id, type, initialState, user, owner}) => (
     />
 );
 
+// Default export createNavigationRoute
 export default createNavigationRoute;
