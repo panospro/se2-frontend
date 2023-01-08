@@ -1,5 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -17,6 +21,7 @@ import {
 } from '../../../lib/buttons';
 import imagePlaceholder from '../../../assets/imagePlaceholder.png';
 
+// Style FormHeader
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -29,6 +34,7 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
+// Style SettingsDiv
 const SettingsDiv = styled.div`
     width: 100%;
     max-height: 400px;
@@ -38,6 +44,7 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
+// Style CustomDiv
 const CustomDiv = styled.div`
     width: 100%;
     height: 100%;
@@ -65,6 +72,7 @@ const CustomDiv = styled.div`
 `;
 
 class NavigationRoute extends React.Component {
+    // It sets the initial type, state, updateItem etc.
     constructor(props) {
         super(props);
 
@@ -133,12 +141,17 @@ class NavigationRoute extends React.Component {
         this.clone = this.clone.bind(this);
     }
 
+    // Gets the id from the component's state and using it to find a DOM element with the corresponding id. 
+    //It then calls the resize function and passes it the width and height of the DOM element as arguments.
     componentDidMount() {
         const {id} = this.state;
         const resizeDiv = document.getElementById(`navigationRouteDiv_${id}`);
         this.resize(resizeDiv.offsetWidth, resizeDiv.offsetHeight);
     }
 
+    // Returns an object containing values that should be added to the component's state based on the new props. 
+    // In this case, the returned object contains the values of the id, name, and url props, with default values used
+    // if the props are not defined.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -158,21 +171,27 @@ class NavigationRoute extends React.Component {
         };
     }
 
+    // Appears to take in a key and a value argument and call the updateItem function with the
+    // component's id state variable, the key, and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
+    // Sets the deletePopupOpen state variable to false and then calls the deleteItem function with the component's 
+    // id state variable as an argument.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
         this.deleteItem(id);
     }
 
+    // Updates the name 
     changeName(value) {
         this.sendUpdate('name', value);
     }
 
+    // Opens the pop up and sets values to popoverOpen and tempUrl etc.
     openPopup() {
         const {source, mapTopic, requestMapTopic, changeAnnotationsTopic, setAnnotationGoalTopic, setGoalTopic, getAnnotationsTopic, requestAnnotationsTopic, cancelGoalTopic, poseTopic, pathTopic} = this.state;
         this.setState({
@@ -191,6 +210,7 @@ class NavigationRoute extends React.Component {
         });
     }
 
+    // Closes the pop up and sets values to popoverOpen and tempUrl etc. 
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -208,6 +228,7 @@ class NavigationRoute extends React.Component {
         });
     }
 
+    // Update the url state variable based on the value of the tempUrl state variable and set the popoverOpen state variable to false.
     closeConfirmPopup() {
         const {tempSource, tempMapTopic, tempRequestMapTopic, tempChangeAnnotationsTopic, tempSetAnnotationGoalTopic, tempSetGoalTopic, tempGetAnnotationsTopic, tempRequestAnnotationsTopic, tempCancelGoalTopic, tempPoseTopic, tempPathTopic} = this.state;
         this.sendUpdate('source', tempSource);
@@ -224,68 +245,83 @@ class NavigationRoute extends React.Component {
         this.setState({popoverOpen: false});
     }
 
+    // Sets the deletePopupOpen state variable to true.
     openDelete() {
         this.setState({deletePopupOpen: true});
     }
 
+    // Sets the deletePopupOpen state variable to false
     closeDelete() {
         this.setState({deletePopupOpen: false});
     }
 
+    // Change the state by setting the value of tempSource to the value
     changeSource(value) {
         this.setState({tempSource: value});
     }
 
+    // Updates the tempMapTopic property in the component's state
     changeMapTopic(event) {
         event.stopPropagation();
         this.setState({tempMapTopic: event.target.value});
     }
 
+    // Updates the tempRequestMapTopic property in the component's state
     changeRequestMapTopic(event) {
         event.stopPropagation();
         this.setState({tempRequestMapTopic: event.target.value});
     }
 
+    // Updates the tempChangeAnnotationsTopic property in the component's state
     changeChangeAnnotationTopic(event) {
         event.stopPropagation();
         this.setState({tempChangeAnnotationsTopic: event.target.value});
     }
 
+    // Updates the tempSetAnnotationGoalTopic property in the component's state
     changeSetAnnotationGoalTopic(event) {
         event.stopPropagation();
         this.setState({tempSetAnnotationGoalTopic: event.target.value});
     }
 
+    // Updates the tempSetGoalTopic property in the component's state
     changeSetGoalTopic(event) {
         event.stopPropagation();
         this.setState({tempSetGoalTopic: event.target.value});
     }
 
+    // Updates the tempGetAnnotationsTopic property in the component's state
     changeGetAnnotationsTopic(event) {
         event.stopPropagation();
         this.setState({tempGetAnnotationsTopic: event.target.value});
     }
 
+    // Updates the tempRequestAnnotationsTopic property in the component's state
     changeRequestAnnotationsTopic(event) {
         event.stopPropagation();
         this.setState({tempRequestAnnotationsTopic: event.target.value});
     }
 
+    // Updates the tempCancelGoalTopic property in the component's state
     changeCancelGoalTopic(event) {
         event.stopPropagation();
         this.setState({tempCancelGoalTopic: event.target.value});
     }
 
+    // Updates the tempPoseTopic property in the component's state
     changePoseTopic(event) {
         event.stopPropagation();
         this.setState({tempPoseTopic: event.target.value});
     }
 
+    // Updates the tempPathTopic property in the component's state
     changePathTopic(event) {
         event.stopPropagation();
         this.setState({tempPathTopic: event.target.value});
     }
 
+    // Updates the state of a React component with new values for the width, height, orientation, smallButtons, closedButtons, 
+    // imageWidth and imageHeight based on the size of the component and the ratio of an image element in the component.
     resize(width, height) {
         const {id} = this.state;
         const closedButtons = ((width > height && height < 80) || (width < height && width < 100));
@@ -308,12 +344,17 @@ class NavigationRoute extends React.Component {
         });
     }
 
+    // Close a popup and call the cloneComponent function with the value of the id state variable as an argument.
     clone() {
         const {id} = this.state;
         this.closePopup();
         this.cloneComponent(id);
     }
 
+    // Render the navigation-route. First by getting some values from this.state, which is an object that contains several pieces of state for the component.
+    // These values are then used in the JSX element that is returned, which is a div element with several nested elements inside it. Some of 
+    // these elements are custom or external components and style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
+    // component, which is a custom or external component that displays additional information when hovered over. 
     render() {
         const {id, availableSources, name, popoverOpen, deletePopupOpen, tempSource, tempMapTopic, tempRequestMapTopic, tempChangeAnnotationsTopic, tempSetAnnotationGoalTopic, tempSetGoalTopic, tempGetAnnotationsTopic, tempRequestAnnotationsTopic, tempCancelGoalTopic, tempPoseTopic, tempPathTopic, width, height, orientation, smallButtons, closedButtons, imageWidth, imageHeight} = this.state;
 
@@ -684,6 +725,8 @@ class NavigationRoute extends React.Component {
     }
 }
 
+// Takes the arguments id, type, initialState etc and pass them to NavigationRoute. The values are determined by the values 
+// of the properties in the object passed to createNavigationRoute.
 const createNavigationRoute = ({id, type, initialState, updateItem, deleteItem, cloneComponent, sources}) => (
     <NavigationRoute 
         id={id}
@@ -696,4 +739,5 @@ const createNavigationRoute = ({id, type, initialState, updateItem, deleteItem, 
     />
 );
 
+// Default export createNavigationRoute
 export default createNavigationRoute;

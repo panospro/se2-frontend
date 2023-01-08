@@ -258,7 +258,7 @@ class Iframe extends React.Component {
 }
 
 // Takes the arguments id, type and initialState and pass them to Iframe. The values are determined by the values 
-// of the properties in the object passed to createGauge.
+// of the properties in the object passed to Iframe.
 const createIframe = ({id, type, initialState, updateItem, deleteItem, cloneComponent}) => (
     <Iframe
         id={id}

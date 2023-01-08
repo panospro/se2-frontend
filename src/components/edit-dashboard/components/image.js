@@ -167,7 +167,7 @@ class Image extends React.Component {
         this.setState({tempVariable: event.target.value});
     }
 
-    // Close a "popup" and call the cloneComponent function with the value of the id state variable as an argument.
+    // Close a popup and call the cloneComponent function with the value of the id state variable as an argument.
     clone() {
         const {id} = this.state;
         this.closePopup();
