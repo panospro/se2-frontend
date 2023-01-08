@@ -58,7 +58,6 @@ class Value extends React.Component {
     }
 
      // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
-    
     componentWillUnmount() {
         if (this.rxStomp !== null) {
             this.rxStomp.deactivate();
@@ -70,14 +69,12 @@ class Value extends React.Component {
 
     // Takes value as argument and is called when the component needs to show or hide a loading spinner and the spinnerOpen property is used to determine whether the spinner 
     // should be shown or hidden. When the value of the spinnerOpen property is true, the spinner is shown and when it is false, the spinner is hidden.
-   
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
      // Displays a received message that is expected to contain an image, sending a request for annotations and updating the state to store the image and 
     // its dimensions before resizing the image and displaying it in a div element.
-   
     messageReceived(payload) {
         const {variable, id} = this.state;
         try {
@@ -120,7 +117,6 @@ class Value extends React.Component {
     }
 
     // Connect to stomp source using RxStomp, listen for messages on different topics and handle them accordingly.
-   
     connectStompSource(source) {
         const {name, topic} = this.state;
         try {
@@ -156,7 +152,6 @@ class Value extends React.Component {
     }
 
      // Sets up an MQTT client connection and subscribes to various topics to receive messages which it then handles with specific functions.
-   
     connectMqttSource(source) {
         const {topic} = this.state;
         try {
