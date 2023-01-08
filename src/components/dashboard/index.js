@@ -1,5 +1,5 @@
 /*
-* Import and export dashboard/
+* Import and export dashboard
 */
 import DashboardPage from './dashboard';
 

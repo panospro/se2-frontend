@@ -318,7 +318,7 @@ export class DashboardPage extends React.Component {
     }
 
     // Creates a new textarea element, sets its value to a string containing the current platform's URL appended with the dashboardId of the current object,
-    // appends the textarea to the body of the document, selects the textarea's contents, copies the selected text to the clipboard, and removes the textarea 
+    // appends the textarea to the body of the document, selects the textarea's contents, copies the selected text to the clipboard and removes the textarea 
     // from the document. It then displays a success message using the ToasterBottom component.
     copyClipboard() {
         const el = document.createElement('textarea');
