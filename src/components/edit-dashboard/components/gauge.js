@@ -1,5 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -16,6 +20,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 
+// Style FormHeader
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -28,6 +33,7 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
+// Style SettingsDiv
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -36,6 +42,11 @@ const SettingsDiv = styled.div`
 `;
 
 class Gauge extends React.Component {
+    // The constructor, initializes takes props as an argument and passes it to the parent class's constructor function through the super function.
+    // Then, it is binding the component's instance to several functions, such as changeSpinner, messageReceived, connectStompSource, connectMqttSource, connectToTopic and resize.
+    // This is done so that these functions can be called with the correct this value when they are used within the component. Then it is setting several instances,
+    // such as interval, rxStomp and mqttClient. These properties are not part of the component's state, but are used to store data that needs to be shared
+    // between different methods of the component.
     constructor(props) {
         super(props);
 
@@ -96,6 +107,8 @@ class Gauge extends React.Component {
         this.clone = this.clone.bind(this);
     }
 
+    // Receives the props and returns an object with the state updates. This method is called every time the component receives new props.
+    // Also it is setting the component's state based on the props it receives.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -114,21 +127,26 @@ class Gauge extends React.Component {
         };
     }
 
+    // Updates the item with a given key and value. It appears to be using the updateItem method to do so, 
+    // which is not shown in the code you provided.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
+    // Sets the deletePopupOpen state to false and calls the deleteItem method with the component's id.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
         this.deleteItem(id);
     }
 
+    // Updates the item's name by calling sendUpdate with the key 'name' and the value passed to the changeName method.
     changeName(value) {
         this.sendUpdate('name', value);
     }
 
+    // Sets the component's state with the values of several state variables, and sets popoverOpen to true.
     openPopup() {
         const {source, topic, variable, minValue, maxValue, leftColor, rightColor, levels, hideText, unit} = this.state;
         this.setState({
@@ -146,6 +164,7 @@ class Gauge extends React.Component {
         });
     }
 
+    // Closes the pop up by setting some parameters to state
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -162,6 +181,8 @@ class Gauge extends React.Component {
         });
     }
 
+    // Update a number of state variables based on their corresponding temporary variables. 
+    // It then sets the popoverOpen state variable to false.
     closeConfirmPopup() {
         const {tempSource, tempTopic, tempVariable, tempMinValue, tempMaxValue, tempLeftColor, tempRightColor, tempLevels, tempHideText, tempUnit} = this.state;
         this.sendUpdate('source', tempSource);
@@ -177,14 +198,17 @@ class Gauge extends React.Component {
         this.setState({popoverOpen: false});
     }
 
+    // Sets the deletePopupOpen state variable to true.
     openDelete() {
         this.setState({deletePopupOpen: true});
     }
 
+    // Sets the deletePopupOpen state variable to false
     closeDelete() {
         this.setState({deletePopupOpen: false});
     }
 
+    // Takes in width and height arguments and appears to update the width state variable based on the ratio of width to height.
     resize(width, height) {
         let newWidth;
         if (width > 2.2225 * height) {
@@ -195,58 +219,75 @@ class Gauge extends React.Component {
         this.setState({width: newWidth});
     }
 
+    // Change the state by setting the value of tempSource to the value
     changeSource(value) {
         this.setState({tempSource: value});
     }
 
+    // Change the state based on user input.
     changeTopic(event) {
         event.stopPropagation();
         this.setState({tempTopic: event.target.value});
     }
 
+    // Change the state variables based on user input.
     changeVariable(event) {
         event.stopPropagation();
         this.setState({tempVariable: event.target.value});
     }
 
+    // Set state variables based on numeric values
     changeMinValue(value) {
         this.setState({tempMinValue: value});
     }
 
+    // Set state variables based on numeric values
     changeMaxValue(value) {
         this.setState({tempMaxValue: value});
     }
 
+    // Changing the left color based on numeric values
     changeLeftColor(event) {
         event.stopPropagation();
         this.setState({tempLeftColor: event.target.value});
     }
 
+    // Changing the right color based on numeric values
     changeRightColor(event) {
         event.stopPropagation();
         this.setState({tempRightColor: event.target.value});
     }
 
+    
+    // Set the tempLevels state variable to the value passed in as an argument.
     changeLevels(value) {
         this.setState({tempLevels: value});
     }
 
+    // Toggles the value of the tempHideText state variable.
     changeHideText() {
         const {tempHideText} = this.state;
         this.setState({tempHideText: !tempHideText});
     }
 
+    // Sets the tempUnit state variable based on the value of the event.target.value property.
     changeUnit(event) {
         event.stopPropagation();
         this.setState({tempUnit: event.target.value});
     }
 
+    // Close a "popup" and call the cloneComponent function with the value of the id state variable as an argument.
     clone() {
         const {id} = this.state;
         this.closePopup();
         this.cloneComponent(id);
     }
 
+    // First it is getting some values from this.state, which is an object that contains several pieces of state for the component. These values are then used in the 
+    // JSX element that is returned, which is a div element with several nested elements inside it. Some of these elements, like EditableText and ProgressBar,
+    // are custom or external components and style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip component, which is
+    // a custom or external component that displays additional information when hovered over. The timeSpanVal, minintVal, meanintVal and maxintVal states 
+    // are used to control the values of ProgressBar components, which are also custom or external components
     render() {
         const {id, availableSources, name, leftColor, rightColor, levels, hideText, unit, popoverOpen, deletePopupOpen, width, tempSource, tempTopic, tempVariable, tempMinValue, tempMaxValue, tempLeftColor, tempRightColor, tempLevels, tempHideText, tempUnit} = this.state;
 
@@ -575,6 +616,8 @@ class Gauge extends React.Component {
     }
 }
 
+// Takes the arguments id, type, initialState, user and owner and pass them to Gauge. The values are determined by the values 
+// of the properties in the object passed to createGauge.
 const createGauge = ({id, type, initialState, updateItem, deleteItem, cloneComponent, sources}) => (
     <Gauge
         id={id}
@@ -587,4 +630,5 @@ const createGauge = ({id, type, initialState, updateItem, deleteItem, cloneCompo
     />
 );
 
+// Default export createGauge
 export default createGauge;
