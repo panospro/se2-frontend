@@ -1,4 +1,8 @@
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import {
     EditableText, Tag, Spinner, ProgressBar, Text, Tooltip
@@ -15,6 +19,7 @@ const objectPath = require('object-path');
 const mqtt = require('mqtt');
 
 class Value extends React.Component {
+    // The constructor of the class, that initializes type,state and resize etc.
     constructor(props) {
         super(props);
 
@@ -47,10 +52,13 @@ class Value extends React.Component {
         this.resize = this.resize.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.connectToTopic();
     }
 
+     // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
+    
     componentWillUnmount() {
         if (this.rxStomp !== null) {
             this.rxStomp.deactivate();
@@ -60,10 +68,16 @@ class Value extends React.Component {
         }
     }
 
+    // Takes value as argument and is called when the component needs to show or hide a loading spinner and the spinnerOpen property is used to determine whether the spinner 
+    // should be shown or hidden. When the value of the spinnerOpen property is true, the spinner is shown and when it is false, the spinner is hidden.
+   
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
+     // Displays a received message that is expected to contain an image, sending a request for annotations and updating the state to store the image and 
+    // its dimensions before resizing the image and displaying it in a div element.
+   
     messageReceived(payload) {
         const {variable, id} = this.state;
         try {
@@ -105,6 +119,8 @@ class Value extends React.Component {
         } catch {}
     }
 
+    // Connect to stomp source using RxStomp, listen for messages on different topics and handle them accordingly.
+   
     connectStompSource(source) {
         const {name, topic} = this.state;
         try {
@@ -139,6 +155,8 @@ class Value extends React.Component {
         } catch {}
     }
 
+     // Sets up an MQTT client connection and subscribes to various topics to receive messages which it then handles with specific functions.
+   
     connectMqttSource(source) {
         const {topic} = this.state;
         try {
@@ -166,7 +184,8 @@ class Value extends React.Component {
             });
         } catch {}
     }
-
+    
+    // Connects to the specified source and subscribes to relevant topics.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);
@@ -184,6 +203,7 @@ class Value extends React.Component {
         }
     }
 
+    // Resize sets the width and height of the image.
     resize(width, height) {
         const {displayValue, unit} = this.state;
         this.setState({
@@ -193,6 +213,7 @@ class Value extends React.Component {
         });
     }
 
+    // Render value. The render method returns a JSX element, which will be rendered to the page.
     render() {
         const {spinnerOpen, id, name, displayValue, counter, unit, fontSize, width, height, timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal} = this.state;
 
@@ -349,6 +370,8 @@ class Value extends React.Component {
     }
 }
 
+// Returns a JSX element representing an instance of a component. The function takes an object as an argument and uses the properties 
+// of the object as props for the returned component.
 const createValue = ({id, type, initialState, user, owner}) => (
     <Value
         id={id}
@@ -359,4 +382,5 @@ const createValue = ({id, type, initialState, user, owner}) => (
     />
 );
 
+// Default export createValue
 export default createValue;

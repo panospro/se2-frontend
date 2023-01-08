@@ -401,6 +401,8 @@ class Plot extends React.Component {
     }
 }
 
+// Returns a JSX element representing an instance of a component. The function takes an object as an argument and uses the properties 
+// of the object as props for the returned component.
 const createPlot = ({id, type, initialState, user, owner}) => (
     <Plot
         id={id}
@@ -411,4 +413,5 @@ const createPlot = ({id, type, initialState, user, owner}) => (
     />
 );
 
+// Default export createPlot
 export default createPlot;
