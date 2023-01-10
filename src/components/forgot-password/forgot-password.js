@@ -18,7 +18,10 @@ import infographicIcon from '../../assets/infographic.png';
 import contactIcon from '../../assets/contact.png';
 import contactHoverIcon from '../../assets/contactHover.png';
 
-// Style StyledBox
+// Creates a styled box with specific styling. It sets the height and
+// width to 100% and 50% respectively and also sets a border-radius of
+// 20px. It also sets up the positioning and padding of the component, 
+// as well as the flex properties for alignment and direction.
 const StyledBox = styled(Box)`
     height: 100%;
     width: 50%;
@@ -31,7 +34,9 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
-// Style StyledHeader
+// Creates a StyledHeader. The StyledHeader has a font size of 50px, font weight of 300,
+// letter spacing of 2px and a color of white. The text is aligned to the left and has a
+// margin of 0px.
 const StyledHeader = styled.h2`
     text-align: left;
     color: white;
@@ -41,7 +46,9 @@ const StyledHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
-// Style StyledSubHeader
+// Creates a styled h2 element, setting the width and text alignment to left, the color to a pale
+// orange and the margin and font size and weight to 0px and 25px and normal, respectively.
+// It also sets a margin-bottom of 20px.
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: left;
@@ -52,7 +59,8 @@ const StyledSubHeader = styled.h2`
     font-weight: normal;
 `;
 
-// Style StyledForm
+// Creates a styled form with a width of 100%, displaying the elements in a column. 
+// The elements are aligned to the center.
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -60,12 +68,13 @@ const StyledForm = styled.form`
     align-items: center;
 `;
 
-// Style StyledText
+// Creates a styled text with font-size equal to 16px.
 const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
-// Style SignUpText
+// Creates a sign up text with white color and text align
+// being set to center.
 const SignUpText = styled(StyledText)`
     color: white;
     text-align: center;
