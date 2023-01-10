@@ -25,7 +25,8 @@ import {
 
 import '../../../../node_modules/react-vis/dist/style.css';
 
-// Style FormHeader
+// Defines a styled div element with specific styling properties such as font size,
+// font weight and color. It also includes layout properties to center the element and give it a margin.
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -38,7 +39,8 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
-// Style FormSubHeader
+// Defines a styled div element with specific styling properties such as font size,
+// font weight and color. It also includes layout properties to center the element and give it a margin.
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;
@@ -49,7 +51,8 @@ const FormSubHeader = styled.div`
     color: #16335B;
 `;
 
-// Style SettingsDiv
+// Creates a styled div element with a width of 100%
+// and sets the flex-direction to column and align-items to center.
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
