@@ -191,8 +191,9 @@ const CollapseButtonStyle = styled(Button)`
     }
 `;
 
-// Exports an orange button. It receives several props as arguments. Returns a JSX that renders
-// OrangeButtonStyle with passed props and inline styles and other properties of the button. 
+// Exports an orange button. It receives several props as arguments.
+// Returns a JSX that renders OrangeButtonStyle with passed props
+// and inline styles and other properties of the button. 
 export const OrangeButton = ({
     children,
     type,
@@ -224,8 +225,9 @@ export const OrangeButton = ({
     </OrangeButtonStyle>
 );
 
-// Exports a collapse button. It receives several props as arguments. Returns a JSX that renders
-// CollapseButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a collapse button. It receives several props as arguments. 
+// Returns a JSX that renders CollapseButtonStyle with passed props
+// and inline styles and other properties of the button.
 export const CollapseButton = ({
     id,
     children,
@@ -268,8 +270,9 @@ export const CollapseButton = ({
     );
 };
 
-// Exports a button with a green border. It receives several props as arguments. Returns a JSX that renders
-// OrangeBorderButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a button with a green border. It receives several props as arguments. 
+// Returns a JSX that renders OrangeBorderButtonStyle with passed props
+// and inline styles and other properties of the button.
 export const OrangeBorderButton = ({
     children,
     type,
@@ -301,8 +304,9 @@ export const OrangeBorderButton = ({
     </OrangeBorderButtonStyle>
 );
 
-// Exports a custom button. It receives several props as arguments. Returns a JSX that renders
-// CustomButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a custom button. It receives several props as arguments. 
+// Returns a JSX that renders CustomButtonStyle with passed props 
+// and inline styles and other properties of the button.
 export const CustomButton = ({
     children,
     type,
@@ -340,8 +344,9 @@ export const CustomButton = ({
     </CustomButtonStyle>
 );
 
-// Exports a button with only a orange border. It receives several props as arguments. Returns a JSX that renders
-// OrangeOnlyBorderButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a button with only a orange border. It receives several props 
+// as arguments. Returns a JSX that renders OrangeOnlyBorderButtonStyle with
+// passed props and inline styles and other properties of the button.
 export const OrangeOnlyBorderButton = ({
     children,
     type,
@@ -373,8 +378,9 @@ export const OrangeOnlyBorderButton = ({
     </OrangeOnlyBorderButtonStyle>
 );
 
-// Exports a red button. It receives several props as arguments. Returns a JSX that renders
-// RedButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a red button. It receives several props as arguments.
+// Returns a JSX that renders RedButtonStyle with passed props
+// and inline styles and other properties of the button.
 export const RedButton = ({
     children,
     type,
@@ -404,8 +410,9 @@ export const RedButton = ({
     </RedButtonStyle>
 );
 
-// Exports a button with a red border button. It receives several props as arguments. Returns a JSX that renders
-// RedBorderButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a button with a red border button. It receives several 
+// props as arguments. Returns a JSX that renders RedBorderButtonStyle with
+// passed props and inline styles and other properties of the button.
 export const RedBorderButton = ({
     children,
     type,
@@ -435,8 +442,9 @@ export const RedBorderButton = ({
     </RedBorderButtonStyle>
 );
 
-// Exports a green button. It receives several props as arguments. Returns a JSX that renders
-// GreenButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a green button. It receives several props as arguments. 
+// Returns a JSX that renders GreenButtonStyle with passed props and
+// inline styles and other properties of the button.
 export const GreenButton = ({
     children,
     type,
@@ -466,8 +474,9 @@ export const GreenButton = ({
     </GreenButtonStyle>
 );
 
-// Exports a blue button. It receives several props as arguments. Returns a JSX that renders
-// BlueButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a blue button. It receives several props as arguments.
+// Returns a JSX that renders BlueButtonStyle with passed props and
+// inline styles and other properties of the button.
 export const BlueButton = ({
     children,
     type,
@@ -497,8 +506,9 @@ export const BlueButton = ({
     </BlueButtonStyle>
 );
 
-// Exports a button with a blue border. It receives several props as arguments. Returns a JSX that renders
-// BlueBorderButtonStyle with passed props and inline styles and other properties of the button.
+// Exports a button with a blue border. It receives several props as arguments.
+// Returns a JSX that renders BlueBorderButtonStyle with passed props and
+// inline styles and other properties of the button.
 export const BlueBorderButton = ({
     children,
     type,
