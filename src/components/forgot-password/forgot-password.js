@@ -90,14 +90,14 @@ const StyledDivider = styled(Divider)`
     margin-bottom: 10px;
 `;
 
-// Style StyledLink
+// Creates a link with no text decoration when hovered over.
 const StyledLink = styled.a`
     :hover {
         text-decoration: none;
     }
 `;
 
-// Style OrangeLink
+// Creates a link with a color of #FFC4A3 and a hover color of #ffae80.
 const OrangeLink = styled(StyledLink)`
     color: #FFC4A3;
     :hover {
@@ -105,7 +105,8 @@ const OrangeLink = styled(StyledLink)`
     }
 `;
 
-// Style ContactDiv
+// Creates a div with a width, height, position and display properties,
+// as well as a :active state that changes the bottom property when clicked.
 const ContactDiv = styled.div`
     width: 30px; 
     height: 30px; 
@@ -122,7 +123,8 @@ const ContactDiv = styled.div`
 `;
 
 export class ForgotPasswordPage extends React.Component {
-    // It sets the initial type, state, updateItem etc.
+    // The constructor of the class, which sets up the props and state
+    // for the component, and binds the resize and fetchStatistics functions to the object.
     constructor(props) {
         super(props);
 
@@ -412,5 +414,8 @@ export class ForgotPasswordPage extends React.Component {
     }
 }
 
-// Default export ForgotPasswordPage
+// Εxports the "ForgotPasswordPage" component, making it
+// available to be imported and used in other files.
+// This allows other components to access the functionality 
+// Of the ForgotPasswordPage component.
 export default ForgotPasswordPage;
