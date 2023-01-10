@@ -18,7 +18,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 
-// Style FormHeader
+// Defines a styled div element with specific styling properties such as font size,
+// font weight and color. It also includes layout properties to center the element and give it a margin.
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -31,7 +32,8 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
-// Style SettingsDiv
+// Creates a styled div element with a width of 100%
+// and sets the flex-direction to column and align-items to center.
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -39,7 +41,8 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
-// Initialive the format status color according to statusString
+// Takes status as an argument and returns a hexadecimal color code depending on the number.
+// The color codes vary depending on the first digit of the status number.
 const formatStatusColor = (status) => {
     const statusString = status.toString()[0];
     switch (statusString) {
@@ -59,7 +62,8 @@ const formatStatusColor = (status) => {
 };
 
 class Rest extends React.Component {
-    // It sets the initial type, state, updateItem etc.
+    // The constructor of the class. It defines the props,
+    // state and functions of the component, and binds the functions to the component's context.
     constructor(props) {
         super(props);
 
