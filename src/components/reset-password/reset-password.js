@@ -167,7 +167,10 @@ export class ResetPasswordPage extends React.Component {
         window.removeEventListener('resize', this.resize);
     }
 
-    // Resize the image
+    // Resizes an image within 'infographicDiv'. Retrieves the image
+    // and the div by their ID's and then sets the top, left, width
+    // and height of the image based on the measurements of the div and the image.
+    // Then, sets the state of the object with the calculated measurements.
     resize() {
         const img = document.getElementById('infographics');
         const infoDiv = document.getElementById('infographicDiv');
@@ -179,7 +182,9 @@ export class ResetPasswordPage extends React.Component {
         });
     }
 
-    // Brings the statistics if success is true else print a message
+    // Retrieves data from getStatistics(). If the response is successful, 
+    // the data is stored in the state object. If not, an error message is
+    // displayed using ToasterBottom.show().
     async fetchStatistics() {
         const response = await getStatistics();
         if (response.success) {
@@ -197,8 +202,10 @@ export class ResetPasswordPage extends React.Component {
         }
     }
 
-    // Renders a form for password reset. The form is made up of 2 text input fields and a submit button.
-    // There is also a text that links to the sign in page and a contact button that opens an email client when clicked.
+    // Renders a form for changing a password using Formik and TextInput components. Also it renders an
+    // infographic with data from the state, such as users, dashboards, views and sources. Then, 
+    // has some links to sign in on Codin. It is styled using StyledBox, StyledHeader, StyledSubHeader,
+    // OrangeLink, OrangeButton, ContactDiv and SignUpText.
     render() {
         const {users, dashboards, views, sources, top, left, width, height} = this.state;
 
