@@ -21,8 +21,10 @@ import infographicIcon from '../../assets/infographic.png';
 import contactIcon from '../../assets/contact.png';
 import contactHoverIcon from '../../assets/contactHover.png';
 
-// Sets styling properties such as height, width,
-// border-radius, display, flex-direction and alignment.
+/*
+* Sets styling properties such as height, width,
+* border-radius, display, flex-direction and alignment.
+*/
 const StyledBox = styled(Box)`
     height: 100%;
     width: 50%;
@@ -35,8 +37,10 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
-// Sets text-alignment, color, font size,
-// font-weight and letter-spacing.
+/*
+* Sets text-alignment, color, font size,
+* font-weight and letter-spacing.
+*/
 const StyledHeader = styled.h2`
     text-align: left;
     color: white;
@@ -46,8 +50,10 @@ const StyledHeader = styled.h2`
     letter-spacing: 1px;
 `;
 
-// Sets width, text-alignment, color, margin, font size, 
-// font-weight and letter-spacing.
+/*
+* Sets width, text-alignment, color, margin, font size, 
+* font-weight and letter-spacing.
+*/
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: left;
@@ -59,7 +65,9 @@ const StyledSubHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
-// Sets width and flex-direction.
+/*
+* Sets width and flex-direction.
+*/
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -67,25 +75,33 @@ const StyledForm = styled.form`
     align-items: center;
 `;
 
-// Sets font size
+/*
+* Sets font size to 16px
+*/
 const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
-// Sets color and text-alignment.
+/*
+* Sets color and text-alignment.
+*/
 const SignUpText = styled(StyledText)`
     color: white;
     text-align: center;
 `;
 
-// Sets hover text-decoration.
+/*
+* Sets hover text-decoration.
+*/
 const StyledLink = styled.a`
     :hover {
         text-decoration: none;
     }
 `;
 
-// Sets color and hover color
+/*
+* Sets color and hover color
+*/
 const OrangeLink = styled(StyledLink)`
     color: #FFC4A3;
     :hover {
@@ -93,8 +109,10 @@ const OrangeLink = styled(StyledLink)`
     }
 `;
 
-// Sets width, border-bottom, border-right and
-// margins.
+/*
+* Sets width, border-bottom, border-right and
+* margins.
+*/
 const StyledDivider = styled(Divider)`
     width: 100%;
     border-bottom: 1px solid #7296A7;
@@ -104,9 +122,11 @@ const StyledDivider = styled(Divider)`
     margin-bottom: 10px;
 `;
 
-// Sets width, height, position and display
-// properties, as well as cursor and active
-// bottom properties.
+/*
+* Sets width, height, position and display
+* properties, as well as cursor and active
+* bottom properties.
+*/
 const ContactDiv = styled.div`
     width: 30px; 
     height: 30px; 
