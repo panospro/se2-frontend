@@ -64,6 +64,8 @@ const formatStatusColor = (status) => {
 class Rest extends React.Component {
     // The constructor of the class. It defines the props,
     // state and functions of the component, and binds the functions to the component's context.
+    // It also sets the initial values for the props and state variables. Finally, it defines which 
+    // functions can be called on the component.
     constructor(props) {
         super(props);
 
