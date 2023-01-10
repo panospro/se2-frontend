@@ -34,7 +34,9 @@ import '../../../node_modules/react-resizable/css/styles.css';
 
 const fileDownload = require('js-file-download');
 
-// Style StyledBox
+// Creates a styled component. It sets the height and width to 100%
+// and uses flexbox to align items in the center and allow overflow.
+// It also sets the position of the component as relative.
 const StyledBox = styled(Box)`
     height: 100%;
     width: 100%;
@@ -114,7 +116,10 @@ const componentFits = (row, column, w, h, currentLayout, nCols) => {
 };
 
 export class EditDashboardPage extends React.Component {
-    // It sets the initial type, state, updateItem etc.
+    // The constructor of the class. It sets up the initial state of the class and binds
+    // class methods. It also creates a number of properties that describe the dashboard,
+    // such as the user, token and sources. It also sets up properties related to the
+    // dashboard's layout and elements.
     constructor(props) {
         super(props);
 
