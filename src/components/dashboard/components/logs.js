@@ -22,6 +22,11 @@ const objectPath = require('object-path');
 const mqtt = require('mqtt');
 const fileDownload = require('js-file-download');
 
+/*
+* Takes in a date as a parameter and formats it in the form of dd/mm/yyyy, hh:mm.
+* It checks if each element of the date has 1 digit and if it does, it adds a 0
+* before it to make it two digits. Then it returns the formatted date.
+*/
 const formatDate = (date) => {
     const day = ((String(date.getDate())).length === 1) ? `0${String(date.getDate())}` : String(date.getDate());
     const month = ((String(date.getMonth() + 1)).length === 1) ? `0${String(date.getMonth() + 1)}` : String(date.getMonth() + 1);
@@ -151,8 +156,10 @@ class Logs extends React.Component {
         } catch {}
     }
 
-    // Connects to a STOMP source, subscribes to a specified topic and receives and processes messages received from the topic, closing a spinner
-    // after the initial receipt is received.
+    // Sets up the connection using the login, passcode, host and broker URL given in the source.
+    // Also sets up a subscription for messages from the source and sets a receipt for the initial
+    // connection. Finally, it sets up variables for tracking the time between messages and for calculating 
+    // the mean interval between them.
     connectStompSource(source) {
         const {name, topic} = this.state;
         try {
@@ -187,7 +194,8 @@ class Logs extends React.Component {
         } catch {}
     }
 
-    // Connects to an MQTT source, subscribes to a specified topic, and processes messages received from the topic, closing a spinner after the connection is established.
+    // Connects to an MQTT source, subscribes to a specified topic, and processes messages received from
+    // the topic, closing a spinner after the connection is established.
     connectMqttSource(source) {
         const {topic} = this.state;
         try {
@@ -216,7 +224,8 @@ class Logs extends React.Component {
         } catch {}
     }
 
-    // Retrieves the details for a specified source and connects to a specified topic using either a STOMP or MQTT connection, displaying an error message
+    // Retrieves the details for a specified source and connects to a specified topic using either
+    // a STOMP or MQTT connection, displaying an error message
     // if there is a problem finding the source or connecting to the topic.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
@@ -248,7 +257,9 @@ class Logs extends React.Component {
         });
     }
 
-    // Export the message
+    // Export all the log messages stored in state to a text file.
+    // It goes through each log, formatting the date and appending the message
+    // to a string. Then the string is used to create a text file for download.
     exportMessages() {
         const {logs} = this.state;
         let allLogs = '';
@@ -283,7 +294,12 @@ class Logs extends React.Component {
         this.setState({width, height});
     }
 
-    // Render the logs
+    // Render the logs. It declares the state, including spinnerOpen, id, name, logs, counter,
+    // timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal, colorKeys,
+    // colorValues, filter, filterDrawerOpen, width and height. It then creates an array of filtered
+    // logs, filtering for messages that include the filter in the state. Returns a div with styling,
+    // a div for the component name and counter, and a div for the filter menu. Then creates a drawer
+    // for the filter menu and a tooltip for the counter.
     render() {
         const {spinnerOpen, id, name, logs, counter, timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal, colorKeys, colorValues, filter, filterDrawerOpen, width, height} = this.state;
 
