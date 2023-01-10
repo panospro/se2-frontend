@@ -1,5 +1,5 @@
 /*
-* Import the necessery modules
+* Import the necessary modules
 */
 import {compose, createStore} from 'redux';
 import {persistStore} from 'redux-persist';
