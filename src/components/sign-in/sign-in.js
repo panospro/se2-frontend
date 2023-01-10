@@ -1,4 +1,8 @@
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -15,6 +19,7 @@ import infographicIcon from '../../assets/infographic.png';
 import contactIcon from '../../assets/contact.png';
 import contactHoverIcon from '../../assets/contactHover.png';
 
+// Style StyledBox
 const StyledBox = styled(Box)`
     height: 100%;
     width: 50%;
@@ -27,6 +32,7 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
+// Style StyledHeader
 const StyledHeader = styled.h2`
     text-align: left;
     color: white;
@@ -36,6 +42,7 @@ const StyledHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
+// Style StyledSubHeader
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: left;
@@ -47,6 +54,7 @@ const StyledSubHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
+// Style StyledForm
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -54,27 +62,32 @@ const StyledForm = styled.form`
     align-items: center;
 `;
 
+// Style StyledText
 const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
+// Style ForgotPasswordText
 const ForgotPasswordText = styled(StyledText)`
     color: white;
     margin-top: 20px;
     text-align: center;
 `;
 
+// Style SignUpText
 const SignUpText = styled(StyledText)`
     color: white;
     text-align: center;
 `;
 
+// Style StyledLink
 const StyledLink = styled.a`
     :hover {
         text-decoration: none;
     }
 `;
 
+// Style OrangeLink
 const OrangeLink = styled(StyledLink)`
     color: #FFC4A3;
     :hover {
@@ -82,6 +95,7 @@ const OrangeLink = styled(StyledLink)`
     }
 `;
 
+// Style StyledDivider
 const StyledDivider = styled(Divider)`
     width: 100%;
     border-bottom: 1px solid #7296A7;
@@ -91,6 +105,7 @@ const StyledDivider = styled(Divider)`
     margin-bottom: 5px;
 `;
 
+// Style ContactDiv
 const ContactDiv = styled.div`
     width: 30px; 
     height: 30px; 
@@ -107,6 +122,7 @@ const ContactDiv = styled.div`
 `;
 
 export class SignInPage extends React.Component {
+    // It sets the initial type, state, updateItem etc.
     constructor(props) {
         super(props);
 
@@ -128,16 +144,20 @@ export class SignInPage extends React.Component {
         this.fetchStatistics = this.fetchStatistics.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.fetchStatistics();
         setTimeout(this.resize, 200);
         window.addEventListener('resize', this.resize);
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform
+    // any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         window.removeEventListener('resize', this.resize);
     }
 
+    // Resize the image
     resize() {
         const img = document.getElementById('infographics');
         const infoDiv = document.getElementById('infographicDiv');
@@ -149,6 +169,7 @@ export class SignInPage extends React.Component {
         });
     }
 
+    // Brings the statistics if success is true else print a message
     async fetchStatistics() {
         const response = await getStatistics();
         if (response.success) {
@@ -166,6 +187,7 @@ export class SignInPage extends React.Component {
         }
     }
 
+    // Renders a form for sign in.
     render() {
         const {users, dashboards, views, sources, top, left, width, height} = this.state;
         return (
@@ -476,12 +498,16 @@ export class SignInPage extends React.Component {
     }
 }
 
+// Export mapDispatch, takes an argument and returns an object, which is a function that dispatches an "auth.clear" action when called. 
+// This action will clear the auth state in the Redux store.
 export const mapDispatch = (dispatch) => ({
     setAuth: (data) => {
         dispatch(actions.auth.set(data));
     }
 });
 
+
+// Default export the connected mapState and DashboardPage
 export default connect(
     null,
     mapDispatch

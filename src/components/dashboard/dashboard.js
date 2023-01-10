@@ -132,7 +132,8 @@ export class DashboardPage extends React.Component {
         window.addEventListener('resize', this.changeMapDimensions);
     }
 
-    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used
+    // to perform any necessary cleanup before the component is destroyed.
     componentDidUpdate(__, prevState) {
         const {user} = this.state;
         if (user !== prevState.user) {
@@ -140,7 +141,8 @@ export class DashboardPage extends React.Component {
         }
     }
 
-    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform
+    // any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         window.removeEventListener('resize', this.changeMapDimensions);
     }

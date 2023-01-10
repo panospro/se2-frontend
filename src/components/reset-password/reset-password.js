@@ -1,4 +1,8 @@
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -17,6 +21,7 @@ import infographicIcon from '../../assets/infographic.png';
 import contactIcon from '../../assets/contact.png';
 import contactHoverIcon from '../../assets/contactHover.png';
 
+// Style StyledBox
 const StyledBox = styled(Box)`
     height: 100%;
     width: 50%;
@@ -29,6 +34,7 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
+// Style StyledHeader
 const StyledHeader = styled.h2`
     text-align: left;
     color: white;
@@ -38,6 +44,7 @@ const StyledHeader = styled.h2`
     letter-spacing: 1px;
 `;
 
+// Style StyledSubHeader
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: left;
@@ -49,6 +56,7 @@ const StyledSubHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
+// Style StyledForm
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -56,21 +64,25 @@ const StyledForm = styled.form`
     align-items: center;
 `;
 
+// Style StyledText
 const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
+// Style SignUpText
 const SignUpText = styled(StyledText)`
     color: white;
     text-align: center;
 `;
 
+// Style StyledLink
 const StyledLink = styled.a`
     :hover {
         text-decoration: none;
     }
 `;
 
+// Style OrangeLink
 const OrangeLink = styled(StyledLink)`
     color: #FFC4A3;
     :hover {
@@ -78,6 +90,7 @@ const OrangeLink = styled(StyledLink)`
     }
 `;
 
+// Style StyledDivider
 const StyledDivider = styled(Divider)`
     width: 100%;
     border-bottom: 1px solid #7296A7;
@@ -87,6 +100,7 @@ const StyledDivider = styled(Divider)`
     margin-bottom: 10px;
 `;
 
+// Style ContactDiv
 const ContactDiv = styled.div`
     width: 30px; 
     height: 30px; 
@@ -103,6 +117,7 @@ const ContactDiv = styled.div`
 `;
 
 export class ResetPasswordPage extends React.Component {
+    // It sets the initial type, state, updateItem etc.
     constructor(props) {
         super(props);
 
@@ -131,16 +146,20 @@ export class ResetPasswordPage extends React.Component {
         this.fetchStatistics = this.fetchStatistics.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.fetchStatistics();
         setTimeout(this.resize, 200);
         window.addEventListener('resize', this.resize);
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform
+    // any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         window.removeEventListener('resize', this.resize);
     }
 
+    // Resize the image
     resize() {
         const img = document.getElementById('infographics');
         const infoDiv = document.getElementById('infographicDiv');
@@ -152,6 +171,7 @@ export class ResetPasswordPage extends React.Component {
         });
     }
 
+    // Brings the statistics if success is true else print a message
     async fetchStatistics() {
         const response = await getStatistics();
         if (response.success) {
@@ -169,6 +189,8 @@ export class ResetPasswordPage extends React.Component {
         }
     }
 
+    // Renders a form for password reset. The form is made up of 2 text input fields and a submit button.
+    // There is also a text that links to the sign in page and a contact button that opens an email client when clicked.
     render() {
         const {users, dashboards, views, sources, top, left, width, height} = this.state;
 
@@ -401,6 +423,8 @@ export class ResetPasswordPage extends React.Component {
     }
 }
 
+
+// Default export the connected ResetPasswordPage
 export default connect(
     null,
     null
