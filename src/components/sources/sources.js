@@ -26,7 +26,10 @@ import sourceIcon from '../../assets/sourceBlue.png';
 
 const mqtt = require('mqtt');
 
-// Style StyledBox
+/*
+* Sets styling properties such as height, width,
+* border-radius, display, flex-direction and alignment.
+*/
 const StyledBox = styled(Box)`
     height: 100%;
     width: 100%;
@@ -36,7 +39,10 @@ const StyledBox = styled(Box)`
     overflow: auto;
 `;
 
-// Style StyledArea
+/*
+* Sets width, min-height, display, flex-direction
+* justify-content, padding etc.
+*/
 const StyledArea = styled(Box)`
     width: 750px;
     min-height: 500px;
@@ -49,7 +55,10 @@ const StyledArea = styled(Box)`
     margin: auto!important;
 `;
 
-// Style StyledHeader
+/*
+* Sets text-alignment, color, font size,
+* font-weight and letter-spacing.
+*/
 const StyledHeader = styled.h2`
     text-align: center;
     color: white;
@@ -59,7 +68,10 @@ const StyledHeader = styled.h2`
     letter-spacing: 5px;
 `;
 
-// Style StyledSubHeader
+/*
+* Sets width, text-alignment, color, margin, font size, 
+* font-weight and letter-spacing.
+*/
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: center;
@@ -93,7 +105,9 @@ const NewButton = styled(Button)`
     }
 `;
 
-// Style StyledIcon
+/*
+* Sets width, height, marging-bottom and flex-direction.
+*/
 const StyledIcon = styled.img.attrs((props) => ({src: props.icon}))`
     width: 60px;
     height: 60px;
@@ -101,7 +115,9 @@ const StyledIcon = styled.img.attrs((props) => ({src: props.icon}))`
     flex-direction: column;
 `;
 
-// Style StyledText
+/*
+* Sets font size to 16px
+*/
 const StyledText = styled(Text)`
     color: white;
     text-align: center;
@@ -109,7 +125,10 @@ const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
-// Style FormHeader
+/*
+* Sets width, display, align-items, justify-content,
+* margin-bottom etc.
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -121,7 +140,9 @@ const FormHeader = styled.div`
     color: #16335B;
 `;
 
-// Style StyledForm
+/*
+* Sets width and flex-direction.
+*/
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -129,20 +150,26 @@ const StyledForm = styled.form`
     align-items: center;
 `;
 
-// Style sourceTypes
+/*
+* Sets the stomp and the mqtt.
+*/
 const sourceTypes = {
     stomp: 'Web-Stomp',
     mqtt: 'MQTT'
 };
 
-// Style sourceDefaults
+/*
+* Sets the stomp and the mqtt.
+*/
 const sourceDefaults = {
     stomp: 'ws://<DOMAIN>:<WEB_STOMP_PORT>/ws',
     mqtt: 'mqtt://<DOMAIN>:<MQTT_PORT>'
 };
 
 export class SourcesPage extends React.Component {
-    // It sets the initial type, state, updateItem etc.
+    // The constructor of the class, that sets initial values for the state
+    // of the component, such as history push, token and a few other state values.
+    // It also binds the resize and fetchStatistics functions to the component.
     constructor(props) {
         super(props);
 
