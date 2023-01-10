@@ -1,5 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -14,6 +18,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 
+// Style FormHeader
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -26,6 +31,7 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
+// Style SettingsDiv
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -34,6 +40,7 @@ const SettingsDiv = styled.div`
 `;
 
 class Value extends React.Component {
+    // It sets the initial type, state, updateItem etc.
     constructor(props) {
         super(props);
 
@@ -76,6 +83,9 @@ class Value extends React.Component {
         this.clone = this.clone.bind(this);
     }
 
+    // Returns an object containing values that should be added to the component's state based on the new props. 
+    // In this case, the returned object contains the values of the id, name, and url props, with default values used
+    // if the props are not defined.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -88,6 +98,8 @@ class Value extends React.Component {
         };
     }
 
+    // Updates the component when text changes and then it resizes 
+    // it by finding the new height and width.
     componentDidUpdate(__, prevState) {
         const {id, unit} = this.state;
         if (unit !== prevState.unit) {
@@ -97,21 +109,27 @@ class Value extends React.Component {
         }
     }
 
+    // Appears to take in a key and a value argument and call the updateItem function with the
+    // component's id state variable, the key, and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
+    // Sets the deletePopupOpen state variable to false and then calls the deleteItem function with the component's 
+    // id state variable as an argument.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
         this.deleteItem(id);
     }
 
+    // Updates the name 
     changeName(value) {
         this.sendUpdate('name', value);
     }
 
+    // Opens the pop up and sets values to popoverOpen and tempUrl etc.
     openPopup() {
         const {source, topic, variable, unit} = this.state;
         this.setState({
@@ -123,6 +141,7 @@ class Value extends React.Component {
         });
     }
 
+    // Closes the pop up and sets values to popoverOpen and tempUrl etc.
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -133,6 +152,8 @@ class Value extends React.Component {
         });
     }
 
+    // Update the url state variable based on the value of the tempUrl state variable and set 
+    // the popoverOpen state variable to false etc.
     closeConfirmPopup() {
         const {tempSource, tempTopic, tempVariable, tempUnit} = this.state;
         this.sendUpdate('source', tempSource);
@@ -142,44 +163,58 @@ class Value extends React.Component {
         this.setState({popoverOpen: false});
     }
 
+    // Sets the deletePopupOpen state variable to true.
     openDelete() {
         this.setState({deletePopupOpen: true});
     }
 
+    // Sets the deletePopupOpen state variable to false
     closeDelete() {
         this.setState({deletePopupOpen: false});
     }
 
+    // Updates the value of the activeText and fontSize properties in the component's state based
+    //  on the width and height of the component
     resize(width, height) {
         const {unit} = this.state;
         this.setState({fontSize: Math.min(height, (width / (String(this.value).length + unit.length)))});
     }
 
+    // Change the source based on the value given
     changeSource(value) {
         this.setState({tempSource: value});
     }
 
+    // Change the topic based on the event value
     changeTopic(event) {
         event.stopPropagation();
         this.setState({tempTopic: event.target.value});
     }
 
+    // Change the variable based on the event value
     changeVariable(event) {
         event.stopPropagation();
         this.setState({tempVariable: event.target.value});
     }
 
+    // Change the unit based on the event value
     changeUnit(event) {
         event.stopPropagation();
         this.setState({tempUnit: event.target.value});
     }
 
+    // Closes the popup and calls the cloneComponent function, passing in the value of the id property 
+    // in the component's state as an argument
     clone() {
         const {id} = this.state;
         this.closePopup();
         this.cloneComponent(id);
     }
 
+    // Render the value. First by getting some values from this.state, which is an object that contains several pieces of state for the component.
+    // These values are then used in the JSX element that is returned, which is a div element with several nested elements inside it. Some of 
+    // these elements are custom or external components and style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
+    // component, which is a custom or external component that displays additional information when hovered over. 
     render() {
         const {id, availableSources, name, unit, popoverOpen, deletePopupOpen, fontSize, tempSource, tempTopic, tempVariable, tempUnit} = this.state;
 
@@ -357,6 +392,8 @@ class Value extends React.Component {
     }
 }
 
+// Takes the arguments id, type, initialState etc and pass them to Value. The values are determined by the values 
+// of the properties in the object passed to createValue.
 const createValue = ({id, type, initialState, updateItem, deleteItem, cloneComponent, sources}) => (
     <Value
         id={id}
@@ -369,4 +406,5 @@ const createValue = ({id, type, initialState, updateItem, deleteItem, cloneCompo
     />
 );
 
+// Default export createValue
 export default createValue;

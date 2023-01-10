@@ -2,6 +2,10 @@
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -30,6 +34,7 @@ import '../../../node_modules/react-resizable/css/styles.css';
 
 const fileDownload = require('js-file-download');
 
+// Style StyledBox
 const StyledBox = styled(Box)`
     height: 100%;
     width: 100%;
@@ -40,6 +45,7 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
+// Style DragComp
 const DragComp = styled.div`
     width: 80%;
     border-radius: 50px;
@@ -50,6 +56,7 @@ const DragComp = styled.div`
     margin: 1px;
 `;
 
+// Style CategoryDiv
 const CategoryDiv = styled.div`
     width: 100%;
     display: flex;
@@ -60,12 +67,14 @@ const CategoryDiv = styled.div`
     margin-top: 2px;
 `;
 
+// Initialize the categories
 const categories = {
     web: 'WEB COMPONENTS',
     broker: 'BROKER COMPONENTS',
     navigation: 'NAVIGATION COMPONENTS'
 };
 
+// Filters components by category and returns the names that belong to the specified category
 const filterComponents = (comps, category) => {
     const categoryComponents = [];
 
@@ -78,10 +87,13 @@ const filterComponents = (comps, category) => {
     return categoryComponents;
 };
 
+// Returns a boolean indicating whether a value is within a specified range 
 const valueInRange = (value, minim, maxim) => (
     (value >= minim) && (value <= maxim)
 );
 
+// Returns a boolean indicating whether a component with the size and position specified
+// can be placed on the layout without overlapping with any existing components.
 const componentFits = (row, column, w, h, currentLayout, nCols) => {
     if (column + w > nCols) {
         return false;
@@ -102,6 +114,7 @@ const componentFits = (row, column, w, h, currentLayout, nCols) => {
 };
 
 export class EditDashboardPage extends React.Component {
+    // It sets the initial type, state, updateItem etc.
     constructor(props) {
         super(props);
 
@@ -143,6 +156,7 @@ export class EditDashboardPage extends React.Component {
         this.cloneComponent = this.cloneComponent.bind(this);
     }
 
+    // Checks for token expiry, loads data and add event listener to window object. 
     componentDidMount() {
         if (jwt_decode(this.token).exp < Date.now() / 1000) {
             this.clearAuth();
@@ -157,10 +171,12 @@ export class EditDashboardPage extends React.Component {
         }
     }
 
+    // Removes the resize event listener.
     componentWillUnmount() {
         window.removeEventListener('resize', this.changeMapDimensions);
     }
 
+    // Handles the event when user drops a component and updates the layout states and saves it.
     onDrop(__, layoutItem) {
         const {currentLayout, items, nextId, dragging} = this.state;
         currentLayout.push({
@@ -184,10 +200,13 @@ export class EditDashboardPage extends React.Component {
         }, this.saveDashboard);
     }
 
+
+    // Updates the currentLayout state and save the updated one.
     layoutChanged(layout) {
         this.setState({currentLayout: layout}, this.saveDashboard);
     }
 
+    // Ηandles the event when a user starts dragging a component and updates the state accordingly.
     elemDragStart(event, comp) {
         const {nextId} = this.state;
         event.stopPropagation();
@@ -202,10 +221,13 @@ export class EditDashboardPage extends React.Component {
         });
     }
 
+    // Change the spinner based on the value
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
+
+    // Fetches dashboard data from API, change spinner status and updates state.
     async fetchDashboard() {
         this.changeSpinner(true);
         const response = await getDashboard(this.dashboardId);
@@ -227,17 +249,20 @@ export class EditDashboardPage extends React.Component {
         this.changeSpinner(false);
     }
 
+    // Retrieves the width of the map element and sets it to the state.
     changeMapDimensions() {
         const mapWidth = document.getElementById('mainmap').offsetWidth;
         this.setState({mapWidth});
     }
 
+    // Updates a specific item in the state and saves the updated state.
     updateItem(id, key, value) {
         const {items} = this.state;
         items[id][key] = value;
         this.setState({items}, this.saveDashboard);
     }
 
+    // Deletes an item from the state and saves the updated state
     deleteItem(id) {
         const {currentLayout, items} = this.state;
         delete items[id];
@@ -248,6 +273,7 @@ export class EditDashboardPage extends React.Component {
         }, this.saveDashboard);
     }
 
+    // Save the current layout, items and nextId state to the server
     async saveDashboard() {
         const {currentLayout, items, nextId} = this.state;
         const response = await saveDashboard(this.dashboardId, currentLayout, items, nextId);
@@ -259,6 +285,7 @@ export class EditDashboardPage extends React.Component {
         }
     }
 
+    // Exports the current layout, items and nextId state as a json file
     exportDashboard() {
         this.changeSpinner(true);
         const {name, currentLayout, items, nextId} = this.state;
@@ -273,11 +300,13 @@ export class EditDashboardPage extends React.Component {
     }
 
     // eslint-disable-next-line class-methods-use-this
+    // Triggers the file input element to let user select a file to import
     importDashboard() {
         const fileInput = document.getElementById('selectFile');
         fileInput.click();
     }
 
+    // Reads the imported file as json, updates the current layout, items, nextId states and save the changes.
     importedFile(event) {
         event.preventDefault();
 
@@ -301,6 +330,7 @@ export class EditDashboardPage extends React.Component {
         reader.readAsText(this.file);
     }
 
+    // Checks the imported sources against the server and notify the new sources.
     async checkSources() {
         const {items} = this.state;
         const sourcesToCheck = [];
@@ -343,6 +373,7 @@ export class EditDashboardPage extends React.Component {
         }
     }
 
+    //  Toggles the open state of a specific category.
     changeCategoryState(cat) {
         const {openCategories} = this.state;
         if (openCategories.includes(cat)) {
@@ -353,6 +384,7 @@ export class EditDashboardPage extends React.Component {
         this.setState({openCategories});
     }
 
+    // Finds an empty spot for the component with specific width and height.
     findAvailableSpace(w, h) {
         const {currentLayout} = this.state;
         let x = null;
@@ -381,6 +413,7 @@ export class EditDashboardPage extends React.Component {
         return {x, y};
     }
 
+    // Creates a clone of an existing component by its ID, add it to the state and saves the updated state.
     cloneComponent(id) {
         const {currentLayout, items, nextId} = this.state;
         const layout = currentLayout.find((el) => el.i === id.toString());
@@ -404,6 +437,9 @@ export class EditDashboardPage extends React.Component {
         }, this.saveDashboard);
     }
 
+    // Generates JSX elements. It also renders the menu of categories and the components in them. It also generates the onclick handlers
+    // for UI such as update, delete and clone the components. Then it returns the rendered elements in JSX which then
+    // displayed on the page.
     render() {
         const {spinnerOpen, mapWidth, currentLayout, items, nextId, droppingItem, dragging, sources, openCategories} = this.state;
 
@@ -563,14 +599,18 @@ export class EditDashboardPage extends React.Component {
     }
 }
 
+// Takes the state and maps the user and token state values to props that can be used. 
 export const mapState = (state) => ({user: state.auth.user, token: state.auth.token});
 
+// Maps clearAuth dispatch, so it can be used to clear the authentication
+// state in the store. 
 export const mapDispatch = (dispatch) => ({
     clearAuth: () => {
         dispatch(actions.auth.clear());
     }
 });
 
+// Connects it to EditDashboardPage so that the mapState and mapDispatch can be used within it.
 export default connect(
     mapState,
     mapDispatch

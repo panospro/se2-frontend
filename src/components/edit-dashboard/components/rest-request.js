@@ -262,7 +262,8 @@ class RestRequest extends React.Component {
         });
     }
 
-    // Closes the popup and calls the cloneComponent function, passing in the value of the id property in the component's state as an argument
+    // Closes the popup and calls the cloneComponent function, passing in the value of the id property 
+    // in the component's state as an argument
     clone() {
         const {id} = this.state;
         this.closePopup();

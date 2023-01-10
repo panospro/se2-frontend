@@ -1,5 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+* Importing the necessary modules
+*/
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -14,6 +18,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 
+// Style FormHeader
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -26,6 +31,7 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
+// Style SettingsDiv
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -33,6 +39,7 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
+// Initialive the format status color according to statusString
 const formatStatusColor = (status) => {
     const statusString = status.toString()[0];
     switch (statusString) {
@@ -52,6 +59,7 @@ const formatStatusColor = (status) => {
 };
 
 class Rest extends React.Component {
+    // It sets the initial type, state, updateItem etc.
     constructor(props) {
         super(props);
 
@@ -88,6 +96,9 @@ class Rest extends React.Component {
         this.clone = this.clone.bind(this);
     }
 
+    // Returns an object containing values that should be added to the component's state based on the new props. 
+    // In this case, the returned object contains the values of the id, name, and url props, with default values used
+    // if the props are not defined.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -97,21 +108,27 @@ class Rest extends React.Component {
         };
     }
 
+    // Appears to take in a key and a value argument and call the updateItem function with the
+    // component's id state variable, the key, and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
+    // Sets the deletePopupOpen state variable to false and then calls the deleteItem function with the component's 
+    // id state variable as an argument.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
         this.deleteItem(id);
     }
 
+    // Updates the name 
     changeName(value) {
         this.sendUpdate('name', value);
     }
 
+    // Opens the pop up and sets values to popoverOpen and tempUrl etc.
     openPopup() {
         const {url, interval} = this.state;
         this.setState({
@@ -121,6 +138,7 @@ class Rest extends React.Component {
         });
     }
 
+    // Closes the pop up and sets values to popoverOpen and tempUrl etc.
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -129,6 +147,7 @@ class Rest extends React.Component {
         });
     }
 
+    // Update the url state variable based on the value of the tempUrl state variable and set the popoverOpen state variable to false etc.
     closeConfirmPopup() {
         const {tempUrl, tempInterval} = this.state;
         this.sendUpdate('url', tempUrl);
@@ -136,23 +155,28 @@ class Rest extends React.Component {
         this.setState({popoverOpen: false});
     }
 
+    // Sets the deletePopupOpen state variable to true.
     openDelete() {
         this.setState({deletePopupOpen: true});
     }
 
+    // Sets the deletePopupOpen state variable to false
     closeDelete() {
         this.setState({deletePopupOpen: false});
     }
 
+    // Change the state by setting the value of tempUrl to the value
     changeUrl(event) {
         event.stopPropagation();
         this.setState({tempUrl: event.target.value});
     }
 
+     // Updates the value of the tempHeaders property in the component's state with the value of an event target
     changeInterval(value) {
         this.setState({tempInterval: value});
     }
 
+     // Updates the value of the activeText and fontSize properties in the component's state based on the width and height of the component
     resize(width, height) {
         let fontSize = 18;
         if (width < 200) {
@@ -168,12 +192,17 @@ class Rest extends React.Component {
         });
     }
 
+    // Closes the popup and calls the cloneComponent function, passing in the value of the id property in the component's state as an argument
     clone() {
         const {id} = this.state;
         this.closePopup();
         this.cloneComponent(id);
     }
 
+    // Render the rest. First by getting some values from this.state, which is an object that contains several pieces of state for the component.
+    // These values are then used in the JSX element that is returned, which is a div element with several nested elements inside it. Some of 
+    // these elements are custom or external components and style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
+    // component, which is a custom or external component that displays additional information when hovered over. 
     render() {
         const {id, name, popoverOpen, deletePopupOpen, tempUrl, tempInterval, activeText, smallIcon, fontSize} = this.state;
 
@@ -367,6 +396,8 @@ class Rest extends React.Component {
     }
 }
 
+// Takes the arguments id, type, initialState etc and pass them to Rest. The values are determined by the values 
+// of the properties in the object passed to createRest.
 const createRest = ({id, type, initialState, updateItem, deleteItem, cloneComponent}) => (
     <Rest
         id={id}
@@ -378,4 +409,5 @@ const createRest = ({id, type, initialState, updateItem, deleteItem, cloneCompon
     />
 );
 
+// Default export createRest
 export default createRest;
