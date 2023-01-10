@@ -289,7 +289,7 @@ class Logs extends React.Component {
         this.setState({filterDrawerOpen: false});
     }
 
-    // Resize 
+    // Resize, by setting the state to the width and height given
     resize(width, height) {
         this.setState({width, height});
     }
@@ -611,8 +611,10 @@ class Logs extends React.Component {
     }
 }
 
-// Takes an object as an argument with the properties id, type, initialState, user and owner to customize the appearance or behavior of the button or group of buttons.
-// The function returns a JSX element called Json, with the properties id, type, initialState, user and owner being passed to it. 
+// Takes an object as an argument with the properties id, type, initialState, user and 
+// owner to customize the appearance or behavior of the button or group of buttons.
+// The function returns a JSX element called Json, with the properties id, type, initialState,
+// user and owner being passed to it. 
 const createLogs = ({id, type, initialState, user, owner}) => (
     <Logs
         id={id}
