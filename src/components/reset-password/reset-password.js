@@ -123,7 +123,9 @@ const ContactDiv = styled.div`
 `;
 
 export class ResetPasswordPage extends React.Component {
-    // It sets the initial type, state, updateItem etc.
+    // The constructor of the class, that sets initial values for the state
+    // of the component, such as history push, token and a few other state values.
+    // It also binds the resize and fetchStatistics functions to the component.
     constructor(props) {
         super(props);
 
