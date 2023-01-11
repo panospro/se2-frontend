@@ -19,7 +19,9 @@ import {
 } from '../../../lib/buttons';
 import logsPlaceholder from '../../../assets/logsPlaceholder.png';
 
-// Style FormHeader
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -43,7 +45,9 @@ const FormSubHeader = styled.div`
     color: #16335B;
 `;
 
-// Style SettingsDiv
+/*
+* Style SettingsDiv
+*/
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;

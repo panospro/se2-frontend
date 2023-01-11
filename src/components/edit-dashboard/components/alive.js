@@ -18,7 +18,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 
-// Style FormHeader
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -31,7 +33,9 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
-// Style SettingsDiv
+/*
+* Style SettingsDiv
+*/
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -55,7 +59,14 @@ const formatDate = (date) => {
 };
 
 class Alive extends React.Component {
-     // The constructor of the class, that initializes type,state and resize etc.
+    // The constructor of the class that initializes the variables.
+    // It takes in props as an argument and utilizes the props to
+    // set up the initial state of the component. It also sets up the type,
+    // updateItem, deleteItem and cloneComponent props which are used to update,
+    // delete, or clone components. It then sets up the properties of the state,
+    // such as the id, available sources, name, source, topic, timeout, popoverOpen,
+    // deletePopupOpen, tempSource, tempTopic, tempTimeout, lastSend, activeText,
+    // smallIcon, fontSize and fontSize2. 
     constructor(props) {
         super(props);
 
@@ -98,8 +109,10 @@ class Alive extends React.Component {
         this.clone = this.clone.bind(this);
     }
 
-    //  Receives the props passed to a component as an argument and returns an object to update the state and
-    //  is updated with values from the props, with default values specified for certain properties if they are not present in the props.
+    //  Receives the props passed to a component as an argument and 
+    // returns an object to update the state and
+    // is updated with values from the props, with default values
+    // specified for certain properties if they are not present in the props.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -111,14 +124,16 @@ class Alive extends React.Component {
         };
     }
 
-    // Update the value of an item in the state and send the update to the server. It takes in two arguments: key, which is the name
-    // of the  being updated and value, which is the new value for the .
+    // Update the value of an item in the state and send the update to the
+    // server. It takes in two arguments: key, which is the name
+    // being updated and value, which is the new value.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
-    // Closes a deletePopup and then calls deleteItem with the component's id state as an argument.
+    // Closes a deletePopup and then calls deleteItem with the component's id 
+    // state as an argument.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
@@ -152,7 +167,8 @@ class Alive extends React.Component {
         });
     }
 
-    // Sends an update to the server with the new source, topic and timeout values and closes the popover
+    // Sends an update to the server with the new source, topic and timeout
+    // values and closes the popover
     closeConfirmPopup() {
         const {tempSource, tempTopic, tempTimeout} = this.state;
         this.sendUpdate('source', tempSource);
@@ -215,7 +231,14 @@ class Alive extends React.Component {
         this.cloneComponent(id);
     }
 
-    // Render alive. The render method returns a JSX element, which will be rendered to the page.
+    // Render alive and a div containing the name of the component,
+    // a cog icon which when clicked opens a popup containing settings 
+    // for the component, a trash can icon which when clicked opens 
+    // an alert asking the user to confirm deleting the component 
+    // and the content of the component which is an animated circle with 
+    // the text ACTIVE inside it and the last message sent underneath it. 
+    // It also detects the resize of the component. The style of the divs 
+    // and icons is set within the function.
     render() {
         const {id, availableSources, name, popoverOpen, deletePopupOpen, tempSource, tempTopic, tempTimeout, lastSend, activeText, smallIcon, fontSize, fontSize2} = this.state;
 

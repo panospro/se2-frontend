@@ -115,7 +115,9 @@ const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
-// Style FormHeader
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;

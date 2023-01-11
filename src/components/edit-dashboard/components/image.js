@@ -17,7 +17,9 @@ import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 import imagePlaceholder from '../../../assets/imagePlaceholder.png';
 
-// Style FormHeader
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -30,7 +32,9 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
-// Style SettingsDiv
+/*
+* Style SettingsDiv
+*/
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
