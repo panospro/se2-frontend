@@ -152,8 +152,8 @@ export class DashboardPage extends React.Component {
         return {user: props.user};
     }
 
-    // Takes value as argument and is called when the component needs to show or hide a loading spinner and the spinnerOpen property is used to determine whether the spinner 
-    // should be shown or hidden. When the value of the spinnerOpen property is true, the spinner is shown and when it is false, the spinner is hidden.
+    // Takes value as argument and is called when the component needs to show or hide a loading spinner and the spinnerOpen is used to determine whether the spinner 
+    // should be shown or hidden. When the value of spinnerOpen is true, the spinner is shown and when it is false, the spinner is hidden.
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }

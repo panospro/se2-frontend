@@ -118,13 +118,13 @@ class Alive extends React.Component {
         }
     }
 
-    // Takes value as argument and is called when the component needs to show or hide a loading spinner and the spinnerOpen property is used to determine whether the spinner 
-    // should be shown or hidden. When the value of the spinnerOpen property is true, the spinner is shown and when it is false, the spinner is hidden.
+    // Changes the value of the spinnerOpen state to the
+    // given value. It is used to open or close the spinner. 
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
-    // Called when the component receives a message. It updates several properties in the component's state based on the time span between the current time and the time
+    // Called when the component receives a message. It updates several in the component's state based on the time span between the current time and the time
     // of the previous message, as well as the minimum, maximum and mean time spans between messages. It also increments a counter for the number of messages received.
     // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     messageReceived() {
