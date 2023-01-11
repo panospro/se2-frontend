@@ -34,7 +34,9 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
-// Style FormSubHeader
+/*
+* Style FormSubHeader
+*/
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;

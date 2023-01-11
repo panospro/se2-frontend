@@ -34,7 +34,9 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
-// Style FormSubHeader
+/*
+* Style FormSubHeader
+*/
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;
@@ -55,20 +57,26 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
-// Style textAlignments
+/*
+* Style textAlignments
+*/
 const textAlignments = {
     left: 'Left',
     center: 'Center',
     right: 'Right'
 };
 
-// Style buttonAlignments
+/*
+* Style buttonAlignments
+*/
 const buttonAlignments = {
     vertical: 'Vertical',
     horizontal: 'Horizontal'
 };
 
-// Takes a string as an argument and returns a boolean. The function attempts to parse the input string as JSON and returns true if the parsing is successful. If an error is thrown while
+// Takes a string as an argument and returns a boolean. 
+// Parses the input string as JSON and returns true if
+// the parsing is successful. If an error is thrown while
 // parsing, the function returns false.
 const isValidJson = (input) => {
     try {
@@ -80,9 +88,21 @@ const isValidJson = (input) => {
 };
 
 class Buttons extends React.Component {
-    // The component's props are destructured and used to initialize the component's state. 
-    // The component's state is initialized with several, some of which are destructured from the props.initialState object and others of which have default values.
-    // The component also has several class (this.rxStomps, this.mqttClients, etc.) that are initialized with empty arrays.
+    // The constructor of the class. It initializes the variables and the fucntions. 
+    // Sets some state variables with props which are passed in. 
+    // Sets initial values for each of the component's state variables. 
+    // Has a sendUpdate function which sends an update to the component. 
+    // Has a delete function which deletes the component. 
+    // Has a changeName function which changes the component's name. 
+    // Has an openPopup and closePopup functions which open and close popups. 
+    // Has a confirmPopup and closeConfirmPopup functions which confirm and close the popup. 
+    // Has an openDelete and closeDelete functions which open and close the delete popup. 
+    // Has an openButtonPopover function which opens the button popover. 
+    // Has a changeAlignText function which changes the alignment text. 
+    // Has a changeButtonsAlign function which changes the button's alignment. 
+    // Has a changeTexts, changeSources, changeTopics, changePayloads, 
+    // changeIsDynamic, changeColors, changeBackgrounds and changeBackgroundsHover 
+    // functions which change the corresponding state variables. 
     constructor(props) {
         super(props);
 
@@ -290,7 +310,7 @@ class Buttons extends React.Component {
         }
     }
 
-    // Takes the current temporary state variables and updates the component's with them. It sets the state of the component to hide the configuration popover and 
+    // Takes the current temporary state variables and updates the component's with them. Sets the state of the component to hide the configuration popover and 
     // resets the temporary state variables to their default values
     confirmPopup() {
         const {tempAlignText, tempButtonsAlign, tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, tempBackgroundsHover} = this.state;

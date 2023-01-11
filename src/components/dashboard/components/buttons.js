@@ -32,7 +32,9 @@ const FormHeader = styled.div`
     color: #16335B;
 `;
 
-// Style FormSubHeader
+/*
+* Style FormSubHeader
+*/
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;
