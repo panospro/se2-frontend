@@ -18,8 +18,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 
-// Defines a styled div element with specific styling properties such as font size,
-// font weight and color. It also includes layout properties to center the element and give it a margin.
+/*
+* Defines a styled div element with specific styling properties such as font size,
+* font weight and color. It also includes layout properties to 
+* center the element and give it a margin.
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -32,8 +35,10 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
-// Creates a styled div element with a width of 100%
-// and sets the flex-direction to column and align-items to center.
+/*
+* Creates a styled div element with a width of 100%
+* and sets the flex-direction to column and align-items to center.
+*/
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -41,17 +46,24 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
-// Initialive the available types
+/*
+* Initialive the available types
+*/
 const availableTypes = ['GET', 'POST', 'PUT'];
 
-// Initialive the available fires
+/*
+* Initialive the available fires
+*/
 const availableFires = {
     once: 'Fire Once',
     interval: 'Fire Periodically',
 };
 
-// Takes status as an argument and returns a hexadecimal color code depending on the number.
-// The color codes vary depending on the first digit of the status number.
+/*
+* Takes status as an argument and returns a hexadecimal color code 
+* depending on the number.
+* The color codes vary depending on the first digit of the status number.
+*/
 const formatStatusColor = (status) => {
     const statusString = status.toString()[0];
     switch (statusString) {
@@ -72,9 +84,10 @@ const formatStatusColor = (status) => {
 
 class RestRequest extends React.Component {
     // The constructor of the class. It defines the props,
-    // state and functions of the component and binds the functions to the component's context.
-    // It also sets the initial values for the props and state variables. Finally, it defines which 
-    // functions can be called on the component.
+    // state and functions of the component and binds the functions to 
+    // the component's context.
+    // It also sets the initial values for the props and state variables. 
+    // Then it defines which functions can be called on the component.
     constructor(props) {
         super(props);
 
@@ -276,10 +289,14 @@ class RestRequest extends React.Component {
         this.cloneComponent(id);
     }
 
-    // Render the rest-request. First by getting some values from this.state, which is an object that contains several pieces of state for the component.
-    // These values are then used in the JSX element that is returned, which is a div element with several nested elements inside it. Some of 
-    // these elements are custom or external components and style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
-    // component, which is a custom or external component that displays additional information when hovered over. 
+    // Render the rest-request. First by getting some values from this.state,
+    // which is an object that contains several pieces of state for the component.
+    // These values are then used in the JSX element that is returned, which 
+    // is a div element with several nested elements inside it. Some of 
+    // these elements are custom or external components and style it. The timeSpan,
+    // minint, meanint and maxint states are used to render a Tooltip 
+    // component, which is a custom or external component that displays additional 
+    // information when hovered over. 
     render() {
         const {id, name, popoverOpen, deletePopupOpen, tempUrl, tempRequestType, tempFire, tempInterval, tempHeaders, tempBody, tempParams, activeText, fontSize} = this.state;
 
@@ -568,7 +585,8 @@ class RestRequest extends React.Component {
     }
 }
 
-// Takes the arguments id, type, initialState etc and pass them to RestRequest. The values are determined by the values 
+// Takes the arguments id, type, initialState etc and pass them to 
+// RestRequest. The values are determined by the values 
 // of the properties in the object passed to createRestRequest.
 const createRestRequest = ({id, type, initialState, updateItem, deleteItem, cloneComponent}) => (
     <RestRequest
