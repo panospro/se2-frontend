@@ -1,5 +1,9 @@
 /*
-* Importing the necessary modules
+* It imports images used as icons for components, 
+* as well as the functions which create those components. 
+* The images are used to provide a visual representation of 
+* the components on the user interface. The images are imported 
+* from assets/components directory and the functions from ./ directory. 
 */
 import iframeIcon from '../../../assets/components/iframe.png';
 import iframeHoverIcon from '../../../assets/components/iframeHover.png';
