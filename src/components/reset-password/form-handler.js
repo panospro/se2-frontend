@@ -1,5 +1,7 @@
 /*
+*
 * Importing the necessary modules
+*
 */ 
 import * as Yup from 'yup';
 import {password, confirm} from '../../lib/form-validations';

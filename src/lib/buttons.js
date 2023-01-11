@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 
 /*
+*
 * Importing the necessary modules
+*
 */ 
 import React from 'react';
 import styled from 'styled-components';

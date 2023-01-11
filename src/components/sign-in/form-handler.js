@@ -1,6 +1,10 @@
 /*
+*
 * Importing the necessary modules
-*/
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import * as Yup from 'yup';
 import {validationConstants, validationErrors} from '../../lib/form-validations';
 import {authenticateUser} from '../../api/users';

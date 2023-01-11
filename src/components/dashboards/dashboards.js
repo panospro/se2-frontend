@@ -2,7 +2,9 @@
 /* eslint-disable max-len */
 
 /*
+*
 * Importing the necessary modules
+*
 */ 
 import React from 'react';
 import {Box} from 'rebass';

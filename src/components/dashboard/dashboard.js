@@ -3,7 +3,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 /*
+*
 * Importing the necessary modules
+*
 */ 
 import React from 'react';
 import {Box} from 'rebass';

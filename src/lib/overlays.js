@@ -2,7 +2,9 @@
 /* eslint-disable react/react-in-jsx-scope */
 
 /*
+*
 * Importing the necessary modules
+*
 */ 
 import {
     Classes, Overlay, Spinner

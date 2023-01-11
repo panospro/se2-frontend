@@ -1,6 +1,10 @@
 /*
+*
 * Importing the necessary modules
-*/
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import createIframe from './iframe';
 import createGauge from './gauge';
 import createImage from './image';

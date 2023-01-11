@@ -1,6 +1,10 @@
 /*
+*
 * Importing the necessary modules
-*/
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {path} from 'ramda';

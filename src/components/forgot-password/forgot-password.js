@@ -2,8 +2,12 @@
 /* eslint-disable react/no-unescaped-entities */
 
 /*
+*
 * Importing the necessary modules
-*/
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';

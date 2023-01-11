@@ -1,5 +1,7 @@
 /*
+*
 * Importing the necessary modules
+*
 */ 
 import React from 'react';
 import {concat} from 'ramda';

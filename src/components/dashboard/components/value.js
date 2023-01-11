@@ -1,8 +1,12 @@
 /* eslint-disable max-len */
 
 /*
+*
 * Importing the necessary modules
-*/
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {
     EditableText, Tag, Spinner, ProgressBar, Text, Tooltip

@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 
 /*
+*
 * Importing the necessary modules
+*
 */ 
 import ky from 'ky';
 import {path} from 'ramda';
