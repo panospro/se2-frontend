@@ -44,7 +44,7 @@ class Url extends React.Component {
         this.resize = this.resize.bind(this);
     }
 
-    // Adjust the font size of a component based on its dimensions and the length of a text property in its state.
+    // Adjust the font size of a component based on its dimensions and the length of a text  in its state.
     // Ensures that the fontSize is within a certain range and proportionally adjusts the value based on the length of the text.
     resize(width, height) {
         const {url} = this.state;

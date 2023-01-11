@@ -328,51 +328,51 @@ class Plot extends React.Component {
         this.setState({deletePopupOpen: false});
     }
 
-    // Sets the plotPopoverOpen and plotSelected properties of the component's state and sets the popoverOpen property to false
+    // Sets the plotPopoverOpen and plotSelected properties of the component's state and sets the popoverOpen  to false
     openPlotPopup(ind) {
         this.setState({popoverOpen: false, plotPopoverOpen: true, plotSelected: ind});
     }
 
-    // Updates the tempSource property in the component's state
+    // Updates the tempSource  in the component's state
     changeSource(value) {
         this.setState({tempSource: value});
     }
 
-    // Toggles the tempVerticalGrid property in the component's state
+    // Toggles the tempVerticalGrid  in the component's state
     changeVerticalGrid() {
         const {tempVerticalGrid} = this.state;
         this.setState({tempVerticalGrid: !tempVerticalGrid});
     }
 
-    // Toggles the tempHorizontalGrid property in the component's state
+    // Toggles the tempHorizontalGrid  in the component's state
     changeHorizontalGrid() {
         const {tempHorizontalGrid} = this.state;
         this.setState({tempHorizontalGrid: !tempHorizontalGrid});
     }
 
-    // Toggles the tempXAxis property in the component's state
+    // Toggles the tempXAxis  in the component's state
     changeXAxis() {
         const {tempXAxis} = this.state;
         this.setState({tempXAxis: !tempXAxis});
     }
 
-    // Toggles the tempYAxis property in the component's state
+    // Toggles the tempYAxis  in the component's state
     changeYAxis() {
         const {tempYAxis} = this.state;
         this.setState({tempYAxis: !tempYAxis});
     }
 
-    // Toggles the tempLegend property in the component's state
+    // Toggles the tempLegend  in the component's state
     changeLegend() {
         const {tempLegend} = this.state;
         this.setState({tempLegend: !tempLegend});
     }
-    // Updates the tempLegendPosition property in the component's state
+    // Updates the tempLegendPosition  in the component's state
     changeLegendPosition(position) {
         this.setState({tempLegendPosition: position});
     }
 
-    // Updates the tempMaxValues property in the component's state
+    // Updates the tempMaxValues  in the component's state
     changeMaxValues(value) {
         this.setState({tempMaxValues: value});
     }
@@ -471,7 +471,7 @@ class Plot extends React.Component {
         }, this.closeConfirmPopup);
     }
 
-    // Sets the plotPopoverOpen property to false and the plotSelected property to null and sets the popoverOpen property to true
+    // Sets the plotPopoverOpen  to false and the plotSelected  to null and sets the popoverOpen  to true
     back() {
         this.setState({popoverOpen: true, plotPopoverOpen: false, plotSelected: null});
     }

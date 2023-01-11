@@ -270,7 +270,7 @@ class Gauge extends React.Component {
         this.setState({tempHideText: !tempHideText});
     }
 
-    // Sets the tempUnit state variable based on the value of the event.target.value property.
+    // Sets the tempUnit state variable based on the value of the event.target.value .
     changeUnit(event) {
         event.stopPropagation();
         this.setState({tempUnit: event.target.value});

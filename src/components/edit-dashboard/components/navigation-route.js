@@ -260,61 +260,61 @@ class NavigationRoute extends React.Component {
         this.setState({tempSource: value});
     }
 
-    // Updates the tempMapTopic property in the component's state
+    // Updates the tempMapTopic  in the component's state
     changeMapTopic(event) {
         event.stopPropagation();
         this.setState({tempMapTopic: event.target.value});
     }
 
-    // Updates the tempRequestMapTopic property in the component's state
+    // Updates the tempRequestMapTopic  in the component's state
     changeRequestMapTopic(event) {
         event.stopPropagation();
         this.setState({tempRequestMapTopic: event.target.value});
     }
 
-    // Updates the tempChangeAnnotationsTopic property in the component's state
+    // Updates the tempChangeAnnotationsTopic  in the component's state
     changeChangeAnnotationTopic(event) {
         event.stopPropagation();
         this.setState({tempChangeAnnotationsTopic: event.target.value});
     }
 
-    // Updates the tempSetAnnotationGoalTopic property in the component's state
+    // Updates the tempSetAnnotationGoalTopic  in the component's state
     changeSetAnnotationGoalTopic(event) {
         event.stopPropagation();
         this.setState({tempSetAnnotationGoalTopic: event.target.value});
     }
 
-    // Updates the tempSetGoalTopic property in the component's state
+    // Updates the tempSetGoalTopic  in the component's state
     changeSetGoalTopic(event) {
         event.stopPropagation();
         this.setState({tempSetGoalTopic: event.target.value});
     }
 
-    // Updates the tempGetAnnotationsTopic property in the component's state
+    // Updates the tempGetAnnotationsTopic  in the component's state
     changeGetAnnotationsTopic(event) {
         event.stopPropagation();
         this.setState({tempGetAnnotationsTopic: event.target.value});
     }
 
-    // Updates the tempRequestAnnotationsTopic property in the component's state
+    // Updates the tempRequestAnnotationsTopic  in the component's state
     changeRequestAnnotationsTopic(event) {
         event.stopPropagation();
         this.setState({tempRequestAnnotationsTopic: event.target.value});
     }
 
-    // Updates the tempCancelGoalTopic property in the component's state
+    // Updates the tempCancelGoalTopic  in the component's state
     changeCancelGoalTopic(event) {
         event.stopPropagation();
         this.setState({tempCancelGoalTopic: event.target.value});
     }
 
-    // Updates the tempPoseTopic property in the component's state
+    // Updates the tempPoseTopic  in the component's state
     changePoseTopic(event) {
         event.stopPropagation();
         this.setState({tempPoseTopic: event.target.value});
     }
 
-    // Updates the tempPathTopic property in the component's state
+    // Updates the tempPathTopic  in the component's state
     changePathTopic(event) {
         event.stopPropagation();
         this.setState({tempPathTopic: event.target.value});

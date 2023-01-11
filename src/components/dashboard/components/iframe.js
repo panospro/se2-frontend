@@ -7,7 +7,7 @@ import React from 'react';
 import {EditableText} from '@blueprintjs/core';
 
 class Iframe extends React.Component {
-    // It sets the initial type, state of the component by assigning an object to the state property of the component 
+    // It sets the initial type, state of the component by assigning an object to the state  of the component 
     constructor(props) {
         super(props);
 
@@ -22,7 +22,7 @@ class Iframe extends React.Component {
 
     // Returning a description of what the user interface (UI) of the component should look like. More specifically it returns a div element with some nested elements that
     // include an EditableText component and an iframe element. The div element has several inline styles applied to it and the iframe element's src attribute is set to the
-    // value of the url property in the component's state, after some formatting is applied to it. The render function is called every time the component's state or props change
+    // value of the url  in the component's state, after some formatting is applied to it. The render function is called every time the component's state or props change
     // and the UI is updated to reflect the current state.
     render() {
         const {id, name, url} = this.state;

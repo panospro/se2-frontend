@@ -106,7 +106,7 @@ const OrangeLink = styled(StyledLink)`
 `;
 
 // Creates a div with a width, height, position and display properties,
-// as well as a :active state that changes the bottom property when clicked.
+// as well as a :active state that changes the bottom  when clicked.
 const ContactDiv = styled.div`
     width: 30px; 
     height: 30px; 

@@ -110,9 +110,9 @@ export class AppHeader extends React.Component {
     }
 
     // Returns JSX that represents the visual structure of header. The JSX includes a logo, a series of buttons and a divider. 
-    // The content and behavior of buttons depend on the value of isAuthenticated state property. 
+    // The content and behavior of buttons depend on the value of isAuthenticated state . 
     // If the value of isAuthenticated is true, the buttons will be rendered. If the value of isAuthenticated is false, the buttons will not be rendered.
-    // Then Style height and background of StyledBox based on the value of changeHeader. The changeHeader is set based on the value of path state property and whether 
+    // Then Style height and background of StyledBox based on the value of changeHeader. The changeHeader is set based on the value of path state  and whether 
     // it starts with the string /dashboards/ and does not start with the string /dashboards/edit/.
     // It also uses the ButtonWithText, which is passed several props, including icon, iconWhite, text, info, handler and changeHeader.
     render() {
@@ -162,7 +162,7 @@ export class AppHeader extends React.Component {
 // Takes in a state argument and returns an object with a isAuthenticated, which checks if the user is authenticated and a user.
 export const mapState = (state) => ({isAuthenticated: checkIsAuthenticated(state), user: state.auth.user});
 
-// Returns an object with a clearAuth. The value of clearAuth property is a function that dispatches the clear action from the actions.auth object when it is called.
+// Returns an object with a clearAuth. The value of clearAuth  is a function that dispatches the clear action from the actions.auth object when it is called.
 export const mapDispatch = (dispatch) => ({
     clearAuth: () => {
         dispatch(actions.auth.clear());

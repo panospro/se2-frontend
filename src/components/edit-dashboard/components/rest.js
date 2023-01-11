@@ -177,7 +177,7 @@ class Rest extends React.Component {
         this.setState({tempUrl: event.target.value});
     }
 
-     // Updates the value of the tempHeaders property in the component's state with the value of an event target
+     // Updates the value of the tempHeaders  in the component's state with the value of an event target
     changeInterval(value) {
         this.setState({tempInterval: value});
     }
@@ -198,7 +198,7 @@ class Rest extends React.Component {
         });
     }
 
-    // Closes the popup and calls the cloneComponent function, passing in the value of the id property in the component's state as an argument
+    // Closes the popup and calls the cloneComponent function, passing in the value of the id  in the component's state as an argument
     clone() {
         const {id} = this.state;
         this.closePopup();

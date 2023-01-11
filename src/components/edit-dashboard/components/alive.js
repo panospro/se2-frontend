@@ -112,7 +112,7 @@ class Alive extends React.Component {
     }
 
     // Update the value of an item in the state and send the update to the server. It takes in two arguments: key, which is the name
-    // of the property being updated and value, which is the new value for the property.
+    // of the  being updated and value, which is the new value for the .
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);

@@ -35,10 +35,10 @@ const formatStatusColor = (status) => {
 class RestRequest extends React.Component {
     // The constructor takes a single argument, props, which is an object containing the properties passed to the component when it
     // is rendered. First it calls the parent class' constructor using the super function and passes the props object to it.
-    // Then assigns the value of the type property of the props object to a class property called type. It also sets the initial 
+    // Then assigns the value of the type  of the props object to a class  called type. It also sets the initial 
     // state of the component using an object that includes several properties, some of which are taken from the props object and 
     // some of which have default values. Also binds the value of the resize method to the current instance of the 
-    // component and declares a class property called interval which is set to null.    
+    // component and declares a class  called interval which is set to null.    
     constructor(props) {
         super(props);
 

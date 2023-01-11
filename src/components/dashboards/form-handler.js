@@ -6,9 +6,9 @@ import {validationErrors} from '../../lib/form-validations';
 
 const {name} = validationErrors;
 
-// Defines an object with a single property, name, which is a string. The string is required and must be present, as
+// Defines an object with a single , name, which is a string. The string is required and must be present, as
 // indicated. The code also uses a Yup object to define a validation schema.
-// This schema ensures that the name property is a required string. The code may be used to validate form input values to ensure that they
+// This schema ensures that the name  is a required string. The code may be used to validate form input values to ensure that they
 // meet certain requirements before being submitted.
 export const validationSchema = Yup.object(({
     name: Yup

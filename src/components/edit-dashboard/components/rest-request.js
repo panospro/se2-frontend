@@ -220,28 +220,28 @@ class RestRequest extends React.Component {
         this.setState({tempUrl: event.target.value});
     }
 
-    // Updates the value of the tempRequestType property in the component's state
+    // Updates the value of the tempRequestType  in the component's state
     changeRequestType(value) {
         this.setState({tempRequestType: value});
     }
 
-    // Updates the value of the tempFire property in the component's state
+    // Updates the value of the tempFire  in the component's state
     changeFire(value) {
         this.setState({tempFire: value});
     }
 
-    // Updates the value of the tempHeaders property in the component's state with the value of an event target
+    // Updates the value of the tempHeaders  in the component's state with the value of an event target
     changeInterval(value) {
         this.setState({tempInterval: value});
     }
 
-    // Updates the value of the tempBody property in the component's state with the value of an event target
+    // Updates the value of the tempBody  in the component's state with the value of an event target
     changeHeaders(event) {
         event.stopPropagation();
         this.setState({tempHeaders: event.target.value});
     }
 
-    // Updates the value of the tempParams property in the component's state with the value of an event target
+    // Updates the value of the tempParams  in the component's state with the value of an event target
     changeBody(event) {
         event.stopPropagation();
         this.setState({tempBody: event.target.value});
@@ -268,7 +268,7 @@ class RestRequest extends React.Component {
         });
     }
 
-    // Closes the popup and calls the cloneComponent function, passing in the value of the id property 
+    // Closes the popup and calls the cloneComponent function, passing in the value of the id  
     // in the component's state as an argument
     clone() {
         const {id} = this.state;

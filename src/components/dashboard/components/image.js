@@ -195,12 +195,12 @@ class Image extends React.Component {
         });
     }
 
-    // Updates the component's state by setting the value of the imagePopupOpen property to true.
+    // Updates the component's state by setting the value of the imagePopupOpen  to true.
     openImage() {
         this.setState({imagePopupOpen: true});
     }
 
-    // Updates the component's state by setting the value of the imagePopupOpen property to false.
+    // Updates the component's state by setting the value of the imagePopupOpen  to false.
     closeImage() {
         this.setState({imagePopupOpen: false});
     }

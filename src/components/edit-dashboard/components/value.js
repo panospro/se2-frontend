@@ -203,7 +203,7 @@ class Value extends React.Component {
         this.setState({tempUnit: event.target.value});
     }
 
-    // Closes the popup and calls the cloneComponent function, passing in the value of the id property 
+    // Closes the popup and calls the cloneComponent function, passing in the value of the id  
     // in the component's state as an argument
     clone() {
         const {id} = this.state;
