@@ -477,15 +477,21 @@ class Buttons extends React.Component {
         this.cloneComponent(id);
     }
 
-    // It starts by getting several variables from state. It then returns an array containing a single JSX element, which is a styled div element with several nested children.
+    // It starts by getting several variables from state. It then returns 
+    // an array containing a single JSX element, which is a styled div element with several nested children.
     // These children include another div with a nested EditableText component and a Tag component, a styled div with an id and a class name that changes based on the value of
-    // buttonsAlign in state and several CustomButton components that are mapped over the texts array in state. Each CustomButton also has several style applied
+    // buttonsAlign in state and several CustomButton components that are mapped 
+    // over the texts array in state. Each CustomButton also has several style applied
     // to it that are derived from the corresponding elements in the colors, backgrounds and backgroundsHover arrays in state. When one of these buttons is clicked, the openButtonPopup
     // function is called with the index of the clicked button as an argument.
-    // Then append two JSX elements to the array returned by the render function. The first element is a PortalOverflowOverlay component that is rendered when the value of buttonPopupOpen 
-    // in state is true. This component has several props applied to it that define its appearance and behavior, such as isOpen, width, height, background, borderRadius, padding, marginLeft
-    // and color. It also has several nested children, including a FormHeader, a FormSubHeader and a SettingsDiv element that contains a TextArea component and two buttons
-    // (a BlueBorderButton and a BlueButton). The TextArea has an onChange prop that is bound to the editPayload function and both buttons have onClick props that are bound
+    // Then append two JSX elements to the array returned by the render function. 
+    // The first element is a PortalOverflowOverlay component that is rendered when the value of buttonPopupOpen 
+    // in state is true. This component has several props applied to it that define 
+    // its appearance and behavior, such as isOpen, width, height, background, borderRadius, padding, marginLeft
+    // and color. It also has several nested children, including a FormHeader, a 
+    // FormSubHeader and a SettingsDiv element that contains a TextArea component and two buttons
+    // (a BlueBorderButton and a BlueButton). The TextArea has an onChange prop 
+    // that is bound to the editPayload function and both buttons have onClick props that are bound
     // to the closeButtonPopup and changeButtonPayload functions, respectively.
     render() {
         const {id, availableSources, name, alignText, buttonsAlign, texts, colors, backgrounds, backgroundsHover, popoverOpen, buttonPopoverOpen, buttonSelected, deletePopupOpen, tempAlignText, tempButtonsAlign, tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, tempBackgroundsHover} = this.state;
