@@ -25,8 +25,10 @@ import {
 
 import '../../../../node_modules/react-vis/dist/style.css';
 
-// Defines a styled div element with specific styling properties such as font size,
-// font weight and color. It also includes layout properties to center the element and give it a margin.
+// Defines a styled div element with specific styling 
+// properties such as font size,
+// font weight and color. It also includes layout properties 
+// to center the element and give it a margin.
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -39,8 +41,10 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
-// Defines a styled div element with specific styling properties such as font size,
-// font weight and color. It also includes layout properties to center the element and give it a margin.
+// Defines a styled div element with specific styling 
+// properties such as font size,
+// font weight and color. It also includes layout properties 
+// to center the element and give it a margin.
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;
@@ -68,10 +72,17 @@ const legendPositions = {
     bottomRight: 'Bottom-Right'
 };
 
-// Takes in a date object and returns a formatted string representation of that date. First gets the day, month and year values from the date object and stores them
-// in separate variables. It then gets the hour, minute and second values and stores them in separate variables as well.
-// Then checks the length of each of these values and if the length is 1, it adds a leading zero to the value. For example, if the month is 9, the value will be changed to 09.
-// Finally, the function returns a string that is formatted as "dd/mm/yyyy, hh:mm:ss", using the day, month, year, hour, minute and second values that were extracted from the date object.
+// Takes in a date object and returns a formatted string 
+// representation of that date. First gets the day, month and 
+// year values from the date object and stores them
+// in separate variables. It then gets the hour, minute and 
+// second values and stores them in separate variables as well.
+// Then checks the length of each of these values and if the 
+// length is 1, it adds a leading zero to the value. For example, 
+// if the month is 9, the value will be changed to 09.
+// Finally, the function returns a string that is formatted as 
+// "dd/mm/yyyy, hh:mm:ss", using the day, month, year, hour, minute 
+// and second values that were extracted from the date object.
 const formatDate = (dateM) => {
     const date = new Date(dateM);
     // const day = ((String(date.getDate())).length === 1) ? `0${String(date.getDate())}` : String(date.getDate());
@@ -93,7 +104,11 @@ const plotTypes = {
 };
 
 class Plot extends React.Component {
-    // It sets the initial type, state, updateItem etc.
+    // The constructor of the class, it initializes the variables and functions.
+    // It also passes properties to the parent component through the use of props. 
+    // The props include an id, initial state, type, updateItem, deleteItem
+    // and cloneComponent. It also defines variables and methods used to update,
+    // delete and clone the component.
     constructor(props) {
         super(props);
 
@@ -198,8 +213,10 @@ class Plot extends React.Component {
         this.openPlotPopup = this.openPlotPopup.bind(this);
     }
 
-    // Returns an object containing values that should be added to the component's state based on the new props. 
-    // In this case, the returned object contains the values of the id, name and url props, with default values used
+    // Returns an object containing values that should be added 
+    // to the component's state based on the new props. 
+    // In this case, the returned object contains the values of 
+    // the id, name and url props, with default values used
     // if the props are not defined.
     static getDerivedStateFromProps(props) {
         return {
@@ -233,14 +250,16 @@ class Plot extends React.Component {
         return data;
     }
 
-    // Appears to take in a key and a value argument and call the updateItem function with the
+    // Appears to take in a key and a value argument and call 
+    // the updateItem function with the
     // component's id state variable, the key and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
-    // Sets the deletePopupOpen state variable to false and then calls the deleteItem function with the component's 
+    // Sets the deletePopupOpen state variable to false and 
+    // then calls the deleteItem function with the component's 
     // id state variable as an argument.
     delete() {
         const {id} = this.state;
@@ -253,7 +272,13 @@ class Plot extends React.Component {
         this.sendUpdate('name', value);
     }
 
-    // Opens the pop up and sets values to popoverOpen and tempUrl etc.
+    // Used to open a popover window. It sets the state of
+    // the popover to open and stores the current values of
+    // source, verticalGrid, horizontalGrid, xAxis, yAxis, 
+    // legend, legendPosition, maxValues, names, types, topics, 
+    // variables, colors, and smooths in the temp variables. 
+    // This allows the user to make changes to the graph without 
+    // permanently changing the graph until they are happy with their changes.
     openPopup() {
         const {source, verticalGrid, horizontalGrid, xAxis, yAxis, legend, legendPosition, maxValues, names, types, topics, variables, colors, smooths} = this.state;
         this.setState({
@@ -275,7 +300,8 @@ class Plot extends React.Component {
         });
     }
 
-    // Closes the pop up and sets values to popoverOpen and tempUrl etc.
+    // Closes the pop up and sets values to popoverOpen and
+    // tempUrl etc.
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -298,7 +324,8 @@ class Plot extends React.Component {
         });
     }
 
-    // Update the url state variable based on the value of the tempUrl state variable and set the popoverOpen state variable to false etc.
+    // Update the url state variable based on the value of 
+    // the tempUrl state variable and set the popoverOpen state variable to false etc.
     closeConfirmPopup() {
         const {tempSource, tempVerticalGrid, tempHorizontalGrid, tempXAxis, tempYAxis, tempLegend, tempLegendPosition, tempMaxValues, tempNames, tempTypes, tempTopics, tempVariables, tempColors, tempSmooths} = this.state;
         this.sendUpdate('source', tempSource);
@@ -405,21 +432,24 @@ class Plot extends React.Component {
         this.setState({tempVariables});
     }
 
-    // Updates the value of an element in the tempColors array in the component's state with the value of an event target
+    // Updates the value of an element in the tempColors array 
+    // in the component's state with the value of an event target
     changeColors(event, ind) {
         const {tempColors} = this.state;
         tempColors[ind] = event.target.value;
         this.setState({tempColors});
     }
 
-    // Toggles the value of an element in the tempSmooths array in the component's state
+    // Toggles the value of an element in the tempSmooths array 
+    // in the component's state
     changeSmooths(ind) {
         const {tempSmooths} = this.state;
         tempSmooths[ind] = !(tempSmooths[ind]);
         this.setState({tempSmooths});
     }
 
-    // Close a popup and call the cloneComponent function with the value of the id state variable as an argument.
+    // Close a popup and call the cloneComponent function with 
+    // the value of the id state variable as an argument.
     clone() {
         const {id} = this.state;
         this.closePopup();
@@ -431,8 +461,10 @@ class Plot extends React.Component {
         this.setState({width, height});
     }
 
-    // Adds a new plot to the plot viewer component by appending to the tempNames, tempTypes, tempTopics, tempVariables, tempColors
-    // and tempSmooths arrays in the component's state and then closes the confirm popup
+    // Adds a new plot to the plot viewer component by appending to 
+    // the tempNames, tempTypes, tempTopics, tempVariables, tempColors
+    // and tempSmooths arrays in the component's state and then closes 
+    // the confirm popup
     addPlot() {
         const {tempNames, tempTypes, tempTopics, tempVariables, tempColors, tempSmooths} = this.state;
         tempNames.push(`Plot ${tempNames.length + 1}`);
@@ -451,8 +483,10 @@ class Plot extends React.Component {
         }, this.closeConfirmPopup);
     }
 
-    // Removes a plot from the plot viewer component by splicing the corresponding elements from the tempNames, 
-    // tempTypes, tempTopics, tempVariables, tempColors and tempSmooths arrays in the component's state and then closes the confirm popup
+    // Removes a plot from the plot viewer component by splicing the 
+    // corresponding elements from the tempNames, 
+    // tempTypes, tempTopics, tempVariables, tempColors and tempSmooths 
+    // arrays in the component's state and then closes the confirm popup
     removePlot(ind) {
         const {tempNames, tempTypes, tempTopics, tempVariables, tempColors, tempSmooths} = this.state;
         tempNames.splice(ind, 1);
@@ -471,15 +505,20 @@ class Plot extends React.Component {
         }, this.closeConfirmPopup);
     }
 
-    // Sets the plotPopoverOpen  to false and the plotSelected  to null and sets the popoverOpen  to true
+    // Sets the plotPopoverOpen  to false and the plotSelected  to 
+    // null and sets the popoverOpen  to true
     back() {
         this.setState({popoverOpen: true, plotPopoverOpen: false, plotSelected: null});
     }
 
-    // Render the plot. First by getting some values from this.state, which is an object that contains several pieces of state for the component.
-    // These values are then used in the JSX element that is returned, which is a div element with several nested elements inside it. Some of 
-    // these elements are custom or external components and style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
-    // component, which is a custom or external component that displays additional information when hovered over. 
+    // Render the plot. First by getting some values from this.state, 
+    // which is an object that contains several pieces of state for the component.
+    // These values are then used in the JSX element that is returned, 
+    // which is a div element with several nested elements inside it. Some of 
+    // these elements are custom or external components and style it. 
+    // The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
+    // component, which is a custom or external component that displays 
+    // additional information when hovered over. 
     render() {
         const {id, availableSources, name, verticalGrid, horizontalGrid, xAxis, yAxis, legend, legendPosition, names, types, colors, smooths, popoverOpen, plotPopoverOpen, plotSelected, deletePopupOpen, tempSource, tempVerticalGrid, tempHorizontalGrid, tempXAxis, tempYAxis, tempLegend, tempLegendPosition, tempMaxValues, tempNames, tempTypes, tempTopics, tempVariables, tempColors, tempSmooths, width, height, lastDrawLocation} = this.state;
 
@@ -1056,7 +1095,8 @@ class Plot extends React.Component {
     }
 }
 
-// Takes the arguments id, type, initialState etc and pass them to Plot. The values are determined by the values 
+// Takes the arguments id, type, initialState etc and pass them to Plot. 
+// The values are determined by the values 
 // of the properties in the object passed to createPlot.
 const createPlot = ({id, type, initialState, updateItem, deleteItem, cloneComponent, sources}) => (
     <Plot
