@@ -367,5 +367,11 @@ const components = {
     },
 };
 
-// Default export components
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// components
 export default components;

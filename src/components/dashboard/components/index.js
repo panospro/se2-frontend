@@ -34,5 +34,11 @@ const components = {
     restRequest: {component: createRestRequest}
 };
 
-// Default export components
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// components
 export default components;

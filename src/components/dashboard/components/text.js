@@ -96,5 +96,11 @@ const createText = ({id, type, initialState}) => (
     />
 );
 
-// Default export createRestRequest
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createRestRequest
 export default createText;

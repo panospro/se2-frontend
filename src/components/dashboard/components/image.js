@@ -349,5 +349,11 @@ const createImage = ({id, type, initialState, user, owner}) => (
     />
 );
 
-// Default export createImage
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createImage
 export default createImage;

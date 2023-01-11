@@ -628,5 +628,11 @@ const createLogs = ({id, type, initialState, updateItem, deleteItem, cloneCompon
     />
 );
 
-// Default export createLogs
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createLogs
 export default createLogs;

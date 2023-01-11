@@ -408,5 +408,11 @@ const createGauge = ({id, type, initialState, user, owner}) => (
     />
 );
 
-// Default export createGauge
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createGauge
 export default createGauge;

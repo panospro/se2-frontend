@@ -415,5 +415,11 @@ const createRest = ({id, type, initialState, updateItem, deleteItem, cloneCompon
     />
 );
 
-// Default export createRest
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createRest
 export default createRest;

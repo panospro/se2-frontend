@@ -40,5 +40,11 @@ const persistedReducer = persistReducer(
     cond([set, clear, setUser, defaultCase])
 );
 
-// Default export persisterReducer
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// persisterReducer
 export default persistedReducer;

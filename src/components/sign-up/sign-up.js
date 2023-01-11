@@ -456,5 +456,11 @@ export class SignUpPage extends React.Component {
     }
 }
 
-// Default export SignUpPage
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// SignUpPage
 export default SignUpPage;

@@ -344,5 +344,11 @@ const createImage = ({id, type, initialState, updateItem, deleteItem, cloneCompo
     />
 );
 
-// Default export createImage
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createImage
 export default createImage;

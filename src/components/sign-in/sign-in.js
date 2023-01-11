@@ -506,7 +506,13 @@ export const mapDispatch = (dispatch) => ({
     }
 });
 
-// Default export the connected mapState and DashboardPage
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// the connected mapState and DashboardPage
 export default connect(
     null,
     mapDispatch

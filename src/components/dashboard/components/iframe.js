@@ -76,5 +76,11 @@ const createIframe = ({id, type, initialState}) => (
     />
 );
 
-// Default export createIframe
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createIframe
 export default createIframe;

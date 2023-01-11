@@ -210,5 +210,11 @@ const createRest = ({id, type, initialState}) => (
     />
 );
 
-// Default export createRest
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createRest
 export default createRest;

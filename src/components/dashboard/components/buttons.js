@@ -436,5 +436,11 @@ const createButtons = ({id, type, initialState, user, owner}) => (
     />
 );
 
-// Default export createButtons
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createButtons
 export default createButtons;

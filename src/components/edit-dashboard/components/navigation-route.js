@@ -764,5 +764,11 @@ const createNavigationRoute = ({id, type, initialState, updateItem, deleteItem, 
     />
 );
 
-// Default export createNavigationRoute
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createNavigationRoute
 export default createNavigationRoute;

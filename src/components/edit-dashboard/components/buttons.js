@@ -916,5 +916,11 @@ const createButtons = ({id, type, initialState, updateItem, deleteItem, cloneCom
     />
 );
 
-// Default export createButtons
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createButtons
 export default createButtons;

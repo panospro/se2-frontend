@@ -77,5 +77,11 @@ TextInput.defaultProps = {
     fill: false
 };
 
-// Default export TextInput
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// TextInput
 export default TextInput;

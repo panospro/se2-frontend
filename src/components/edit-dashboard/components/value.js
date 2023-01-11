@@ -410,5 +410,11 @@ const createValue = ({id, type, initialState, updateItem, deleteItem, cloneCompo
     />
 );
 
-// Default export createValue
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createValue
 export default createValue;

@@ -592,7 +592,13 @@ export class DashboardPage extends React.Component {
 // Export mapState, which is taking the user from the auth in the global state and passing it as a prop to the DashboardPage component
 export const mapState = (state) => ({user: state.auth.user});
 
-// Default export the connected mapState and DashboardPage
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// the connected mapState and DashboardPage
 export default connect(
     mapState
 )(DashboardPage);

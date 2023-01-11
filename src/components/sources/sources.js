@@ -659,7 +659,13 @@ export const mapDispatch = (dispatch) => ({
     }
 });
 
-// Default export the connected mapState and mapDispatch with SourcesPage
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// the connected mapState and mapDispatch with SourcesPage
 export default connect(
     mapState,
     mapDispatch

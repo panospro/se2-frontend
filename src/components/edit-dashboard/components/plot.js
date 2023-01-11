@@ -1110,5 +1110,11 @@ const createPlot = ({id, type, initialState, updateItem, deleteItem, cloneCompon
     />
 );
 
-// Default export createImage
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createImage
 export default createPlot;

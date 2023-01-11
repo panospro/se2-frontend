@@ -37,5 +37,11 @@ export const AppContainer = (props) => {
     );
 };
 
-// Default export of withRouter with AppContainer as argument
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// of withRouter with AppContainer as argument
 export default withRouter(AppContainer);

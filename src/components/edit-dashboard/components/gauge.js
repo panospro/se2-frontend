@@ -652,5 +652,11 @@ const createGauge = ({id, type, initialState, updateItem, deleteItem, cloneCompo
     />
 );
 
-// Default export createGauge
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createGauge
 export default createGauge;

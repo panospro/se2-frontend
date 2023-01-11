@@ -567,5 +567,11 @@ const createAlive = ({id, type, initialState, user, owner}) => (
     />
 );
 
-// Default export createAlive
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createAlive
 export default createAlive;

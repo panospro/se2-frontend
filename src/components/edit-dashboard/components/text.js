@@ -322,5 +322,11 @@ const createText = ({id, type, initialState, updateItem, deleteItem, cloneCompon
     />
 );
 
-// Default export createText
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createText
 export default createText;

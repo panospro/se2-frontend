@@ -108,5 +108,11 @@ const createUrl = ({id, type, initialState}) => (
     />
 );
 
-// Default export createUrl
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createUrl
 export default createUrl;

@@ -414,5 +414,11 @@ const createValue = ({id, type, initialState, user, owner}) => (
     />
 );
 
-// Default export createValue
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createValue
 export default createValue;

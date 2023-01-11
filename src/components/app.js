@@ -28,6 +28,12 @@ const App = ({store, persistor}) => (
     </PersistGate>
 );
 
-// Default export loadPlugins given the App
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// loadPlugins given the App
 export default loadPlugins(App);
 

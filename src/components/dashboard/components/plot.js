@@ -434,5 +434,11 @@ const createPlot = ({id, type, initialState, user, owner}) => (
     />
 );
 
-// Default export createPlot
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createPlot
 export default createPlot;

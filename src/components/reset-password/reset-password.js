@@ -459,7 +459,13 @@ export class ResetPasswordPage extends React.Component {
 }
 
 
-// Default export the connected ResetPasswordPage
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// the connected ResetPasswordPage
 export default connect(
     null,
     null

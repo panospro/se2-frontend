@@ -497,5 +497,11 @@ const createAlive = ({id, type, initialState, updateItem, deleteItem, cloneCompo
     />
 );
 
-// Default export createAlive
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createAlive
 export default createAlive;

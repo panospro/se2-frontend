@@ -1318,5 +1318,11 @@ const createNavigationRoute = ({id, type, initialState, user, owner}) => (
     />
 );
 
-// Default export createNavigationRoute
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createNavigationRoute
 export default createNavigationRoute;

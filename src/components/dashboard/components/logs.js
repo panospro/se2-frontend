@@ -625,5 +625,11 @@ const createLogs = ({id, type, initialState, user, owner}) => (
     />
 );
 
-// Default export createLogs
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createLogs
 export default createLogs;
