@@ -195,7 +195,7 @@ class Buttons extends React.Component {
     }
 
     // Updates the value of a specific of the component. It takes in the state
-    // to update and the new value, and sends a request to update the component with the new
+    // to update and the new value and sends a request to update the component with the new
     // values. The component's id is also included in the update request.
     sendUpdate(key, value) {
         const {id} = this.state;
@@ -393,7 +393,7 @@ class Buttons extends React.Component {
         this.setState({tempBackgroundsHover});
     }
 
-    // Appends new values to the tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, and
+    // Appends new values to the tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds and
     // tempBackgroundsHover states and then calls the confirmPopup function.
     addButton() {
         const {tempTexts, tempSources, tempTopics, tempPayloads, tempIsDynamic, tempColors, tempBackgrounds, tempBackgroundsHover} = this.state;
@@ -441,7 +441,7 @@ class Buttons extends React.Component {
         }, this.confirmPopup);
     }
 
-    // Sets the state such that the main configuration popover is open and the button configuration popover is closed, and sets the buttonSelected to null.
+    // Sets the state such that the main configuration popover is open and the button configuration popover is closed and sets the buttonSelected to null.
     back() {
         this.setState({popoverOpen: true, buttonPopoverOpen: false, buttonSelected: null});
     }

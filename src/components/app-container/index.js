@@ -4,7 +4,7 @@ import {withRouter} from 'react-router';
 import AppHeader from '../app-header';
 import backgroundImage from '../../assets/background.png';
 
-// Style the container element with a specific width, height, and background image etc.
+// Style the container element with a specific width, height and background image etc.
 const AppContainerDiv = styled.div`
     width: 100%;
     height: 100%;

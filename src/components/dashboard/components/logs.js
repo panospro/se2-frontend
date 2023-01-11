@@ -194,7 +194,7 @@ class Logs extends React.Component {
         } catch {}
     }
 
-    // Connects to an MQTT source, subscribes to a specified topic, and processes messages received from
+    // Connects to an MQTT source, subscribes to a specified topic and processes messages received from
     // the topic, closing a spinner after the connection is established.
     connectMqttSource(source) {
         const {topic} = this.state;
@@ -298,7 +298,7 @@ class Logs extends React.Component {
     // timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal, colorKeys,
     // colorValues, filter, filterDrawerOpen, width and height. It then creates an array of filtered
     // logs, filtering for messages that include the filter in the state. Returns a div with styling,
-    // a div for the component name and counter, and a div for the filter menu. Then creates a drawer
+    // a div for the component name and counter and a div for the filter menu. Then creates a drawer
     // for the filter menu and a tooltip for the counter.
     render() {
         const {spinnerOpen, id, name, logs, counter, timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal, colorKeys, colorValues, filter, filterDrawerOpen, width, height} = this.state;

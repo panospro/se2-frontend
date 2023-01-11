@@ -53,7 +53,7 @@ const PublicRoute = ({component: Component, ...rest}) => (
 
 // Create a custom router, that is using a Switch component to render different components depending on the route path and whether the user is authenticated.
 // It takes as argument isAuthenticated, which is a boolean value that indicates whether the user is authenticated. This value is passed down to the different routes,
-// that are being rendered, such as OnlyForGuestRoute, OnlyForAuthenticatedRoute, and PublicRoute. 
+// that are being rendered, such as OnlyForGuestRoute, OnlyForAuthenticatedRoute and PublicRoute. 
 // These routes are responsible for rendering the respective components if the user is either a guest (not authenticated), an authenticated user, or if the route is public.
 // If none of these conditions are met, the Redirect component at the bottom will redirect the user to the root path (/).
 export const CustomRouter = ({isAuthenticated}) => (

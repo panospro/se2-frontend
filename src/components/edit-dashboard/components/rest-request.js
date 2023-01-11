@@ -72,7 +72,7 @@ const formatStatusColor = (status) => {
 
 class RestRequest extends React.Component {
     // The constructor of the class. It defines the props,
-    // state and functions of the component, and binds the functions to the component's context.
+    // state and functions of the component and binds the functions to the component's context.
     // It also sets the initial values for the props and state variables. Finally, it defines which 
     // functions can be called on the component.
     constructor(props) {
@@ -126,7 +126,7 @@ class RestRequest extends React.Component {
     }
 
     // Returns an object containing values that should be added to the component's state based on the new props. 
-    // In this case, the returned object contains the values of the id, name, and url props, with default values used
+    // In this case, the returned object contains the values of the id, name and url props, with default values used
     // if the props are not defined.
     static getDerivedStateFromProps(props) {
         return {
@@ -143,7 +143,7 @@ class RestRequest extends React.Component {
     }
 
     // Appears to take in a key and a value argument and call the updateItem function with the
-    // component's id state variable, the key, and the value as arguments.
+    // component's id state variable, the key and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);

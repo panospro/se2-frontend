@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /*
-* Visits a web address, and types a username and password into the text boxes. 
+* Visits a web address and types a username and password into the text boxes. 
 * It is used to simulate an initial user visit.
 */
 describe('Initial visit', () => {

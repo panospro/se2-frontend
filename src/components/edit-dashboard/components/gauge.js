@@ -146,7 +146,7 @@ class Gauge extends React.Component {
         this.sendUpdate('name', value);
     }
 
-    // Sets the component's state with the values of several state variables, and sets popoverOpen to true.
+    // Sets the component's state with the values of several state variables and sets popoverOpen to true.
     openPopup() {
         const {source, topic, variable, minValue, maxValue, leftColor, rightColor, levels, hideText, unit} = this.state;
         this.setState({

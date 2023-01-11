@@ -19,7 +19,16 @@ const objectPath = require('object-path');
 const mqtt = require('mqtt');
 
 class Value extends React.Component {
-    // The constructor of the class, that initializes type,state and resize etc.
+    // The constructor of the class, used to initialize all the necessary variables.
+    // It sets the 'type', 'id', 'user', 'owner', 'name', 'displayValue',
+    // 'counter', 'source', 'topic', 'variable', 'unit', 'fontSize' and
+    // 'width' and 'height' as properties of the class. It also sets
+    // the 'changeSpinner', 'messageReceived', 'connectStompSource', 
+    // 'connectMqttSource', 'connectToTopic' and 'resize' functions 
+    // as methods of the class. This class is used to create objects with
+    // the necessary properties and methods to connect to a stomp or mqtt
+    // source and to subscribe to a topic. It also includes a function
+    // to resize the object.
     constructor(props) {
         super(props);
 
@@ -52,12 +61,15 @@ class Value extends React.Component {
         this.resize = this.resize.bind(this);
     }
 
-    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
+    // Called immediately after the component is mounted and is 
+    // used to trigger an action or dispatch an event.
     componentDidMount() {
         this.connectToTopic();
     }
 
-     // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
+    // It is called immediately before the component is unmounted
+    // (removed from the DOM) and is used to perform any necessary
+    // cleanup before the component is destroyed.
     componentWillUnmount() {
         if (this.rxStomp !== null) {
             this.rxStomp.deactivate();
@@ -73,7 +85,8 @@ class Value extends React.Component {
         this.setState({spinnerOpen: value});
     }
 
-     // Displays a received message that is expected to contain an image, sending a request for annotations and updating the state to store the image and 
+    // Displays a received message that is expected to contain an image, 
+    // sending a request for annotations and updating the state to store the image and 
     // its dimensions before resizing the image and displaying it in a div element.
     messageReceived(payload) {
         const {variable, id} = this.state;
@@ -116,7 +129,12 @@ class Value extends React.Component {
         } catch {}
     }
 
-    // Connect to stomp source using RxStomp, listen for messages on different topics and handle them accordingly.
+    // Connects to a Stomp source. It uses a login, passcode
+    // and host from the source to create a stompConfig.
+    // It then creates a new RxStomp.RxStomp object and activates it.
+    // It sets an initial receiptId and then subscribes to the topic
+    // from the source. Lastly, it sets various time variables and
+    // watches for a receipt.
     connectStompSource(source) {
         const {name, topic} = this.state;
         try {
@@ -151,7 +169,12 @@ class Value extends React.Component {
         } catch {}
     }
 
-     // Sets up an MQTT client connection and subscribes to various topics to receive messages which it then handles with specific functions.
+    // Connect to a message queue telemetry transport (MQTT) source.
+    // It takes a source object as an argument and sets up a connection
+    // to the source, sets the username and password and subscribes to 
+    // the topic specified in the source state. messageReceived is
+    // called when a message is received and the JSON data is parsed.
+    // Then the time related variables are set to their initial values.
     connectMqttSource(source) {
         const {topic} = this.state;
         try {
@@ -180,7 +203,13 @@ class Value extends React.Component {
         } catch {}
     }
     
-    // Connects to the specified source and subscribes to relevant topics.
+    // Retrieves the user, owner, name and source from the component's
+    // state. If the response is successful, the function checks if
+    // the source type is 'stomp' and calls connectStompSource with
+    // the response source as parameter, or else it calls connectMqttSource 
+    // with the response source as parameter. If the response is not
+    // successful, a ToasterBottom is shown with the response message 
+    // or a default message.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);
@@ -208,7 +237,15 @@ class Value extends React.Component {
         });
     }
 
-    // Render value. The render method returns a JSX element, which will be rendered to the page.
+    // Render value and returns a div containing the component name,
+    // a tag with a chartbar icon and a value with a unit. The div
+    // is styled with a width and height of 100%, a background of white,
+    // padding of 1%, display of flex and flexDirection of column.
+    // A Tooltip is used to show further information about the component
+    // and a ReactResizeDetector is used to detect when the component is
+    // resized. A spinner is also shown when the spinnerOpen state is set
+    // to true. The font size of the value is set to the fontSize state and
+    // the color is set to #16335B.
     render() {
         const {spinnerOpen, id, name, displayValue, counter, unit, fontSize, width, height, timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal} = this.state;
 

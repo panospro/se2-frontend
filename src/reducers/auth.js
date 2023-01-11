@@ -34,7 +34,7 @@ const setUser = reducer('AUTH.SETUSER', (state, {payload}) => ({
 // Assigns a default case to a variable that sets the state to a default value if it is not already set.
 const defaultCase = [T, (state) => state || initialState];
 
-// Creates a persisted reducer using the given key and storage, and the reducer is based on the given conditions.
+// Creates a persisted reducer using the given key and storage and the reducer is based on the given conditions.
 const persistedReducer = persistReducer(
     {key: storageKey, storage},
     cond([set, clear, setUser, defaultCase])

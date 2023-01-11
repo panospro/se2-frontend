@@ -112,7 +112,7 @@ class Alive extends React.Component {
     }
 
     // Update the value of an item in the state and send the update to the server. It takes in two arguments: key, which is the name
-    // of the property being updated, and value, which is the new value for the property.
+    // of the property being updated and value, which is the new value for the property.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
@@ -130,8 +130,8 @@ class Alive extends React.Component {
         this.sendUpdate('name', value);
     }
 
-    // Sets the component's popoverOpen state to true and sets tempSource, tempTopic, and tempTimeout to 
-    // the current values of source, topic, and timeout in the component's state.
+    // Sets the component's popoverOpen state to true and sets tempSource, tempTopic and tempTimeout to 
+    // the current values of source, topic and timeout in the component's state.
     openPopup() {
         const {source, topic, timeout} = this.state;
         this.setState({
@@ -152,7 +152,7 @@ class Alive extends React.Component {
         });
     }
 
-    // Sends an update to the server with the new source, topic, and timeout values and closes the popover
+    // Sends an update to the server with the new source, topic and timeout values and closes the popover
     closeConfirmPopup() {
         const {tempSource, tempTopic, tempTimeout} = this.state;
         this.sendUpdate('source', tempSource);

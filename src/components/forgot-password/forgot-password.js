@@ -124,7 +124,7 @@ const ContactDiv = styled.div`
 
 export class ForgotPasswordPage extends React.Component {
     // The constructor of the class, which sets up the props and state
-    // for the component, and binds the resize and fetchStatistics functions to the object.
+    // for the component and binds the resize and fetchStatistics functions to the object.
     constructor(props) {
         super(props);
 

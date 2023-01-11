@@ -90,7 +90,7 @@ class Url extends React.Component {
     }
 
     // Returns an object containing values that should be added to the component's state based on the new props. 
-    // In this case, the returned object contains the values of the id, name, and url props, with default values used
+    // In this case, the returned object contains the values of the id, name and url props, with default values used
     // if the props are not defined.
     static getDerivedStateFromProps(props) {
         return {
@@ -112,7 +112,7 @@ class Url extends React.Component {
     }
 
     // Appears to take in a key and a value argument and call the updateItem function with the
-    // component's id state variable, the key, and the value as arguments.
+    // component's id state variable, the key and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
