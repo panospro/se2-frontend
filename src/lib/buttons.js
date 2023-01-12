@@ -1,8 +1,15 @@
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+*
+*/ 
 import React from 'react';
 import styled from 'styled-components';
 import {Button, Icon} from '@blueprintjs/core';
 
+// Style OrangeButtonStyle
 const OrangeButtonStyle = styled(Button)`
     color: white;
     background: #FF9D66!important;
@@ -20,6 +27,7 @@ const OrangeButtonStyle = styled(Button)`
     }
 `;
 
+// Style OrangeBorderButtonStyle
 const OrangeBorderButtonStyle = styled(Button)`
     color: white;
     background: #FF9D66!important;
@@ -37,6 +45,7 @@ const OrangeBorderButtonStyle = styled(Button)`
     }
 `;
 
+// Style CustomButtonStyle
 const CustomButtonStyle = styled(Button)`
     color: ${(props) => props.color || 'white'};
     background: ${(props) => props.background || '#FF9D66!important'};
@@ -54,6 +63,7 @@ const CustomButtonStyle = styled(Button)`
     }
 `;
 
+// Style OrangeOnlyBorderButtonStyle
 const OrangeOnlyBorderButtonStyle = styled(Button)`
     color: #FF9D66!important;
     background: none!important;
@@ -73,6 +83,7 @@ const OrangeOnlyBorderButtonStyle = styled(Button)`
     }
 `;
 
+// Style RedButtonStyle
 const RedButtonStyle = styled(Button)`
     color: white;
     background: #DE162F!important;
@@ -90,6 +101,7 @@ const RedButtonStyle = styled(Button)`
     }
 `;
 
+// Style RedBorderButtonStyle
 const RedBorderButtonStyle = styled(Button)`
     color: #DE162F!important;
     background: none!important;
@@ -109,6 +121,7 @@ const RedBorderButtonStyle = styled(Button)`
     }
 `;
 
+// Style GreenButtonStyle
 const GreenButtonStyle = styled(Button)`
     color: white;
     background: #7ABF43!important;
@@ -126,6 +139,7 @@ const GreenButtonStyle = styled(Button)`
     }
 `;
 
+// Style BlueButtonStyle
 const BlueButtonStyle = styled(Button)`
     color: white;
     background: #16335B!important;
@@ -143,6 +157,7 @@ const BlueButtonStyle = styled(Button)`
     }
 `;
 
+// Style BlueBorderButtonStyle
 const BlueBorderButtonStyle = styled(Button)`
     color: #16335B!important;
     background: white!important;
@@ -160,6 +175,7 @@ const BlueBorderButtonStyle = styled(Button)`
     }
 `;
 
+// Style CollapseButtonStyle
 const CollapseButtonStyle = styled(Button)`
     color: white;
     background: none!important;
@@ -177,6 +193,10 @@ const CollapseButtonStyle = styled(Button)`
     }
 `;
 
+// Exports an orange button. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders OrangeButtonStyle with passed props
+// and inline styles and other properties of the button. 
 export const OrangeButton = ({
     children,
     type,
@@ -208,6 +228,10 @@ export const OrangeButton = ({
     </OrangeButtonStyle>
 );
 
+// Exports a collapse button. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders CollapseButtonStyle with passed props
+// and inline styles and other properties of the button.
 export const CollapseButton = ({
     id,
     children,
@@ -250,6 +274,10 @@ export const CollapseButton = ({
     );
 };
 
+// Exports a button with a green border. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon. 
+// Returns a JSX that renders OrangeBorderButtonStyle with passed props
+// and inline styles and other properties of the button.
 export const OrangeBorderButton = ({
     children,
     type,
@@ -281,6 +309,10 @@ export const OrangeBorderButton = ({
     </OrangeBorderButtonStyle>
 );
 
+// Exports a custom button. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders CustomButtonStyle with passed props 
+// and inline styles and other properties of the button.
 export const CustomButton = ({
     children,
     type,
@@ -318,6 +350,10 @@ export const CustomButton = ({
     </CustomButtonStyle>
 );
 
+// Exports a button with only a orange border. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders OrangeOnlyBorderButtonStyle with
+// passed props and inline styles and other properties of the button.
 export const OrangeOnlyBorderButton = ({
     children,
     type,
@@ -349,6 +385,10 @@ export const OrangeOnlyBorderButton = ({
     </OrangeOnlyBorderButtonStyle>
 );
 
+// Exports a red button. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders RedButtonStyle with passed props
+// and inline styles and other properties of the button.
 export const RedButton = ({
     children,
     type,
@@ -378,6 +418,10 @@ export const RedButton = ({
     </RedButtonStyle>
 );
 
+// Exports a button with a red border button. It receives several props as arguments such as
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders RedBorderButtonStyle with
+// passed props and inline styles and other properties of the button.
 export const RedBorderButton = ({
     children,
     type,
@@ -407,6 +451,10 @@ export const RedBorderButton = ({
     </RedBorderButtonStyle>
 );
 
+// Exports a green button. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders GreenButtonStyle with passed props and
+// inline styles and other properties of the button.
 export const GreenButton = ({
     children,
     type,
@@ -436,6 +484,10 @@ export const GreenButton = ({
     </GreenButtonStyle>
 );
 
+// Exports a blue button. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders BlueButtonStyle with passed props and
+// inline styles and other properties of the button.
 export const BlueButton = ({
     children,
     type,
@@ -465,6 +517,10 @@ export const BlueButton = ({
     </BlueButtonStyle>
 );
 
+// Exports a button with a blue border. It receives several props as arguments such as 
+// children, type, disabled, loading, form, width, heigth, onClick and rightIcon.
+// Returns a JSX that renders BlueBorderButtonStyle with passed props and
+// inline styles and other properties of the button.
 export const BlueBorderButton = ({
     children,
     type,

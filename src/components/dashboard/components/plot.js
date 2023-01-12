@@ -1,5 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {
     EditableText, Spinner, Tag
@@ -18,6 +26,10 @@ import '../../../../node_modules/react-vis/dist/style.css';
 const objectPath = require('object-path');
 const mqtt = require('mqtt');
 
+// Takes a date as a string or number and returns it as a string in the
+// format "hh:mm:ss". It converts the input into a Date object, retrieves 
+// the hour, minute and second values and pads single-digit values with
+// a leading zero before returning the formatted string.
 const formatDate = (dateM) => {
     const date = new Date(dateM);
     const hours = ((String(date.getHours())).length === 1) ? `0${String(date.getHours())}` : String(date.getHours());
@@ -27,6 +39,11 @@ const formatDate = (dateM) => {
 };
 
 class Plot extends React.Component {
+    // It initializes the component with properties from the props 
+    // object passed to it and sets the initial state of the component 
+    // using an object that includes several class properties. Ιt also
+    // binds the values of several class methods to the current instance 
+    // of the component.
     constructor(props) {
         super(props);
 
@@ -96,10 +113,15 @@ class Plot extends React.Component {
         this.resize = this.resize.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used
+    // to trigger an action or dispatch an event.
     componentDidMount() {
         this.connectToTopic();
     }
 
+    // It is called immediately before the component is unmounted
+    // (removed from the DOM) and is used to perform any necessary
+    // cleanup before the component is destroyed.
     componentWillUnmount() {
         if (this.rxStomp !== null) {
             this.rxStomp.deactivate();
@@ -109,10 +131,16 @@ class Plot extends React.Component {
         }
     }
 
+    // Changes the value of the spinnerOpen state to the
+    // given value. It is used to open or close the spinner. 
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
+    // Displays a received message that is expected to contain 
+    // an image, sending a request for annotations and updating 
+    // the state to store the image and its dimensions before resizing
+    // the image and displaying it in a div element.
     messageReceived(payload, ind) {
         const {variables, maxValues} = this.state;
         try {
@@ -127,6 +155,8 @@ class Plot extends React.Component {
         } catch {}
     }
 
+    // Connect to stomp source using RxStomp, listen for messages 
+    // on different topics and handle them accordingly.
     connectStompSource(source) {
         const {name, topics} = this.state;
         try {
@@ -158,6 +188,8 @@ class Plot extends React.Component {
         } catch {}
     }
 
+    // Sets up an MQTT client connection and subscribes to various 
+    // topics to receive messages which it then handles with specific functions.
     connectMqttSource(source) {
         const {topics} = this.state;
         try {
@@ -187,6 +219,7 @@ class Plot extends React.Component {
         } catch {}
     }
 
+    // Connects to the specified source and subscribes to relevant topics.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);
@@ -204,10 +237,21 @@ class Plot extends React.Component {
         }
     }
 
+    // Resize the state
     resize(width, height) {
         this.setState({width, height});
     }
 
+    // Renders plot as a graphical component containing a xy-plot with line
+    // and bar series. It also contains a name, a tag with a counter,
+    // a legend, x and y axes and a Highlight. It also listens to the
+    // resize event and also stores the location of the last draw in 
+    // the state. The legend and the plots are iterated over the names,
+    // types, colors and smooths arrays and stored in the legendItems and 
+    // plots variables respectively. The xTickValues are stored in xTickValues 
+    // array with the values sorted in ascending order. The compoent also
+    // contains styling for the name, tag and the legend. The render
+    // function returns the graphical with all the elements mentioned above.
     render() {
         const {spinnerOpen, id, name, values, counter, verticalGrid, horizontalGrid, xAxis, yAxis, legend, legendPosition, names, types, colors, smooths, width, height, lastDrawLocation} = this.state;
 
@@ -381,6 +425,9 @@ class Plot extends React.Component {
     }
 }
 
+// Returns a JSX element representing an instance of a component. 
+// The function takes an object as an argument and uses the properties 
+// of the object as props for the returned component.
 const createPlot = ({id, type, initialState, user, owner}) => (
     <Plot
         id={id}
@@ -391,4 +438,11 @@ const createPlot = ({id, type, initialState, user, owner}) => (
     />
 );
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createPlot
 export default createPlot;

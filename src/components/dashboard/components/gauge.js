@@ -1,4 +1,12 @@
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {
     EditableText, Tag, Spinner, Tooltip, ProgressBar, Text
@@ -17,6 +25,11 @@ const objectPath = require('object-path');
 const mqtt = require('mqtt');
 
 class Gauge extends React.Component {
+    // The constructor, initializes takes props as an argument and passes it to the parent class's constructor function through the super function.
+    // Then, it is binding the component's instance to several functions, such as changeSpinner, messageReceived, connectStompSource, connectMqttSource, connectToTopic and resize.
+    // This is done so that these functions can be called with the correct this value when they are used within the component. Then it is setting several instances,
+    // such as interval, rxStomp and mqttClient. These properties are not part of the component's state, but are used to store data that needs to be shared
+    // between different methods of the component.
     constructor(props) {
         super(props);
 
@@ -55,10 +68,14 @@ class Gauge extends React.Component {
         this.resize = this.resize.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.connectToTopic();
     }
 
+    // Checking if the rxStomp and mqttClient properties are not null and if they are not, it is calling the deactivate method on rxStomp and the end method on mqttClient.
+    // These methods close the connections that were established when the component was mounted. It is important to clean up resources when a component
+    // is unmounted to prevent memory leaks and improve the performance of your application.
     componentWillUnmount() {
         if (this.rxStomp !== null) {
             this.rxStomp.deactivate();
@@ -68,10 +85,15 @@ class Gauge extends React.Component {
         }
     }
 
+    // Changes the value of the spinnerOpen state to the
+    // given value. It is used to open or close the spinner. 
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
+    // Called when the component receives a message. It updates several properties in the component's state based on the time span between the current time and the time
+    // of the previous message, as well as the minimum, maximum and mean time spans between messages. It also increments a counter for the number of messages received.
+    // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     messageReceived(payload) {
         const {variable, minValue, maxValue} = this.state;
         try {
@@ -111,6 +133,10 @@ class Gauge extends React.Component {
         } catch {}
     }
 
+    // Establish a connection to a STOMP message broker. It takes a single source argument, which is an object containing information about the STOMP message broker, such as the URL,
+    // login credentials and virtual host. Then create a new RxStomp object and activate the connection. It also sets up a subscription to a topic on the message broker and sets
+    // up a receipt handler to be triggered when the initial receipt is received from the message broker. When this happens, the function disables the loading spinner.
+    // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectStompSource(source) {
         const {name, topic} = this.state;
         try {
@@ -145,6 +171,10 @@ class Gauge extends React.Component {
         } catch {}
     }
 
+    // Establish a connection to an MQTT message broker. It takes a single source argument, which is an object containing information about the MQTT message broker, such as the URL 
+    // and login credentials. Then create a configuration object and create a new MQTT client using the mqtt.connect function. It then sets up a subscription to a topic on the message
+    // broker and a connection event handler that disables the loading spinner when the connection is established. It also sets up an event handler for incoming messages that calls
+    // the messageReceived method of the component. If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectMqttSource(source) {
         const {topic} = this.state;
         try {
@@ -173,6 +203,8 @@ class Gauge extends React.Component {
         } catch {}
     }
 
+    // Fetches the source for a given topic from the server and then connects to the source using either the STOMP or MQTT protocol, depending on the type of source. If the connection 
+    //is not successful, it displays an error message using the ToasterBottom component.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);
@@ -190,6 +222,8 @@ class Gauge extends React.Component {
         }
     }
 
+    // Takes in two arguments, width and height. The function sets the state of the component to have a width based
+    // on the given width and height values and also sets originalWidth and height in the state.
     resize(width, height) {
         let newWidth;
         if (width > 2.2225 * height) {
@@ -200,6 +234,10 @@ class Gauge extends React.Component {
         this.setState({width: newWidth, originalWidth: width, height});
     }
 
+    // First it is getting some values from this.state, which is an object that contains several pieces of state for the component. These values are then used in the JSX element that
+    // is returned, which is a div element with several nested elements inside it. Some of these elements, like EditableText and ProgressBar, are custom or external components and 
+    // style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip component, which is a custom or external component that displays additional information
+    // when hovered over. The timeSpanVal, minintVal, meanintVal and maxintVal states are used to control the values of ProgressBar components, which are also custom or external components.
     render() {
         const {spinnerOpen, id, name, gaugeValue, counter, timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal, minValue, maxValue, leftColor, rightColor, levels, hideText, unit, width, originalWidth, height} = this.state;
 
@@ -363,6 +401,7 @@ class Gauge extends React.Component {
     }
 }
 
+// Takes the arguments id, type, initialState, user and owner and pass them to Gauge. The values are determined by the values of the properties in the object passed to createGauge.
 const createGauge = ({id, type, initialState, user, owner}) => (
     <Gauge
         id={id}
@@ -373,4 +412,11 @@ const createGauge = ({id, type, initialState, user, owner}) => (
     />
 );
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createGauge
 export default createGauge;

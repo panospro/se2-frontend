@@ -1,3 +1,10 @@
+/*
+* It imports images used as icons for components, 
+* as well as the functions which create those components. 
+* The images are used to provide a visual representation of 
+* the components on the user interface. The images are imported 
+* from assets/components directory and the functions from ./ directory. 
+*/
 import iframeIcon from '../../../assets/components/iframe.png';
 import iframeHoverIcon from '../../../assets/components/iframeHover.png';
 import gaugeIcon from '../../../assets/components/gauge.png';
@@ -41,6 +48,36 @@ import createUrl from './url';
 import createRest from './rest';
 import createRestRequest from './rest-request';
 
+
+// Object with different types of components:
+// * icon,a string showing the path to an image file that will be used as the icon for the component.
+// * iconHover,a string showing the path to an image file that will be used as the icon for the component when the user hovers their cursor over it.
+// * component,a function that returns a React component.
+// * props,an object containing default properties that will be passed to the React component when it is created.
+// * header,a string containing the name of the component.
+// * text,a string containing a description of the component.
+// * minW,a number showing the minimum width of the component in grid units.
+// * minH,a number showing the minimum height of the component in grid units.
+// * startW,a number showing the starting width of the component in grid units.
+// * startH,a number showing the starting height of the component in grid units.
+// * category,a string showing the category that the component belongs to.
+// * value, allows you to preview a value from a broker topic
+// * alive, allows you to check if a broker topic is alive
+// * navigation Route, allows you to preview a map from a broker topic and navigate the robot on it
+// * json Viewer, allows you to preview a json object from a broker topic
+// * plot Viewer, allows you to preview a value from a broker topic over time
+// * text Box, allows you to preview a text
+// * url Box, allows you to preview a url
+// * image, allows you to preview an image
+// * video, allows you to preview a video
+// * markdown, allows you to preview markdown text
+// * table, allows you to preview a table
+// * graph, allows you to preview a graph
+// * button, allows you to execute an action when clicked
+// * slider, allows you to select a value from a range of values
+// * dropdown, allows you to select a value from a list of options
+// * checkbox, allows you to toggle a boolean value
+// * radio Button, allows you to select a single value from a list of options
 const components = {
     iframe: {
         icon: iframeIcon,
@@ -330,4 +367,11 @@ const components = {
     },
 };
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// components
 export default components;

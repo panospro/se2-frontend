@@ -1,5 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -15,6 +23,9 @@ import {
 } from '../../../lib/buttons';
 import logsPlaceholder from '../../../assets/logsPlaceholder.png';
 
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -27,6 +38,9 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
+/*
+* Style FormSubHeader
+*/
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;
@@ -37,6 +51,9 @@ const FormSubHeader = styled.div`
     color: #16335B;
 `;
 
+/*
+* Style SettingsDiv
+*/
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -45,6 +62,11 @@ const SettingsDiv = styled.div`
 `;
 
 class Logs extends React.Component {
+    // The constructor of the class, it initializes the variables and functions.
+    // It also passes properties to the parent component through the use of props. 
+    // The props include an id, initial state, type, updateItem, deleteItem
+    // and cloneComponent. It also defines variables and methods used to update,
+    // delete and clone the component.
     constructor(props) {
         super(props);
 
@@ -97,6 +119,10 @@ class Logs extends React.Component {
         this.clone = this.clone.bind(this);
     }
 
+    // Returns an object containing values that should be added to the 
+    // component's state based on the new props. 
+    // In this case, the returned object contains the values of the id,
+    //  name and url props, with default values used if the props are not defined.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -111,21 +137,28 @@ class Logs extends React.Component {
         };
     }
 
+    // Appears to take in a key and a value argument and call the 
+    // updateItem function with the component's id state variable, the 
+    // key and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
+    // Sets the deletePopupOpen state variable to false and then calls 
+    // the deleteItem function with the component's id state variable as an argument.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
         this.deleteItem(id);
     }
 
+    // Updates the name
     changeName(value) {
         this.sendUpdate('name', value);
     }
 
+    // Opens the pop up and sets values to popoverOpen and tempUrl 
     openPopup() {
         const {source, topic, variable, maxMessages, colorKeys, colorValues} = this.state;
         this.setState({
@@ -141,6 +174,7 @@ class Logs extends React.Component {
         });
     }
 
+    // Closes the pop up and sets values to popoverOpen and tempUrl 
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -156,6 +190,8 @@ class Logs extends React.Component {
         });
     }
 
+    // Update the url state variable based on the value of the tempUrl 
+    // state variable and set the popoverOpen state variable to false.
     closeConfirmPopup() {
         const {tempSource, tempTopic, tempVariable, tempMaxMessages, tempColorKeys, tempColorValues} = this.state;
         this.sendUpdate('source', tempSource);
@@ -167,32 +203,40 @@ class Logs extends React.Component {
         this.setState({popoverOpen: false, keyValuePopupOpen: false});
     }
 
+    // Sets the deletePopupOpen state variable to true.
     openDelete() {
         this.setState({deletePopupOpen: true});
     }
 
+    // Sets the deletePopupOpen state variable to false.
     closeDelete() {
         this.setState({deletePopupOpen: false});
     }
 
+    // Change the state by setting the value of tempSource to the value
     changeSource(value) {
         this.setState({tempSource: value});
     }
 
+    // Change the state based on user input.
     changeTopic(event) {
         event.stopPropagation();
         this.setState({tempTopic: event.target.value});
     }
 
+    // Change the state variables based on user input.
     changeVariable(event) {
         event.stopPropagation();
         this.setState({tempVariable: event.target.value});
     }
 
+    // Sets the tempMaxMessages in the component's state
     changeMaxMessages(value) {
         this.setState({tempMaxMessages: value});
     }
 
+    // Adds a new key-value pair to the component's state, if both the 
+    // key and value are not empty strings
     addColorKey(key, value) {
         if (key !== '' && value !== '') {
             const {tempColorKeys, tempColorValues} = this.state;
@@ -210,6 +254,7 @@ class Logs extends React.Component {
         }
     }
 
+    // Updates an existing key-value pair at a given index in the component's state
     editColorKey(ind, key, value) {
         const {tempColorKeys, tempColorValues} = this.state;
         tempColorKeys[ind] = key;
@@ -217,6 +262,8 @@ class Logs extends React.Component {
         this.setState({tempColorKeys, tempColorValues});
     }
 
+    // Updates the state with new key and value strings that have not yet 
+    // been added as a key-value pair
     editNewColorKey(key, value) {
         this.setState({
             newColorKey: key,
@@ -224,6 +271,7 @@ class Logs extends React.Component {
         });
     }
 
+    // Removes a key-value pair at a given index from the component's state
     removeColorKey(ind) {
         const {tempColorKeys, tempColorValues} = this.state;
         tempColorKeys.splice(ind, 1);
@@ -231,20 +279,34 @@ class Logs extends React.Component {
         this.setState({tempColorKeys, tempColorValues});
     }
 
+    // Sets the keyValuePopupOpen of the component's state to true and 
+    // the popoverOpen to false
     openKeyValuePairs() {
         this.setState({popoverOpen: false, keyValuePopupOpen: true});
     }
 
+    // Sets the popoverOpen of the component's state to true and the 
+    // keyValuePopupOpen to false
     back() {
         this.setState({popoverOpen: true, keyValuePopupOpen: false});
     }
 
+    // Close a "popup" and call the cloneComponent function with the value 
+    // of the id state variable as an argument.
     clone() {
         const {id} = this.state;
         this.closePopup();
         this.cloneComponent(id);
     }
 
+    // Render the logs. First by getting some values from this.state, 
+    // which is an object that contains several pieces of state for the component.
+    //  These values are then used in the JSX element that is returned, 
+    // which is a div element with several nested elements inside it. Some of 
+    // these elements are custom or external components and style it. 
+    // The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
+    // component, which is a custom or external component that displays 
+    // additional information when hovered over. 
     render() {
         const {id, availableSources, name, popoverOpen, deletePopupOpen, keyValuePopupOpen, tempSource, tempTopic, tempVariable, tempMaxMessages, tempColorKeys, tempColorValues, newColorKey, newColorValue} = this.state;
 
@@ -556,6 +618,8 @@ class Logs extends React.Component {
     }
 }
 
+// Takes the arguments id, type, initialState etc and pass them to Logs. The values are determined by the values 
+// of the properties in the object passed to createLogs.
 const createLogs = ({id, type, initialState, updateItem, deleteItem, cloneComponent, sources}) => (
     <Logs
         id={id}
@@ -568,4 +632,11 @@ const createLogs = ({id, type, initialState, updateItem, deleteItem, cloneCompon
     />
 );
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createLogs
 export default createLogs;

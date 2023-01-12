@@ -1,3 +1,10 @@
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -18,6 +25,7 @@ import contactHoverIcon from '../../assets/contactHover.png';
 import bugIcon from '../../assets/bug.png';
 import bugHoverIcon from '../../assets/bugHover.png';
 
+// Style StyledBox
 const StyledBox = styled(Box)`
     height: 100%;
     width: 100%;
@@ -28,6 +36,7 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
+// Style StyledArea
 const StyledArea = styled(Box)`
     height: 100%;
     width: 750px;
@@ -41,6 +50,7 @@ const StyledArea = styled(Box)`
     margin: auto!important;
 `;
 
+// Style StyledHeader
 const StyledHeader = styled.h2`
     text-align: center;
     color: white;
@@ -50,6 +60,7 @@ const StyledHeader = styled.h2`
     letter-spacing: 5px;
 `;
 
+// Style StyledSubHeader
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: center;
@@ -61,6 +72,7 @@ const StyledSubHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
+// Style ButtonsArea
 const ButtonsArea = styled.div`
     width: 100%;
     display: flex;
@@ -69,6 +81,7 @@ const ButtonsArea = styled.div`
     margin-top: 20px;
 `;
 
+// Style StyledIcon
 const StyledIcon = styled.img`
     width: 100px;
     height: 100px;
@@ -76,6 +89,7 @@ const StyledIcon = styled.img`
     flex-direction: column;
 `;
 
+// Style StyledText
 const StyledText = styled.div`
     color: white;
     text-align: center;
@@ -83,6 +97,7 @@ const StyledText = styled.div`
     font-size: 22px;
 `;
 
+// Style MenuButton
 const MenuButton = styled(Button)`
     border: 2px solid transparent;
     :hover {
@@ -96,6 +111,7 @@ const MenuButton = styled(Button)`
     }
 `;
 
+// Style ContactDiv
 const ContactDiv = styled.div`
     width: 30px; 
     height: 30px; 
@@ -111,6 +127,7 @@ const ContactDiv = styled.div`
     }
 `;
 
+// Style BugDiv
 const BugDiv = styled.div`
     width: 30px; 
     height: 30px; 
@@ -127,6 +144,7 @@ const BugDiv = styled.div`
 `;
 
 // eslint-disable-next-line no-unused-vars
+// Create the button with text
 const ButtonWithText = ({text, iconWhite, iconOrange, handler}) => (
     <MenuButton 
         minimal 
@@ -143,6 +161,7 @@ const ButtonWithText = ({text, iconWhite, iconOrange, handler}) => (
 );
 
 export class HomePage extends React.Component {
+    // It sets the initial type, state, updateItem etc.
     constructor(props) {
         super(props);
 
@@ -152,6 +171,7 @@ export class HomePage extends React.Component {
         this.pushHistory = props.history.push;
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         if (jwt_decode(this.token).exp < Date.now() / 1000) {
             this.clearAuth();
@@ -162,6 +182,7 @@ export class HomePage extends React.Component {
         }
     }
 
+    // Render the home page
     render() {
         const buttons = [
             {text: 'My Sources', handler: () => this.pushHistory('/sources'), iconWhite: sourcesWhiteIcon, iconOrange: sourcesOrangeIcon},
@@ -213,14 +234,24 @@ export class HomePage extends React.Component {
     }
 }
 
+// Export mapState, which is taking the user from the auth in the global state and passing it as a prop to the DashboardPage component
 export const mapState = (state) => ({user: state.auth.user, token: state.auth.token});
 
+// Maps clearAuth dispatch, so it can be used to clear the authentication
+// state in the store. 
 export const mapDispatch = (dispatch) => ({
     clearAuth: () => {
         dispatch(actions.auth.clear());
     }
 });
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// the connected mapState and DashboardPage
 export default connect(
     mapState,
     mapDispatch

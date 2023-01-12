@@ -1,5 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -14,6 +22,9 @@ import {PortalOverflowOverlay} from '../../../lib/overlays';
 
 const mqtt = require('mqtt');
 
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -25,6 +36,9 @@ const FormHeader = styled.div`
     color: #16335B;
 `;
 
+/*
+* Style FormSubHeader
+*/
 const FormSubHeader = styled.div`
     width: 100%;
     display: flex;
@@ -35,6 +49,9 @@ const FormSubHeader = styled.div`
     color: #16335B;
 `;
 
+/*
+* Style SettingsDiv
+*/
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -42,6 +59,8 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
+// Takes a string as an argument and returns a boolean. The function attempts to parse the input string as JSON and returns true if the parsing is successful. If an error is thrown while
+// parsing, the function returns false.
 const isValidJson = (input) => {
     try {
         JSON.parse(input);
@@ -52,6 +71,9 @@ const isValidJson = (input) => {
 };
 
 class Buttons extends React.Component {
+    // The component's props are destructured and used to initialize the component's state. 
+    // The component's state is initialized with several, some of which are destructured from the props.initialState object and others of which have default values.
+    // The component also has several class (this.rxStomps, this.mqttClients, etc.) that are initialized with empty arrays.
     constructor(props) {
         super(props);
 
@@ -123,14 +145,20 @@ class Buttons extends React.Component {
         this.editPayload = this.editPayload.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.connectToTopics();
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         this.disconnectFromTopics();
     }
 
+    // Used to connect to a STOMP broker using the RxStomp.RxStomp library, which is a library for interacting with STOMP brokers using the reactive programming paradigm.
+    // The method takes a source object and an index ind as arguments and uses them to configure the connection to the STOMP broker. The method instantiates an RxStomp.RxStomp object,
+    // calls the configure method on it with a configuration object and then calls the activate method to establish the connection to the broker.
+    // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectStompSource(source, ind) {
         try {
             const stompConfig = {
@@ -151,6 +179,9 @@ class Buttons extends React.Component {
         } catch {}
     }
 
+    // Takes source and ind as arguments and is used to connect to an MQTT (Message Queuing Telemetry Transport) broker with the provided source object. It uses the mqtt.connect function
+    // to establish the connection to the broker. The source object's login and passcode are destructured and used as the username and password configuration options, respectively. 
+    // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectMqttSource(source, ind) {
         try {
             const config = {
@@ -162,6 +193,10 @@ class Buttons extends React.Component {
         } catch {}
     }
 
+    // It is an async function that retrieves sources based on the owner, user and name in the component's state and then uses those sources to connect to brokers using
+    // the connectStompSource and connectMqttSource. The function findSource is called with the source, owner and user as arguments and returns a promise that resolves with
+    // a response object. If the response.success is true, the method checks the type of the source in the response (either 'stomp' or 'mqtt') and calls the appropriate connection method
+    // with the source object and the index ind as arguments. If the response is not successful, a message is displayed using the ToasterBottom.show method.
     async connectToTopics() {
         const {user, owner, name, sources} = this.state;
         sources.forEach((source, ind) => {
@@ -182,6 +217,8 @@ class Buttons extends React.Component {
         });
     }
 
+    // Used to disconnect from topics in a messaging system. It does this by deactivating all "rxStomp" objects and ending all "mqttClient" objects.
+    // The purpose of this function is to cleanly disconnect from the messaging system and close any open connections.
     disconnectFromTopics() {
         this.rxStomps.forEach((rxStomp) => {
             if (rxStomp !== null) {
@@ -195,6 +232,9 @@ class Buttons extends React.Component {
         });
     }
 
+    // Used to publish a message to a topic in a messaging system. The topic and message payload are determined by the current state of the component, specifically the "topics" and "payloads"
+    // arrays and "buttonSelected". It attempts to publish the message using either an "rxStomp" object or an "mqttClient" object, depending on which is available.
+    // The counter state is incremented and the "buttonSelected" is reset after the message is sent.
     sendMessage() {
         const {counter, topics, payloads, buttonSelected} = this.state;
         try {
@@ -207,6 +247,9 @@ class Buttons extends React.Component {
         } catch {}
     }
 
+    // Used to either open a popup or send a message, depending on the value of the "isDynamic"  in the component's state. If "isDynamic" is true for the specified index,
+    // the function opens a popup and stores the index and the current value of the "payloads" array in the component's state.
+    // If "isDynamic" is false, the function stores the index in the component's state and calls the sendMessage() function to publish a message.
     openButtonPopup(ind) {
         const {payloads, isDynamic} = this.state;
         if (isDynamic[ind]) {
@@ -216,10 +259,15 @@ class Buttons extends React.Component {
         }
     }
 
+    // Used to close a popup and reset the "buttonSelected"  in the component's state.
     closeButtonPopup() {
         this.setState({buttonPopupOpen: false, buttonSelected: null});
     }
 
+    // Changes the payload of a button in a user interface. Getting the values from state into: payloads, buttonSelected and tempPayload. It then checks if tempPayload is a valid
+    // JSON string. If it is valid, it updates the payloads array by assigning the value of tempPayload to the index specified by buttonSelected. The function then sets the
+    // component's state with the updated payloads array, closes the button popup and resets the tempPayload to an empty string. If tempPayload is not 
+    // a valid JSON string, a message is displayed to the user.
     changeButtonPayload() {
         const {payloads, buttonSelected, tempPayload} = this.state;
         if (isValidJson(tempPayload)) {
@@ -233,10 +281,21 @@ class Buttons extends React.Component {
         }
     }
 
+    // A way for the user to edit the payload of a button by changing the value of the tempPayload state variable to the value of the event.target.value .
     editPayload(event) {
         this.setState({tempPayload: event.target.value});
     }
 
+    // It starts by getting several variables from state. It then returns an array containing a single JSX element, which is a styled div element with several nested children.
+    // These children include another div with a nested EditableText component and a Tag component, a styled div with an id and a class name that changes based on the value of
+    // buttonsAlign in state and several CustomButton components that are mapped over the texts array in state. Each CustomButton also has several style applied
+    // to it that are derived from the corresponding elements in the colors, backgrounds and backgroundsHover arrays in state. When one of these buttons is clicked, the openButtonPopup
+    // function is called with the index of the clicked button as an argument.
+    // Then append two JSX elements to the array returned by the render function. The first element is a PortalOverflowOverlay component that is rendered when the value of buttonPopupOpen 
+    // in state is true. This component has several props applied to it that define its appearance and behavior, such as isOpen, width, height, background, borderRadius, padding, marginLeft
+    // and color. It also has several nested children, including a FormHeader, a FormSubHeader and a SettingsDiv element that contains a TextArea component and two buttons
+    // (a BlueBorderButton and a BlueButton). The TextArea has an onChange prop that is bound to the editPayload function and both buttons have onClick props that are bound
+    // to the closeButtonPopup and changeButtonPayload functions, respectively.
     render() {
         const {id, name, counter, alignText, buttonsAlign, texts, colors, backgrounds, backgroundsHover, buttonPopupOpen, tempPayload} = this.state;
 
@@ -368,6 +427,9 @@ class Buttons extends React.Component {
     }
 }
 
+// Takes an object as an argument with the id, type, initialState, user and owner to customize the appearance or behavior of the button or group of buttons.
+// The function returns a JSX element called Buttons, with the id, type, initialState, user and owner being passed to it. This JSX element Buttons is a component 
+// that represents a UI element in the form of a button or a group of buttons.
 const createButtons = ({id, type, initialState, user, owner}) => (
     <Buttons
         id={id}
@@ -378,4 +440,11 @@ const createButtons = ({id, type, initialState, user, owner}) => (
     />
 );
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createButtons
 export default createButtons;

@@ -1,3 +1,9 @@
+/*
+* Setting up configuration parameters for a test suite.
+* It sets up viewport size, timeouts, environment variables
+* and other test-specific parameters. It also allows for the disabling
+* of Chrome web security and the ability to take screenshots on test failure.
+*/
 require('dotenv').config();
 
 const config = {

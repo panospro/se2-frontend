@@ -1,5 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+*
+*/ 
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -28,6 +34,7 @@ import {
 } from '../../lib/buttons';
 import dashboardIcon from '../../assets/dashboardBlue.png';
 
+// Style StyledBox
 const StyledBox = styled(Box)`
     height: 100%;
     width: 100%;
@@ -37,6 +44,7 @@ const StyledBox = styled(Box)`
     overflow: auto;
 `;
 
+// Style StyledArea
 const StyledArea = styled(Box)`
     width: 750px;
     min-height: 500px;
@@ -49,6 +57,7 @@ const StyledArea = styled(Box)`
     margin: auto!important;
 `;
 
+// Style StyledHeader
 const StyledHeader = styled.h2`
     text-align: center;
     color: white;
@@ -58,6 +67,7 @@ const StyledHeader = styled.h2`
     letter-spacing: 5px;
 `;
 
+// Style StyledSubHeader
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: center;
@@ -69,6 +79,7 @@ const StyledSubHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
+// Style DashboardsArea
 const DashboardsArea = styled.div`
     width: 100%;
     grid-template-columns: repeat(auto-fill, 150px);
@@ -77,6 +88,7 @@ const DashboardsArea = styled.div`
     flex-wrap: wrap;
 `;
 
+// Style NewButton
 const NewButton = styled(Button)`
     border: 2px solid transparent;
     :hover {
@@ -89,6 +101,7 @@ const NewButton = styled(Button)`
     }
 `;
 
+// Style StyledIcon
 const StyledIcon = styled.img.attrs((props) => ({src: props.icon}))`
     width: 60px;
     height: 60px;
@@ -96,6 +109,7 @@ const StyledIcon = styled.img.attrs((props) => ({src: props.icon}))`
     flex-direction: column;
 `;
 
+// Style StyledText
 const StyledText = styled(Text)`
     color: white;
     text-align: center;
@@ -103,6 +117,9 @@ const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -114,6 +131,7 @@ const FormHeader = styled.div`
     color: #16335B;
 `;
 
+// Style StyledForm
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -122,6 +140,7 @@ const StyledForm = styled.form`
 `;
 
 export class DashboardsPage extends React.Component {
+    // The constructor of the class that initializes user, token, clearAuth etc.
     constructor(props) {
         super(props);
 
@@ -157,6 +176,7 @@ export class DashboardsPage extends React.Component {
         this.closeClonePopup = this.closeClonePopup.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         if (jwt_decode(this.token).exp < Date.now() / 1000) {
             this.clearAuth();
@@ -169,6 +189,9 @@ export class DashboardsPage extends React.Component {
         }
     }
 
+    // Retrieve the dashboards from the server and updating the component's state with the result. It displays a spinner
+    // while the request is being made and displays a toast message if there is an error. If the request is successful,
+    // it updates the component's state with the retrieved dashboards.
     async fetchDashboards() {
         this.changeSpinner(true);
         const response = await getDashboards();
@@ -184,10 +207,13 @@ export class DashboardsPage extends React.Component {
         this.changeSpinner(false);
     }
 
+    // Changes the value of the spinnerOpen state to the
+    // given value. It is used to open or close the spinner. 
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
+    // Create a new dashboard and set the state's forminfo to the name of the one given ad formpopup to true so it pops up.
     newDashboard() {
         this.setState({
             formInfo: {name: ''},
@@ -195,6 +221,7 @@ export class DashboardsPage extends React.Component {
         });
     }
 
+    // Closes the popup form
     closeFormPopup() {
         this.setState({
             formInfo: {name: ''},
@@ -202,6 +229,10 @@ export class DashboardsPage extends React.Component {
         });
     }
 
+
+    // Sends a request to create a new dashboard with the specified formInfo. If the request is successful, a success message is displayed 
+    // and the form pop-up is closed. The fetchDashboards function is then called to update the list of dashboards. If the request is unsuccessful,
+    // an error message is displayed.
     async saveFormPopup(formInfo) {
         this.changeSpinner(true);
         const response = await createDashboard(formInfo);
@@ -224,6 +255,8 @@ export class DashboardsPage extends React.Component {
         this.changeSpinner(false);
     }
 
+    // Opens a popup to prompt the user to enter a name for a cloned dashboard. It also saves the name and ID of the dashboard to be 
+    // cloned in the component's state.
     openClonePopup(event, ind) {
         event.stopPropagation();
         const {dashboards} = this.state;
@@ -232,6 +265,8 @@ export class DashboardsPage extends React.Component {
         this.setState({cloneNamePopupOpen: true});
     }
 
+    // Opens a deleted popup to prompt the user to enter a name for a cloned dashboard. It also saves the name and ID of the dashboard to be 
+    // cloned in the component's state.
     openDeletePopup(event, ind) {
         event.stopPropagation();
         const {dashboards} = this.state;
@@ -240,12 +275,17 @@ export class DashboardsPage extends React.Component {
         this.setState({deleteDashboardPopupOpen: true});
     }
 
+    // Closes the deleted a popup to prompt the user to enter a name for a cloned dashboard. It also saves the name and ID of the dashboard to be 
+    // cloned in the component's state.
     closeDeletePopup() {
         this.deleteDashboardId = null;
         this.deleteDashboardName = '';
         this.setState({deleteDashboardPopupOpen: false});
     }
 
+    // Sends a request to delete a dashboard with a given ID and displays a success or error message based on the response. 
+    // If the request is successful, it fetches a list of dashboards and closes the delete dashboard popup. If the request is unsuccessful, 
+    // it displays an error message and leaves the delete dashboard popup open
     async removeDashboard() {
         const response = await deleteDashboard(this.deleteDashboardId);
         if (response.success) {
@@ -263,12 +303,18 @@ export class DashboardsPage extends React.Component {
         this.closeDeletePopup();
     }
 
+    // Navigate to the edit page for the dashboard at index "ind" in the "dashboards" array. It does so by using the "pushHistory" function 
+    // from the "history" prop to update the URL to include the ID of the dashboard being edited. The event is stopped from propagating to prevent
+    // any other click events from being triggered.
     openEditDashboard(event, ind) {
         const {dashboards} = this.state;
         event.stopPropagation();
         this.pushHistory(`/dashboards/edit/${dashboards[ind].id}`);
     }
 
+    // Fetching a list of dashboards from a server, creating a new dashboard, deleting a dashboard, cloning a dashboard and navigating to the edit page 
+    // for a dashboard. Some of the functions also handle displaying and hiding popups and displaying Toast messages in response to the results of the
+    // actions they perform.
     async saveCloneDashboard(values) {
         this.changeSpinner(true);
         const response = await cloneDashboard(this.cloneId, values.name);
@@ -288,12 +334,14 @@ export class DashboardsPage extends React.Component {
         this.changeSpinner(false);
     }
 
+    // Closes the pop up clone
     closeClonePopup() {
         this.cloneName = '';
         this.cloneId = '';
         this.setState({cloneNamePopupOpen: false});
     }
 
+    // Render dasboards. The render method returns a JSX element, which will be rendered to the page.
     render() {    
         const {spinnerOpen, dashboards, formInfo, formPopupOpen, deleteDashboardPopupOpen, cloneNamePopupOpen} = this.state;
 
@@ -484,14 +532,24 @@ export class DashboardsPage extends React.Component {
     }
 }
 
+// Export mapState, which is taking the user from the auth in the global state and passing it as a prop to the DashboardPage component
 export const mapState = (state) => ({user: state.auth.user, token: state.auth.token});
 
+// Export mapDispatch, takes an argument and returns an object, which is a function that dispatches an "auth.clear" action when called. 
+// This action will clear the auth state in the Redux store.
 export const mapDispatch = (dispatch) => ({
     clearAuth: () => {
         dispatch(actions.auth.clear());
     }
 });
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// the connected mapState, mapDispatch  and DashboardPage
 export default connect(
     mapState,
     mapDispatch

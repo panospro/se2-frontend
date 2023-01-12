@@ -1,5 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -16,6 +24,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PortalOverflowOverlay} from '../../../lib/overlays';
 import {BlueBorderButton, BlueButton} from '../../../lib/buttons';
 
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -28,6 +39,9 @@ const FormHeader = styled.div`
     position: relative;
 `;
 
+/*
+* Style SettingsDiv
+*/
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -36,6 +50,7 @@ const SettingsDiv = styled.div`
 `;
 
 class Json extends React.Component {
+    // It sets the initial type, state, updateItem etc.
     constructor(props) {
         super(props);
 
@@ -88,6 +103,9 @@ class Json extends React.Component {
         this.resize = this.resize.bind(this);
     }
 
+    // Returns an object containing values that should be added to the component's state based on the new props. 
+    // In this case, the returned object contains the values of the id, name and url props, with default values used
+    // if the props are not defined.
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
@@ -99,21 +117,27 @@ class Json extends React.Component {
         };
     }
 
+    // Appears to take in a key and a value argument and call the updateItem function with the
+    // component's id state variable, the key and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
     }
 
+    // Sets the deletePopupOpen state variable to false and then calls the deleteItem function with the component's 
+    // id state variable as an argument.
     delete() {
         const {id} = this.state;
         this.setState({deletePopupOpen: false});
         this.deleteItem(id);
     }
 
+    // Updates the name 
     changeName(value) {
         this.sendUpdate('name', value);
     }
 
+    // Opens the pop up and sets values to popoverOpen and tempUrl 
     openPopup() {
         const {source, topic, variable} = this.state;
         this.setState({
@@ -124,6 +148,7 @@ class Json extends React.Component {
         });
     }
 
+    // Closes the pop up and sets values to popoverOpen and tempUrl 
     closePopup() {
         this.setState({
             popoverOpen: false,
@@ -133,6 +158,7 @@ class Json extends React.Component {
         });
     }
 
+    // Update the url state variable based on the value of the tempUrl state variable and set the popoverOpen state variable to false.
     closeConfirmPopup() {
         const {tempSource, tempTopic, tempVariable} = this.state;
         this.sendUpdate('source', tempSource);
@@ -141,34 +167,41 @@ class Json extends React.Component {
         this.setState({popoverOpen: false});
     }
 
+    // Sets the deletePopupOpen state variable to true.
     openDelete() {
         this.setState({deletePopupOpen: true});
     }
 
+    // Sets the deletePopupOpen state variable to false
     closeDelete() {
         this.setState({deletePopupOpen: false});
     }
 
+    // Change the state by setting the value of tempSource to the value
     changeSource(value) {
         this.setState({tempSource: value});
     }
 
+    // Change the state based on user input.
     changeTopic(event) {
         event.stopPropagation();
         this.setState({tempTopic: event.target.value});
     }
 
+    // Change the state variables based on user input.
     changeVariable(event) {
         event.stopPropagation();
         this.setState({tempVariable: event.target.value});
     }
 
+    // Close a "popup" and call the cloneComponent function with the value of the id state variable as an argument.
     clone() {
         const {id} = this.state;
         this.closePopup();
         this.cloneComponent(id);
     }
 
+    // Resizes the fontSize according to width
     resize(width, height) {
         let fontSize = 14;
         if (width < 300) {
@@ -182,6 +215,10 @@ class Json extends React.Component {
         this.setState({fontSize});
     }
 
+    // Returning a description of what the user interface (UI) of the component should look like. More specifically it returns a div element with some nested elements that
+    // include an EditableText component and an iframe element. The div element has several inline styles applied to it and the iframe element's src attribute is set to the
+    // value of the url  in the component's state, after some formatting is applied to it. The render function is called every time the component's state or props change
+    // and the UI is updated to reflect the current state.
     render() {
         const {id, availableSources, name, popoverOpen, deletePopupOpen, tempSource, tempTopic, tempVariable, fontSize} = this.state;
 
@@ -342,6 +379,8 @@ class Json extends React.Component {
     }
 }
 
+// Takes the arguments id, type and initialState and pass them to Json. The values are determined by the values 
+// of the properties in the object passed to Json.
 const createJson = ({id, type, initialState, updateItem, deleteItem, cloneComponent, sources}) => (
     <Json
         id={id}
@@ -354,4 +393,11 @@ const createJson = ({id, type, initialState, updateItem, deleteItem, cloneCompon
     />
 );
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createJson
 export default createJson;

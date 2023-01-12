@@ -1,4 +1,12 @@
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -17,6 +25,10 @@ import infographicIcon from '../../assets/infographic.png';
 import contactIcon from '../../assets/contact.png';
 import contactHoverIcon from '../../assets/contactHover.png';
 
+/*
+* Sets styling properties such as height, width,
+* border-radius, display, flex-direction and alignment.
+*/
 const StyledBox = styled(Box)`
     height: 100%;
     width: 50%;
@@ -29,6 +41,10 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
+/*
+* Sets text-alignment, color, font size,
+* font-weight and letter-spacing.
+*/
 const StyledHeader = styled.h2`
     text-align: left;
     color: white;
@@ -38,6 +54,10 @@ const StyledHeader = styled.h2`
     letter-spacing: 1px;
 `;
 
+/*
+* Sets width, text-alignment, color, margin, font size, 
+* font-weight and letter-spacing.
+*/
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: left;
@@ -49,6 +69,9 @@ const StyledSubHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
+/*
+* Sets width and flex-direction.
+*/
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -56,21 +79,33 @@ const StyledForm = styled.form`
     align-items: center;
 `;
 
+/*
+* Sets font size to 16px
+*/
 const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
+/*
+* Sets color and text-alignment.
+*/
 const SignUpText = styled(StyledText)`
     color: white;
     text-align: center;
 `;
 
+/*
+* Sets hover text-decoration.
+*/
 const StyledLink = styled.a`
     :hover {
         text-decoration: none;
     }
 `;
 
+/*
+* Sets color and hover color
+*/
 const OrangeLink = styled(StyledLink)`
     color: #FFC4A3;
     :hover {
@@ -78,6 +113,10 @@ const OrangeLink = styled(StyledLink)`
     }
 `;
 
+/*
+* Sets width, border-bottom, border-right and
+* margins.
+*/
 const StyledDivider = styled(Divider)`
     width: 100%;
     border-bottom: 1px solid #7296A7;
@@ -87,6 +126,11 @@ const StyledDivider = styled(Divider)`
     margin-bottom: 10px;
 `;
 
+/*
+* Sets width, height, position and display
+* properties, as well as cursor and active
+* bottom properties.
+*/
 const ContactDiv = styled.div`
     width: 30px; 
     height: 30px; 
@@ -103,6 +147,9 @@ const ContactDiv = styled.div`
 `;
 
 export class ResetPasswordPage extends React.Component {
+    // The constructor of the class, that sets initial values for the state
+    // of the component, such as history push, token and a few other state values.
+    // It also binds the resize and fetchStatistics functions to the component.
     constructor(props) {
         super(props);
 
@@ -131,16 +178,23 @@ export class ResetPasswordPage extends React.Component {
         this.fetchStatistics = this.fetchStatistics.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.fetchStatistics();
         setTimeout(this.resize, 200);
         window.addEventListener('resize', this.resize);
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform
+    // any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         window.removeEventListener('resize', this.resize);
     }
 
+    // Resizes an image within 'infographicDiv'. Retrieves the image
+    // and the div by their ID's and then sets the top, left, width
+    // and height of the image based on the measurements of the div and the image.
+    // Then, sets the state of the object with the calculated measurements.
     resize() {
         const img = document.getElementById('infographics');
         const infoDiv = document.getElementById('infographicDiv');
@@ -152,6 +206,9 @@ export class ResetPasswordPage extends React.Component {
         });
     }
 
+    // Retrieves data from getStatistics(). If the response is successful, 
+    // the data is stored in the state object. If not, an error message is
+    // displayed using ToasterBottom.show().
     async fetchStatistics() {
         const response = await getStatistics();
         if (response.success) {
@@ -169,6 +226,10 @@ export class ResetPasswordPage extends React.Component {
         }
     }
 
+    // Renders a form for changing a password using Formik and TextInput components. Also it renders an
+    // infographic with data from the state, such as users, dashboards, views and sources. Then, 
+    // has some links to sign in on Codin. It is styled using StyledBox, StyledHeader, StyledSubHeader,
+    // OrangeLink, OrangeButton, ContactDiv and SignUpText.
     render() {
         const {users, dashboards, views, sources, top, left, width, height} = this.state;
 
@@ -401,6 +462,14 @@ export class ResetPasswordPage extends React.Component {
     }
 }
 
+
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// the connected ResetPasswordPage
 export default connect(
     null,
     null

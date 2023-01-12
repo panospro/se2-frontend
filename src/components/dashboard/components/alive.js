@@ -1,4 +1,12 @@
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {
     EditableText, Tag, Spinner, Tooltip, ProgressBar, Text
@@ -13,6 +21,10 @@ import {findSource} from '../../../api/sources';
 
 const mqtt = require('mqtt');
 
+// Takes in a date object and returns a formatted string representation of that date. First gets the day, month and year values from the date object and stores them
+// in separate variables. It then gets the hour, minute and second values and stores them in separate variables as well.
+// Then checks the length of each of these values and if the length is 1, it adds a leading zero to the value. For example, if the month is 9, the value will be changed to 09.
+// Finally, the function returns a string that is formatted as "dd/mm/yyyy, hh:mm:ss", using the day, month, year, hour, minute and second values that were extracted from the date object.
 const formatDate = (date) => {
     const day = ((String(date.getDate())).length === 1) ? `0${String(date.getDate())}` : String(date.getDate());
     const month = ((String(date.getMonth() + 1)).length === 1) ? `0${String(date.getMonth() + 1)}` : String(date.getMonth() + 1);
@@ -23,8 +35,13 @@ const formatDate = (date) => {
 
     return (`${day}/${month}/${year}, ${hours}:${minutes}:${seconds}`);
 };
-
+ 
 class Alive extends React.Component {
+    // The constructor, initializes takes props as an argument and passes it to the parent class's constructor function through the super function.
+    // Then, it is binding the component's instance to several functions, such as changeSpinner, messageReceived, connectStompSource, connectMqttSource, connectToTopic and resize.
+    // This is done so that these functions can be called with the correct this value when they are used within the component. Then it is setting several instances,
+    // such as interval, rxStomp and mqttClient. These properties are not part of the component's state, but are used to store data that needs to be shared
+    // between different methods of the component.
     constructor(props) {
         super(props);
 
@@ -67,6 +84,11 @@ class Alive extends React.Component {
         this.resize = this.resize.bind(this);
     }
 
+    // Setting up an interval that runs every 200 milliseconds and within 
+    // this interval, it is updating the component's state based on the value 
+    // of the lastSend and timeout properties.
+    // It is also calling the connectToTopic function. Then the component 
+    // will re-render itself to reflect the changes in the state.
     componentDidMount() {
         this.interval = setInterval(() => {
             const {lastSend, timeout} = this.state;
@@ -91,6 +113,13 @@ class Alive extends React.Component {
         this.connectToTopic();
     }
 
+    // Checking if the rxStomp and mqttClient properties are not null and 
+    // if they are not, it is calling the deactivate method on rxStomp and 
+    // the end method on mqttClient.
+    // These methods close the connections that were established when the 
+    // component was mounted. It is important to clean up resources when a component
+    // is unmounted to prevent memory leaks and improve the performance of 
+    // your application.
     componentWillUnmount() {
         if (this.rxStomp !== null) {
             this.rxStomp.deactivate();
@@ -100,10 +129,15 @@ class Alive extends React.Component {
         }
     }
 
+    // Changes the value of the spinnerOpen state to the
+    // given value. It is used to open or close the spinner. 
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
+    // Called when the component receives a message. It updates several in the component's state based on the time span between the current time and the time
+    // of the previous message, as well as the minimum, maximum and mean time spans between messages. It also increments a counter for the number of messages received.
+    // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     messageReceived() {
         try {
             const {counter} = this.state;
@@ -140,6 +174,16 @@ class Alive extends React.Component {
         } catch {}
     }
 
+    // Establish a connection to a STOMP message broker. It takes a single 
+    // source argument, which is an object containing information about the 
+    // STOMP message broker, such as the URL, login credentials and virtual host. 
+    // Then create a new RxStomp object and activate the connection. It also sets 
+    // up a subscription to a topic on the message broker and sets
+    // up a receipt handler to be triggered when the initial receipt is received 
+    // from the message broker. When this happens, the function disables the loading 
+    // spinner. If there is an error it catches it with an empty catch block 
+    // to catch any errors that might occur and prevent them from crashing the 
+    // application.
     connectStompSource(source) {
         const {name, topic} = this.state;
         try {
@@ -174,6 +218,17 @@ class Alive extends React.Component {
         } catch {}
     }
 
+    // Establish a connection to an MQTT message broker. It takes a single 
+    // source argument, which is an object containing information about the 
+    // MQTT message broker, such as the URL and login credentials. Then 
+    // create a configuration object and create a new MQTT client using 
+    // the mqtt.connect function. It then sets up a subscription to a topic 
+    // on the message broker and a connection event handler that disables 
+    // the loading spinner when the connection is established. It also 
+    // sets up an event handler for incoming messages that calls
+    // the messageReceived method of the component. If there is an error 
+    // it catches it with an empty catch block to catch any errors that 
+    // might occur and prevent them from crashing the application.
     connectMqttSource(source) {
         const {topic} = this.state;
         try {
@@ -202,6 +257,8 @@ class Alive extends React.Component {
         } catch {}
     }
 
+    // Fetches the source for a given topic from the server and then connects to the source using either the STOMP or MQTT protocol, depending on the type of source. If the connection 
+    //is not successful, it displays an error message using the ToasterBottom component.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);
@@ -219,6 +276,9 @@ class Alive extends React.Component {
         }
     }
 
+    // Handling resizing of a UI element, having width and height as arguments, it adjusts font sizes and state properties based on the new width and height values. If the width is
+    // less than 200, it sets the fontSize and fontSize2 state properties to 14 and 13, respectively. If the width is greater than 300, it sets fontSize and fontSize2 to 24 and 16,
+    // respectively. It also sets state properties that determine whether certain UI elements should be displayed, based on the width and height of the element.
     resize(width, height) {
         let fontSize = 16;
         let fontSize2 = 16;
@@ -241,6 +301,17 @@ class Alive extends React.Component {
         });
     }
 
+    // First it is getting some values from this.state, which is an 
+    // object that contains several pieces of state for the component. 
+    // These values are then used in the JSX element that is returned,
+    // which is a div element with several nested elements inside it. 
+    // Some of these elements, like EditableText and ProgressBar, are 
+    // custom or external components and style it. The timeSpan, minint, 
+    // meanint and maxint states are used to render a Tooltip component, 
+    // which is a custom or external component that displays additional information
+    // when hovered over. The timeSpanVal, minintVal, meanintVal and
+    // maxintVal states are used to control the values of ProgressBar, 
+    // which are also custom or external components.
     render() {
         const {spinnerOpen, id, name, lastSend, counter, timeSpan, minint, maxint, meanint, timeSpanVal, minintVal, meanintVal, maxintVal, active, lastSendOpen, activeText, smallIcon, fontSize, fontSize2, width, height, remaining} = this.state;
         return (
@@ -487,6 +558,9 @@ class Alive extends React.Component {
     }
 }
 
+// Takes the arguments id, type, initialState, user and owner and
+// pass them to Alive. The values are determined by the values of the p
+// roperties in the object passed to createAlive.
 const createAlive = ({id, type, initialState, user, owner}) => (
     <Alive
         id={id}
@@ -497,4 +571,11 @@ const createAlive = ({id, type, initialState, user, owner}) => (
     />
 );
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createAlive
 export default createAlive;

@@ -1,6 +1,12 @@
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+
+/*
+*
+* Importing the necessary modules
+*
+*/ 
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -30,6 +36,9 @@ import '../../../node_modules/react-grid-layout/css/styles.css';
 /* eslint-disable import/no-unresolved */
 import '../../../node_modules/react-resizable/css/styles.css';
 
+/*
+* Style FormHeader
+*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -41,6 +50,9 @@ const FormHeader = styled.div`
     color: #16335B;
 `;
 
+/*
+* Style SettingsDiv
+*/
 const SettingsDiv = styled.div`
     width: 100%;
     display: flex;
@@ -48,6 +60,7 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
+// Style StyledBox
 const StyledBox = styled(Box)`
     height: 100%;
     width: 100%;
@@ -58,10 +71,14 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
+// Style StyledButtonIcon
 const StyledButtonIcon = styled.img.attrs((props) => ({src: props.icon}))`
     position: relative;
 `;
 
+// Displays a button with an icon and a tooltip. When the button is clicked, it calls the handler function.
+// The component displays a tooltip with info as its content when hovered over, but only if info is not nuli. 
+// The component also displays an icon specified by the iconWhite prop. 
 const ButtonWithText = ({text, info, iconWhite, handler}) => (
     <Tooltip
         key={`tooltip_${text}`}
@@ -77,6 +94,14 @@ const ButtonWithText = ({text, info, iconWhite, handler}) => (
 );
 
 export class DashboardPage extends React.Component {
+   // The constructor of the class that initializes the variables.
+// It takes in props as an argument and utilizes the props to
+// set up the initial state of the component. It also sets up the type,
+// updateItem, deleteItem and cloneComponent props which are used to update,
+// delete, or clone components. It then sets up the properties of the state,
+// such as the id, available sources, name, source, topic, timeout, popoverOpen,
+// deletePopupOpen, tempSource, tempTopic, tempTimeout, lastSend, activeText,
+// smallIcon, fontSize and fontSize2. 
     constructor(props) {
         super(props);
 
@@ -113,12 +138,15 @@ export class DashboardPage extends React.Component {
         this.copyClipboard = this.copyClipboard.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.checkPassword();
         this.changeMapDimensions();
         window.addEventListener('resize', this.changeMapDimensions);
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used
+    // to perform any necessary cleanup before the component is destroyed.
     componentDidUpdate(__, prevState) {
         const {user} = this.state;
         if (user !== prevState.user) {
@@ -126,18 +154,26 @@ export class DashboardPage extends React.Component {
         }
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform
+    // any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         window.removeEventListener('resize', this.changeMapDimensions);
     }
 
+    // Return the user
     static getDerivedStateFromProps(props) {
         return {user: props.user};
     }
 
+    // Takes value as argument and is called when the component needs to show or hide a loading spinner and the spinnerOpen is used to determine whether the spinner 
+    // should be shown or hidden. When the value of spinnerOpen is true, the spinner is shown and when it is false, the spinner is hidden.
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
+    // Checks if the password is correct. First checks if the response is success then if the owner is self, if they are, then sets state with some parameters, if they are not shares but success
+    // is true, then a message shows up ('You are not allowed to view this dashboard'), if password is incorrect the set state with different parameters, else set passwordPopupOpen to true.
+    // If success is not true, then show a message again ("There was a problem trying to fetch dashboard information")  
     async checkPassword() {
         this.changeSpinner(true);
         const {user} = this.state;
@@ -176,11 +212,15 @@ export class DashboardPage extends React.Component {
         this.changeSpinner(false);
     }
 
+    // Set passwordPopupOpen to false to hide the password
     closePassword() {
         this.setState({passwordPopupOpen: false});
         this.pushHistory('/');
     }
 
+    // Checks if a provided password matches the password for a dashboard. If the password is correct, the method updates the component's state with the 
+    // owner, name, layout and items of the dashboard. If the password is incorrect or the request is unsuccessful, the method displays a toaster notification 
+    //with an error message.
     async confirmPassword() {
         const {tempPassword} = this.state;
         if (tempPassword !== '') {
@@ -211,6 +251,7 @@ export class DashboardPage extends React.Component {
         }
     }
 
+    // Change the state tempPassword to event.target.value
     changePassword(event) {
         this.setState({tempPassword: event.target.value});
     }
@@ -234,19 +275,24 @@ export class DashboardPage extends React.Component {
     //     this.changeSpinner(false);
     // }
 
+    // Changes the map dimensions by setting the value of state to mapwidth, which is the mainmap element id width
     changeMapDimensions() {
         const mapWidth = document.getElementById('mainmap').offsetWidth;
         this.setState({mapWidth});
     }
 
+    // Set shareDashboardPopupOpen to true to open the share pop up
     openSharePopup() {
         this.setState({shareDashboardPopupOpen: true, tempSharePassword: ''});
     }
 
+    // Set shareDashboardPopupOpen to false to close the share pop up
     closeSharePopup() {
         this.setState({shareDashboardPopupOpen: false});
     }
 
+    // Sends a request to a server to update the share information for a dashboard. If the request is successful, the method updates the shared state. 
+    // If the request is unsuccessful, the method displays a toaster notification with an error message
     async shareDashboard() {
         const response = await selectShareDashboard(this.dashboardId);
         if (response.success) {
@@ -259,10 +305,14 @@ export class DashboardPage extends React.Component {
         }
     }
 
+    // Change the shared password 
     changeSharePassword(event) {
         this.setState({tempSharePassword: event.target.value});
     }
-
+    
+    // Sends a request to a server to change the password for a dashboard to a provided password. If the request is successful, the method clears 
+    // the temporary password state and displays a toaster notification with a success message. If the request is unsuccessful, the method displays 
+    // a toaster notification with an error message
     async submitSharePassword() {
         const {tempSharePassword} = this.state;
         if (tempSharePassword !== '') {
@@ -282,6 +332,9 @@ export class DashboardPage extends React.Component {
         }
     }
 
+    // Creates a new textarea element, sets its value to a string containing the current platform's URL appended with the dashboardId of the current object,
+    // appends the textarea to the body of the document, selects the textarea's contents, copies the selected text to the clipboard and removes the textarea 
+    // from the document. It then displays a success message using the ToasterBottom component.
     copyClipboard() {
         const el = document.createElement('textarea');
         el.value = `${process.env.REACT_APP_PLATFORM_URL}/dashboards/${this.dashboardId}`;
@@ -295,6 +348,7 @@ export class DashboardPage extends React.Component {
         });
     }
 
+    // Render dashboard. The render method returns a JSX element, which will be rendered to the page.
     render() {    
         const {user, owner, shared, spinnerOpen, mapWidth, name, currentLayout, items, passwordPopupOpen, tempPassword, shareDashboardPopupOpen, tempSharePassword} = this.state;
 
@@ -537,8 +591,16 @@ export class DashboardPage extends React.Component {
     }
 }
 
+// Export mapState, which is taking the user from the auth in the global state and passing it as a prop to the DashboardPage component
 export const mapState = (state) => ({user: state.auth.user});
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// the connected mapState and DashboardPage
 export default connect(
     mapState
 )(DashboardPage);

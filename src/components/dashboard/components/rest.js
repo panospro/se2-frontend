@@ -1,11 +1,22 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {EditableText} from '@blueprintjs/core';
 /* eslint-disable import/no-unresolved */
 import ReactResizeDetector from 'react-resize-detector';
 import {getRestStatus} from '../../../api/general';
 
+// Returns a string representing a color. Returns a default color if the status is null and it returns a color 
+// based on the first character of the status value if it is a string or number. If the first character of the status 
+// value does not match any of the cases in the switch statement, the function returns the default color. 
 const formatStatusColor = (status) => {
     if (status === null) return '#FF9D66';
     const statusString = status.toString()[0];
@@ -26,6 +37,12 @@ const formatStatusColor = (status) => {
 };
 
 class Rest extends React.Component {
+    // The constructor takes a single argument, props, which is an object containing the properties passed to the component when it
+    // is rendered. First it calls the parent class' constructor using the super function and passes the props object to it.
+    // Then assigns the value of the type  of the props object to a class  called type. It also sets the initial 
+    // state of the component using an object that includes several properties, some of which are taken from the props object and 
+    // some of which have default values. Also binds the value of the resize method to the current instance of the 
+    // component and declares a class  called interval which is set to null.    
     constructor(props) {
         super(props);
 
@@ -48,6 +65,7 @@ class Rest extends React.Component {
         this.resize = this.resize.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         const {interval} = this.state;
         this.interval = setInterval(() => {
@@ -56,11 +74,14 @@ class Rest extends React.Component {
         this.testStatus();
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         clearInterval(this.interval);
         this.interval = null;
     }
 
+    // Makes a REST request and updates the component's state with the status and response of the request. If an error is thrown during the execution of the request, 
+    // the function updates the state of the component with a default error status and response value.
     async testStatus() {
         const {url} = this.state;
         const formattedUrl = (url.startsWith('http://') || url.startsWith('https://')) ? url : `http://${url}`;
@@ -78,6 +99,8 @@ class Rest extends React.Component {
         }
     }
 
+    // Rezise method. If width is less than 200 then fontSize is 16, if more that 300 then 26 and if nothing of these two, then
+    // set them to 18 and activeText to a boolean.
     resize(width, height) {
         let fontSize = 18;
         if (width < 200) {
@@ -93,6 +116,7 @@ class Rest extends React.Component {
         });
     }
 
+    // Render rest. The render method returns a JSX element, which will be rendered to the page.
     render() {
         const {id, name, lastSend, active, activeText, smallIcon, fontSize} = this.state;
 
@@ -180,6 +204,8 @@ class Rest extends React.Component {
     }
 }
 
+// Returns a JSX element representing an instance of a component. The function takes an object as an argument and uses the properties 
+// of the object as props for the returned component.
 const createRest = ({id, type, initialState}) => (
     <Rest
         id={id}
@@ -188,4 +214,11 @@ const createRest = ({id, type, initialState}) => (
     />
 );
 
+/*
+*
+* Default export
+*
+*/
+// The export constant is: 
+// createRest
 export default createRest;

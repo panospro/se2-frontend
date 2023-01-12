@@ -1,5 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable react/no-unescaped-entities */
+
+/*
+*
+* Importing the necessary modules
+* e.g. React, modules from our code,
+* external modules and etc.
+*
+*/ 
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -14,6 +22,10 @@ import infographicIcon from '../../assets/infographic.png';
 import contactIcon from '../../assets/contact.png';
 import contactHoverIcon from '../../assets/contactHover.png';
 
+// Creates a styled box with specific styling. It sets the height and
+// width to 100% and 50% respectively and also sets a border-radius of
+// 20px. It also sets up the positioning and padding of the component, 
+// as well as the flex properties for alignment and direction.
 const StyledBox = styled(Box)`
     height: 100%;
     width: 50%;
@@ -26,6 +38,9 @@ const StyledBox = styled(Box)`
     position: relative;
 `;
 
+// Creates a StyledHeader. The StyledHeader has a font size of 50px, font weight of 300,
+// letter spacing of 2px and a color of white. The text is aligned to the left and has a
+// margin of 0px.
 const StyledHeader = styled.h2`
     text-align: left;
     color: white;
@@ -35,6 +50,9 @@ const StyledHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
+// Creates a styled h2 element, setting the width and text alignment to left, the color to a pale
+// orange and the margin and font size and weight to 0px and 25px and normal, respectively.
+// It also sets a margin-bottom of 20px.
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: left;
@@ -45,6 +63,8 @@ const StyledSubHeader = styled.h2`
     font-weight: normal;
 `;
 
+// Creates a styled form with a width of 100%, displaying the elements in a column. 
+// The elements are aligned to the center.
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -52,15 +72,19 @@ const StyledForm = styled.form`
     align-items: center;
 `;
 
+// Creates a styled text with font-size equal to 16px.
 const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
+// Creates a sign up text with white color and text align
+// being set to center.
 const SignUpText = styled(StyledText)`
     color: white;
     text-align: center;
 `;
 
+// Style StyledDivider
 const StyledDivider = styled(Divider)`
     width: 100%;
     border-bottom: 1px solid #7296A7;
@@ -70,12 +94,14 @@ const StyledDivider = styled(Divider)`
     margin-bottom: 10px;
 `;
 
+// Creates a link with no text decoration when hovered over.
 const StyledLink = styled.a`
     :hover {
         text-decoration: none;
     }
 `;
 
+// Creates a link with a color of #FFC4A3 and a hover color of #ffae80.
 const OrangeLink = styled(StyledLink)`
     color: #FFC4A3;
     :hover {
@@ -83,6 +109,8 @@ const OrangeLink = styled(StyledLink)`
     }
 `;
 
+// Creates a div with a width, height, position and display properties,
+// as well as a :active state that changes the bottom  when clicked.
 const ContactDiv = styled.div`
     width: 30px; 
     height: 30px; 
@@ -99,6 +127,8 @@ const ContactDiv = styled.div`
 `;
 
 export class ForgotPasswordPage extends React.Component {
+    // The constructor of the class, which sets up the props and state
+    // for the component and binds the resize and fetchStatistics functions to the object.
     constructor(props) {
         super(props);
 
@@ -119,16 +149,20 @@ export class ForgotPasswordPage extends React.Component {
         this.fetchStatistics = this.fetchStatistics.bind(this);
     }
 
+    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         this.fetchStatistics();
         setTimeout(this.resize, 200);
         window.addEventListener('resize', this.resize);
     }
 
+    // It is called immediately before the component is unmounted (removed from the DOM) and is used to perform
+    // any necessary cleanup before the component is destroyed.
     componentWillUnmount() {
         window.removeEventListener('resize', this.resize);
     }
 
+    // Resize the image
     resize() {
         const img = document.getElementById('infographics');
         const infoDiv = document.getElementById('infographicDiv');
@@ -140,6 +174,7 @@ export class ForgotPasswordPage extends React.Component {
         });
     }
 
+    // Brings the statistics if success is true else print a message
     async fetchStatistics() {
         const response = await getStatistics();
         if (response.success) {
@@ -157,6 +192,10 @@ export class ForgotPasswordPage extends React.Component {
         }
     }
 
+    // Renders a form for account recovery. The form has an input field for the username and validates it.
+    // Also it has a submit button that triggers a callback function which will use additional arguments
+    // to navigate the user to a different page. It also changes the image and redirects
+    // to a mailto link when ContactDiv is hovered or clicked.
     render() {
         const {users, dashboards, views, sources, top, left, width, height} = this.state;
 
@@ -379,4 +418,8 @@ export class ForgotPasswordPage extends React.Component {
     }
 }
 
+// Εxports the "ForgotPasswordPage" component, making it
+// available to be imported and used in other files.
+// This allows other components to access the functionality 
+// Of the ForgotPasswordPage component.
 export default ForgotPasswordPage;

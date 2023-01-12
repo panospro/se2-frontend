@@ -1,11 +1,18 @@
 /* eslint-disable max-len */
 /* eslint-disable react/react-in-jsx-scope */
+
+/*
+*
+* Importing the necessary modules
+*
+*/ 
 import {
     Classes, Overlay, Spinner
 } from '@blueprintjs/core';
 import styled from 'styled-components';
 import classNames from 'classnames';
 
+// Style WholeScreen
 const WholeScreen = styled.div`
     width: 100%;
     height: 100%;
@@ -16,12 +23,14 @@ const WholeScreen = styled.div`
     flex-direction: column;
 `;
 
+// Style WholeOverflowScreen
 const WholeOverflowScreen = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
 `;
 
+// Style MainBox
 const MainBox = styled.div`
     background: radial-gradient(#313132, #030305);
     padding: 20px;
@@ -30,10 +39,13 @@ const MainBox = styled.div`
     color: white;
 `;
 
+// Stores the names of the class
 const classes = classNames(
     Classes.OVERLAY_SCROLL_CONTAINER
 );
 
+// Exports an overflow overlay. It receives several props as arguments. Returns a JSX that renders
+// WholeOverflowScreen with passed props and inline styles and other properties of the button. 
 export const OverflowOverlay = ({
     children,
     id,
@@ -57,6 +69,8 @@ export const OverflowOverlay = ({
     </Overlay>
 );
 
+// Exports a portal overflow overlay. It receives several props as arguments. Returns a JSX that renders
+// WholeOverflowScreen with passed props and inline styles and other properties of the button. 
 export const PortalOverflowOverlay = ({
     children,
     id,
@@ -80,6 +94,8 @@ export const PortalOverflowOverlay = ({
     </Overlay>
 );
 
+// Exports a custom spinner. It receives several props as arguments. Returns a JSX that renders
+// WholeScreen with passed props and inline styles and other properties of the button. 
 export const CustomSpinner = ({isOpen}) => (
     <Overlay key="spinnerOverlay" className={classes} isOpen={isOpen} usePortal transitionDuration={0} canEscapeKeyClose={false} canOutsideClickClose={false}>
         <WholeScreen>
