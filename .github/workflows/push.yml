@@ -1,0 +1,37 @@
+name: push
+       
+on: push
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      # Don't allow the user to push on main directly
+      - name: Check user
+        id: check-user
+        run: |
+          if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+            echo "User is not allowed to push to main branch"
+            exit 1
+          fi
+        
+      # Checkouts out of the repo
+      - name: Checkout repo
+        uses: actions/checkout@v3
+            
+      # Install the dependencies  
+      - name: Install dependencies
+        run: npm install
+        
+#       # Tests on cypress
+#       - name: Run test script
+#         uses: cypress-io/github-action@v4
+#         with:
+#           build: npm run build
+#           start: npm run preview
+#           command: npm run test:ci
+#           install-command: npm ci --force
+       
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
