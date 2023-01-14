@@ -7,8 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Don't allow the user to push on main directly
-      - name: Check user
-        id: check-user
+      - name: Refuse push to main
         run: |
           if [ "$GITHUB_REF" == "refs/heads/main" ]; then
             echo "User is not allowed to push to main branch"
