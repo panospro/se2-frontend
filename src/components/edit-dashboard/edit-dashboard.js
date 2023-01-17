@@ -311,6 +311,8 @@ export class EditDashboardPage extends React.Component {
     // eslint-disable-next-line class-methods-use-this
     // Triggers the file input element to let user select a file to import
     importDashboard() {
+        // ???
+        this.importDashboard({ /* ... */ });
         const fileInput = document.getElementById('selectFile');
         fileInput.click();
     }

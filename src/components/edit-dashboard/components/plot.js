@@ -398,6 +398,7 @@ class Plot extends React.Component {
         const {tempLegend} = this.state;
         this.setState({tempLegend: !tempLegend});
     }
+    
     // Updates the tempLegendPosition  in the component's state
     changeLegendPosition(position) {
         this.setState({tempLegendPosition: position});

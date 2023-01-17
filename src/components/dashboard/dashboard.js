@@ -220,7 +220,7 @@ export class DashboardPage extends React.Component {
 
     // Checks if a provided password matches the password for a dashboard. If the password is correct, the method updates the component's state with the 
     // owner, name, layout and items of the dashboard. If the password is incorrect or the request is unsuccessful, the method displays a toaster notification 
-    //with an error message.
+    // with an error message.
     async confirmPassword() {
         const {tempPassword} = this.state;
         if (tempPassword !== '') {

@@ -258,7 +258,7 @@ class Alive extends React.Component {
     }
 
     // Fetches the source for a given topic from the server and then connects to the source using either the STOMP or MQTT protocol, depending on the type of source. If the connection 
-    //is not successful, it displays an error message using the ToasterBottom component.
+    // is not successful, it displays an error message using the ToasterBottom component.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);

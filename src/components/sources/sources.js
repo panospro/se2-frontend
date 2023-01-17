@@ -451,6 +451,8 @@ export class SourcesPage extends React.Component {
     // eslint-disable-next-line class-methods-use-this
     // Changes the source type and updates the form accordingly.
     changeSourceType(formikProps, type) {
+        // ???
+        this.setState({ /* ... */ });
         const {url} = formikProps.values;
 
         if (url === sourceDefaults.stomp || url === sourceDefaults.mqtt) {
