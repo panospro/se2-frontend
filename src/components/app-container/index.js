@@ -21,12 +21,14 @@ const AppContainerDiv = styled.div`
 export const AppContainer = (props) => {
     // Destructure the following variables
     const {children, location} = props;
-
-    // Set to true if the current location is a dashboard view (i.e., the path starts with /dashboards/) but not an edit view (i.e., the path does not start with /dashboards/edit/).
+    // Set to true if the current location is a dashboard view  (i.e., the path starts with /dashboards/) 
+    // but not an edit view (i.e., the path does not start with /dashboards/edit/).
     const changeHeader = (location.pathname.startsWith('/dashboards/') && !(location.pathname.startsWith('/dashboards/edit/')));
     
-    // Style the component. The height of the element is controlled by changeHeader.  The visibility of the header is controlled by the changeHeader variable,
-    // which is set to true if the current location is a dashboard view (i.e., the path starts with /dashboards/) but not an edit view (i.e., the path does not start with /dashboards/edit/).
+    // Style the component. The height of the element is controlled by changeHeader.  The visibility of the header is
+    //  controlled by the changeHeader variable,
+    // which is set to true if the current location is a dashboard view (i.e., the path starts with /dashboards/) but not 
+    // an edit view (i.e., the path does not start with /dashboards/edit/).
     return (
         <>
             <AppHeader />

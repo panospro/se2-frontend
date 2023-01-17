@@ -652,7 +652,6 @@ export class SourcesPage extends React.Component {
 // it as a prop
 export const mapState = (state) => ({user: state.auth.user, token: state.auth.token});
 
-
 // Export mapDispatch, takes an argument and returns an object, which is a function that dispatches an "auth.clear" action when called. 
 // This action will clear the auth state in the Redux store.
 export const mapDispatch = (dispatch) => ({

@@ -1309,7 +1309,6 @@ class NavigationRoute extends React.Component {
     }
 }
 
-
 // Returns a JSX element representing an instance of a component. The function takes an object as an argument and uses the properties 
 // of the object as props for the returned component.
 const createNavigationRoute = ({id, type, initialState, user, owner}) => (

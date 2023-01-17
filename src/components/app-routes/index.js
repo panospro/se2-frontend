@@ -21,10 +21,10 @@ import EditDashboardPage from '../edit-dashboard';
 import DashboardPage from '../dashboard';
 import {checkIsAuthenticated} from '../../lib/utilities';
 
-
 // Takes in component, isAuthenticated and rest props and returns a Route element from the react-router-dom library. 
-// The Route element depends on the value of the isAuthenticated prop. If isAuthenticated is true, the function will return a Component element with the props object spread as props.
-//  If isAuthenticated is false, the function will return a Redirect element that will redirect the user to the root route (/).
+// The Route element depends on the value of the isAuthenticated prop. If isAuthenticated is true, the function will return 
+// a Component element with the props object spread as props.
+// If isAuthenticated is false, the function will return a Redirect element that will redirect the user to the root route (/).
 const OnlyForAuthenticatedRoute = ({component: Component, isAuthenticated, ...rest}) => (
     <Route
         {...rest}

@@ -48,7 +48,6 @@ import createUrl from './url';
 import createRest from './rest';
 import createRestRequest from './rest-request';
 
-
 // Object with different types of components:
 // * icon,a string showing the path to an image file that will be used as the icon for the component.
 // * iconHover,a string showing the path to an image file that will be used as the icon for the component when the user hovers their cursor over it.

@@ -209,7 +209,6 @@ export class EditDashboardPage extends React.Component {
         }, this.saveDashboard);
     }
 
-
     // Updates the currentLayout state and save the updated one.
     layoutChanged(layout) {
         this.setState({currentLayout: layout}, this.saveDashboard);
@@ -234,7 +233,6 @@ export class EditDashboardPage extends React.Component {
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
-
 
     // Fetches dashboard data from API, change spinner status and updates state.
     async fetchDashboard() {

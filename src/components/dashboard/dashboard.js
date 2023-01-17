@@ -94,14 +94,14 @@ const ButtonWithText = ({text, info, iconWhite, handler}) => (
 );
 
 export class DashboardPage extends React.Component {
-   // The constructor of the class that initializes the variables.
-// It takes in props as an argument and utilizes the props to
-// set up the initial state of the component. It also sets up the type,
-// updateItem, deleteItem and cloneComponent props which are used to update,
-// delete, or clone components. It then sets up the properties of the state,
-// such as the id, available sources, name, source, topic, timeout, popoverOpen,
-// deletePopupOpen, tempSource, tempTopic, tempTimeout, lastSend, activeText,
-// smallIcon, fontSize and fontSize2. 
+    // The constructor of the class that initializes the variables.
+    // It takes in props as an argument and utilizes the props to
+    // set up the initial state of the component. It also sets up the type,
+    // updateItem, deleteItem and cloneComponent props which are used to update,
+    // delete, or clone components. It then sets up the properties of the state,
+    // such as the id, available sources, name, source, topic, timeout, popoverOpen,
+    // deletePopupOpen, tempSource, tempTopic, tempTimeout, lastSend, activeText,
+    // smallIcon, fontSize and fontSize2. 
     constructor(props) {
         super(props);
 
