@@ -18,7 +18,6 @@ beforeEach(function () {
 
 describe('Web stomp sources', () => {
 
-    //This test creates a new web source
     it('creates new web source', () => {
         //Go to manage your sources page
         cy.visit(`/sources`)
