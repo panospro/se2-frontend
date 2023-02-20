@@ -24,3 +24,5 @@ const config = {
 };
 
 module.exports = config;
+
+1
