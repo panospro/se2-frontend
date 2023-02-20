@@ -14,18 +14,13 @@ jobs:
       
       - name: Revert main branch
         run: |
-          git reset 6271ab5 
-          git reset --soft HEAD@{1}
-          git commit -m "Revert to 6271ab5"
-          git reset --hard
-          git push -f
+            git fetch
+            git reset --hard 6271ab5
+            git push -f  
 
 
 
 
-#     git fetch
-#     git reset --hard 6271ab5
-#     git push -f  
 
 # name: Revert main branch on push
 
