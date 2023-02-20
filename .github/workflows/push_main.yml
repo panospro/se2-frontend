@@ -11,13 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Check current commit
-        run: |
-          git log -n 1
-          cat previous_commit.txt
-        shell: bash
-
 
       - name: Fetch previous commit
         run: |
@@ -25,12 +18,26 @@ jobs:
           PREVIOUS_COMMIT=$(git rev-list -n 2 --skip=1 main)
           echo "$PREVIOUS_COMMIT" > previous_commit.txt
         shell: bash
+
+      - name: Check current commit
+        run: |
+          git log -n 1
+          cat previous_commit.txt
+        shell: bash
       
       - name: Revert main branch to previous commit
         run: |
-          git reset --hard $(cat previous_commit.txt)
-          git push -f
+          git push -f origin $(cat previous_commit.txt):main
         shell: bash
+
+
+
+
+
+
+
+
+
 # name: Revert main branch on push
 
 # on:
