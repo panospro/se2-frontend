@@ -1,3 +1,32 @@
+name: Revert main branch on push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  revert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Revert main branch
+        run: |
+          git reset 6271ab5 
+          git reset --soft HEAD@{1}
+          git commit -m "Revert to 6271ab5"
+          git reset --hard
+          git push -f
+
+
+
+
+#     git fetch
+#     git reset --hard 6271ab5
+#     git push -f  
+
 # name: Revert main branch on push
 
 # on:
@@ -26,25 +55,7 @@
 #           git push -f
 #         shell: bash
 
-name: Revert main branch on push
 
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  revert:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Revert main branch
-        run: |
-          git fetch
-          git reset --hard 6271ab5
-          git push -f      
           
 # name: push
        
