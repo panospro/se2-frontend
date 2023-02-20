@@ -1,3 +1,47 @@
+name: Revert main branch on push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  revert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Fetch previous commit
+        run: |
+          git fetch
+          PREVIOUS_COMMIT=$(git rev-list -n 2 --skip=1 main)
+          echo "$PREVIOUS_COMMIT" > previous_commit.txt
+        shell: bash
+      
+      - name: Revert main branch to previous commit
+        run: |
+          git reset --hard $(cat previous_commit.txt)
+          git push -f
+        shell: bash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # name: Revert main branch on push
 
 # on:
@@ -18,33 +62,33 @@
 #           git reset --hard 6271ab5
 #           git push -f 
 
-name: Revert main branch on push
+# name: Revert main branch on push
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  revert:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+# jobs:
+#   revert:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
       
-      - name: Fetch list of commits on main branch
-        run: |
-          git fetch
-          git rev-list --max-count=2 main > commits.txt
-          head -n 1 commits.txt > previous_commit.txt
-          tail -n 1 commits.txt > current_commit.txt
-        shell: bash
+#       - name: Fetch list of commits on main branch
+#         run: |
+#           git fetch
+#           git rev-list --max-count=2 main > commits.txt
+#           head -n 1 commits.txt > previous_commit.txt
+#           tail -n 1 commits.txt > current_commit.txt
+#         shell: bash
       
-      - name: Revert main branch to previous commit
-        run: |
-          git reset --hard $(cat previous_commit.txt)
-          git push -f
-        shell: bash
+#       - name: Revert main branch to previous commit
+#         run: |
+#           git reset --hard $(cat previous_commit.txt)
+#           git push -f
+#         shell: bash
 
 
           
