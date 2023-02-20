@@ -17,8 +17,6 @@ jobs:
         run: |
           git reset --hard HEAD
           git push -f
-
-
 # name: push
        
 # on: push
