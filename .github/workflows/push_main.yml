@@ -25,9 +25,6 @@ jobs:
           git reset --hard $(cat previous_commit.txt)
           git push -f
         shell: bash
-
-
-
 # name: Revert main branch on push
 
 # on:
