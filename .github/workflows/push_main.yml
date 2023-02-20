@@ -14,8 +14,7 @@ jobs:
       
       - name: Revert main branch
         run: |
-            git revert --no-commit 1f85b47..HEAD
-            git commit
+            git reset --hard HEAD
 
 #           git fetch
 #           git reset --hard 6271ab5
