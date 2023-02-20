@@ -26,9 +26,12 @@ jobs:
         shell: bash
       
       - name: Revert main branch to previous commit
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
-          git push -f origin $(cat previous_commit.txt):main
+          git push -f https://$GITHUB_ACTOR:$PERSONAL_ACCESS_TOKEN@github.com/$GITHUB_REPOSITORY.git $(cat previous_commit.txt):refs/heads/main
         shell: bash
+
 
 
 
