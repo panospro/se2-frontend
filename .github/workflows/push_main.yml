@@ -11,6 +11,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      
+      - name: Check current commit
+        run: |
+          git log -n 1
+          cat previous_commit.txt
+        shell: bash
+
 
       - name: Fetch previous commit
         run: |
