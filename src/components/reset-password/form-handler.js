@@ -29,6 +29,7 @@ export const handleSubmit = async (values, {setSubmitting}, token, {pushHistory}
         });
         pushHistory('/');
         setSubmitting(false);
-    } catch (error) { }
-    setSubmitting(false);
+    } finally {
+        setSubmitting(false);
+      }
 };

@@ -254,13 +254,11 @@ export class SourcesPage extends React.Component {
     checkConnectivity() {
         const {sources} = this.state;
         sources.forEach((s, ind) => {
-            try {
-                if (s.type === 'stomp') {
-                    this.checkStompConnectivity(s, ind);
-                } else {
-                    this.checkMQTTConnectivity(s, ind);
-                }
-            } catch {}
+            if (s.type === 'stomp') {
+                this.checkStompConnectivity(s, ind);
+            } else {
+                this.checkMQTTConnectivity(s, ind);
+            } 
         });
     }
 
@@ -268,65 +266,57 @@ export class SourcesPage extends React.Component {
     // the topic '/topic/heartbeat' and publishes a heartbeat message, sets the source as active
     // if it receives a message within 5 seconds and deactivates the connection if the timeout occurs first.
     checkMQTTConnectivity(s, ind) {
-        try {
-            const config = {
-                username: s.login,
-                password: s.passcode,
-            };
-            const client = mqtt.connect(`${s.url}`, config);
-            client.on('connect', () => {
-                client.subscribe('/topic/heartbeat', (err) => {
-                    if (!err) {
-                        client.publish('/topic/heartbeat', JSON.stringify({heartbeat: true}));
-                    }
-                });
+        const config = {
+            username: s.login,
+            password: s.passcode,
+        };
+        const client = mqtt.connect(`${s.url}`, config);
+        client.on('connect', () => {
+            client.subscribe('/topic/heartbeat', (err) => {
+                if (!err) {
+                    client.publish('/topic/heartbeat', JSON.stringify({heartbeat: true}));
+                }
             });
-                
-            client.on('message', () => {
-                this.setActive(ind);
-                client.end();
-                try {
-                    clearTimeout(this.timeouts[s.name]);
-                } catch {}
-            });   
-            this.timeouts[s.name] = setTimeout(() => {
-                client.end();
-            }, 5000);
-        } catch {}
+        });
+            
+        client.on('message', () => {
+            this.setActive(ind);
+            client.end();
+            clearTimeout(this.timeouts[s.name]);
+        });   
+        this.timeouts[s.name] = setTimeout(() => {
+            client.end();
+        }, 5000);
     }
 
     // Connects to a STOMP source using the provided url, login and passcode,
     // subscribes to the topic '/topic/heartbeat' and publishes a heartbeat message,
     // sets the source as active if it receives a message within 5 seconds and deactivates the connection if the timeout occurs first.
     checkStompConnectivity(s, ind) {
-        try {
-            const stompConfig = {
-                connectHeaders: {
-                    login: s.login,
-                    passcode: s.passcode,
-                    host: s.vhost
-                },
-                brokerURL: s.url,
-            };
-            // eslint-disable-next-line no-undef
-            const rxStomp = new RxStomp.RxStomp();
-            rxStomp.configure(stompConfig);
-            rxStomp.activate();
-            const receiptId = s.name;
-            rxStomp.watch('/topic/heartbeat', {receipt: receiptId}).pipe(map((message) => (JSON.parse(message.body)))).subscribe(() => {
-                this.setActive(ind);
-                rxStomp.deactivate();
-                try {
-                    clearTimeout(this.timeouts[s.name]);
-                } catch {}
-            });
-            rxStomp.watchForReceipt(receiptId, () => {
-                rxStomp.publish({destination: '/topic/heartbeat', body: JSON.stringify({heartbeat: true})});
-            });
-            this.timeouts[s.name] = setTimeout(() => {
-                rxStomp.deactivate();
-            }, 5000);
-        } catch {}
+        const stompConfig = {
+            connectHeaders: {
+                login: s.login,
+                passcode: s.passcode,
+                host: s.vhost
+            },
+            brokerURL: s.url,
+        };
+        // eslint-disable-next-line no-undef
+        const rxStomp = new RxStomp.RxStomp();
+        rxStomp.configure(stompConfig);
+        rxStomp.activate();
+        const receiptId = s.name;
+        rxStomp.watch('/topic/heartbeat', {receipt: receiptId}).pipe(map((message) => (JSON.parse(message.body)))).subscribe(() => {
+            this.setActive(ind);
+            rxStomp.deactivate();
+            clearTimeout(this.timeouts[s.name]);
+        });
+        rxStomp.watchForReceipt(receiptId, () => {
+            rxStomp.publish({destination: '/topic/heartbeat', body: JSON.stringify({heartbeat: true})});
+        });
+        this.timeouts[s.name] = setTimeout(() => {
+            rxStomp.deactivate();
+        }, 5000);
     }
 
     // Changes the spinnerOpen state of the component to the value provided.
