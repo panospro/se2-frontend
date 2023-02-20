@@ -15,7 +15,8 @@ jobs:
       
       - name: Revert main branch
         run: |
-          git reset -hard HEAD~1
+          git fetch
+          git reset --hard origin/main
           git push -f
           
 # name: push
