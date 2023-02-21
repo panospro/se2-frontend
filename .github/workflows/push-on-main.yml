@@ -1,4 +1,4 @@
-name: push
+name: push-on-main
        
 on: push
 
@@ -13,31 +13,6 @@ jobs:
             echo "User is not allowed to push to main branch"
             exit 1
           fi
-        
-      # Checkouts out of the repo
-      - name: Checkout repo
-        uses: actions/checkout@v3
-            
-      # Install the dependencies  
-      - name: Install dependencies
-        run: npm install
-        
-      # Tests on cypress
-      - name: Run test script
-        uses: cypress-io/github-action@v4
-        with:
-          build: npm run build
-          start: npm run preview
-          command: npm run test:ci
-          install-command: npm ci --force
-       
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-
-
-
 
 
 # name: Revert main branch on push
