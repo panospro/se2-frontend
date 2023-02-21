@@ -15,7 +15,8 @@ jobs:
 
     - name: Revert to previous commit
       run: |
-        git revert HEAD~1
+        git log
+        git revert HEAD^
         git push
 
 
