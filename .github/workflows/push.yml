@@ -22,18 +22,18 @@ jobs:
       - name: Install dependencies
         run: npm install
         
-      # # Tests on cypress
-      # - name: Run test script
-      #   uses: cypress-io/github-action@v4
-      #   with:
-      #     build: npm run build
-      #     start: npm run preview
-      #     command: npm run test:ci
-      #     install-command: npm ci --force
+      # Tests on cypress
+      - name: Run test script
+        uses: cypress-io/github-action@v4
+        with:
+          build: npm run build
+          start: npm run preview
+          command: npm run test:ci
+          install-command: npm ci --force
        
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 
 
