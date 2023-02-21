@@ -1,6 +1,9 @@
 name: push-on-main
        
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   ci:
