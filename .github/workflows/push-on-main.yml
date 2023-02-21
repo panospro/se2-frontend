@@ -15,6 +15,7 @@ jobs:
 
     - name: Revert latest commit
       run: |
+        git fetch
         git log
         git revert d678a6cbf155dc1943a658e528ffece6305bd92b
         git push
