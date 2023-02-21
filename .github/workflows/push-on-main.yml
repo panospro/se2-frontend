@@ -15,6 +15,7 @@ jobs:
 
     - name: Revert latest commit
       run: |
+        git checkout Panos'-Branch
         git branch --list
         git fetch
         git log
