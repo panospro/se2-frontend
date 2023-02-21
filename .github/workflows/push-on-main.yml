@@ -1,66 +1,21 @@
-name: Revert to previous commit
-
+name: push-on-main
+       
 on:
   push:
     branches:
       - main
 
 jobs:
-  revert:
+  ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Revert to last commit on main
+      # Don't allow the user to push on main directly
+      - name: Refuse push to main
         run: |
-          git checkout refs/heads/main
-          git revert --no-edit HEAD
-          git push
-
-# name: Revert to Previous Commit
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   revert:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v2
-
-#     - name: Revert latest commit
-#       run: |
-#         git ls-remote
-#         git branch --list
-#         git fetch
-#         git log
-
-
-#     git revert d678a6cbf155dc1943a658e528ffece6305bd92b
-#  git push
-
-# name: push-on-main
-       
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   ci:
-#     runs-on: ubuntu-latest
-#     steps:
-#       # Don't allow the user to push on main directly
-#       - name: Refuse push to main
-#         run: |
-#           if [ "$GITHUB_REF" == "refs/heads/main" ]; then
-#             echo "User is not allowed to push to main branch"
-#             exit 1
-#           fi
+          if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+            echo "User is not allowed to push to main branch"
+            exit 1
+          fi
 
 # name: Revert main branch on push
 
