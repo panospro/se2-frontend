@@ -11,10 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Revert to previous commit
+      - name: Revert to last commit on main
         run: |
-          git reset --hard HEAD^
-          git push --force
+          git checkout refs/heads/main
+          git revert --no-edit HEAD
+          git push
 
 # name: Revert to Previous Commit
 
