@@ -1,4 +1,4 @@
-name: Revert to Previous Commit
+name: Revert to previous commit
 
 on:
   push:
@@ -8,17 +8,35 @@ on:
 jobs:
   revert:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Revert to previous commit
+        run: |
+          git reset --hard HEAD^
+          git push --force
 
-    - name: Revert latest commit
-      run: |
-        git ls-remote
-        git branch --list
-        git fetch
-        git log
+# name: Revert to Previous Commit
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   revert:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+
+#     - name: Revert latest commit
+#       run: |
+#         git ls-remote
+#         git branch --list
+#         git fetch
+#         git log
 
 
 #     git revert d678a6cbf155dc1943a658e528ffece6305bd92b
