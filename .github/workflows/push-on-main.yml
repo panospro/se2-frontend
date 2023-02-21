@@ -1,21 +1,47 @@
-name: push-on-main
-       
+name: Automatic Revert
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  ci:
+  revert-commit:
     runs-on: ubuntu-latest
+
     steps:
-      # Don't allow the user to push on main directly
-      - name: Refuse push to main
-        run: |
-          if [ "$GITHUB_REF" == "refs/heads/main" ]; then
-            echo "User is not allowed to push to main branch"
-            exit 1
-          fi
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Revert last commit
+        uses: peter-evans/revert@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+
+# name: push-on-main
+       
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   ci:
+#     runs-on: ubuntu-latest
+#     steps:
+#       # Don't allow the user to push on main directly
+#       - name: Refuse push to main
+#         run: |
+#           if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+#             echo "User is not allowed to push to main branch"
+#             exit 1
+#           fi
 
 # name: Revert main branch on push
 
