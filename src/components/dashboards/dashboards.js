@@ -229,7 +229,6 @@ export class DashboardsPage extends React.Component {
         });
     }
 
-
     // Sends a request to create a new dashboard with the specified formInfo. If the request is successful, a success message is displayed 
     // and the form pop-up is closed. The fetchDashboards function is then called to update the list of dashboards. If the request is unsuccessful,
     // an error message is displayed.

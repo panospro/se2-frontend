@@ -160,37 +160,33 @@ class Buttons extends React.Component {
     // calls the configure method on it with a configuration object and then calls the activate method to establish the connection to the broker.
     // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectStompSource(source, ind) {
-        try {
-            const stompConfig = {
-                connectHeaders: {
-                    login: source.login,
-                    passcode: source.passcode,
-                    host: source.vhost
-                },
-                // debug: (str) => {
-                //     console.log(`STOMP: ${str}`);
-                // },
-                brokerURL: source.url
-            };
-            // eslint-disable-next-line no-undef
-            this.rxStomps[ind] = new RxStomp.RxStomp();
-            this.rxStomps[ind].configure(stompConfig);
-            this.rxStomps[ind].activate();
-        } catch {}
+        const stompConfig = {
+            connectHeaders: {
+                login: source.login,
+                passcode: source.passcode,
+                host: source.vhost
+            },
+            // debug: (str) => {
+            //     console.log(`STOMP: ${str}`);
+            // },
+            brokerURL: source.url
+        };
+        // eslint-disable-next-line no-undef
+        this.rxStomps[ind] = new RxStomp.RxStomp();
+        this.rxStomps[ind].configure(stompConfig);
+        this.rxStomps[ind].activate();
     }
 
     // Takes source and ind as arguments and is used to connect to an MQTT (Message Queuing Telemetry Transport) broker with the provided source object. It uses the mqtt.connect function
     // to establish the connection to the broker. The source object's login and passcode are destructured and used as the username and password configuration options, respectively. 
     // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectMqttSource(source, ind) {
-        try {
-            const config = {
-                username: source.login,
-                password: source.passcode
-            };
+        const config = {
+            username: source.login,
+            password: source.passcode
+        };
 
-            this.mqttClients[ind] = mqtt.connect(source.url, config);
-        } catch {}
+        this.mqttClients[ind] = mqtt.connect(source.url, config);
     }
 
     // It is an async function that retrieves sources based on the owner, user and name in the component's state and then uses those sources to connect to brokers using
@@ -237,14 +233,12 @@ class Buttons extends React.Component {
     // The counter state is incremented and the "buttonSelected" is reset after the message is sent.
     sendMessage() {
         const {counter, topics, payloads, buttonSelected} = this.state;
-        try {
-            if (this.rxStomps[buttonSelected] !== null) {
-                this.rxStomps[buttonSelected].publish({destination: `/topic/${topics[buttonSelected]}`, body: payloads[buttonSelected]});
-            } else if (this.mqttClients[buttonSelected] !== null) {
-                this.mqttClients[buttonSelected].publish(topics[buttonSelected], payloads[buttonSelected]);
-            }
-            this.setState({counter: counter + 1, buttonSelected: null});
-        } catch {}
+        if (this.rxStomps[buttonSelected] !== null) {
+            this.rxStomps[buttonSelected].publish({destination: `/topic/${topics[buttonSelected]}`, body: payloads[buttonSelected]});
+        } else if (this.mqttClients[buttonSelected] !== null) {
+            this.mqttClients[buttonSelected].publish(topics[buttonSelected], payloads[buttonSelected]);
+        }
+        this.setState({counter: counter + 1, buttonSelected: null});
     }
 
     // Used to either open a popup or send a message, depending on the value of the "isDynamic"  in the component's state. If "isDynamic" is true for the specified index,

@@ -20,7 +20,9 @@ const config = {
         TEST_ID: process.env.TEST_ID,
         TEST_EMAIL: process.env.TEST_EMAIL,
     },
-    e2e: {},
+    e2e: {
+        "baseUrl": "http://localhost:3002"
+    },
 };
 
 module.exports = config;

@@ -157,7 +157,7 @@ class NavigationRoute extends React.Component {
 
     // Gets the id from the component's state and using it to find a 
     // DOM element with the corresponding id. 
-    //It then calls the resize function and passes it the width 
+    // It then calls the resize function and passes it the width 
     // and height of the DOM element as arguments.
     componentDidMount() {
         const {id} = this.state;

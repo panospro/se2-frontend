@@ -96,41 +96,39 @@ class Gauge extends React.Component {
     // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     messageReceived(payload) {
         const {variable, minValue, maxValue} = this.state;
-        try {
-            const {counter} = this.state;
-            const newCounter = counter + 1;
-            let ts = (new Date() - this.prevTime) / 1000.0;
-            if (this.prevTime < 0) {
-                ts = '-';
-                this.minInterval = 1000000000;
-                this.maxInterval = 0;
-                this.meanInterval = 0;
-            } else {
-                if (ts < this.minInterval) {
-                    this.minInterval = ts;
-                }
-                if (ts > this.maxInterval) {
-                    this.maxInterval = ts;
-                }
-                this.meanInterval += ts;
+        const {counter} = this.state;
+        const newCounter = counter + 1;
+        let ts = (new Date() - this.prevTime) / 1000.0;
+        if (this.prevTime < 0) {
+            ts = '-';
+            this.minInterval = 1000000000;
+            this.maxInterval = 0;
+            this.meanInterval = 0;
+        } else {
+            if (ts < this.minInterval) {
+                this.minInterval = ts;
             }
-            this.prevTime = new Date();
+            if (ts > this.maxInterval) {
+                this.maxInterval = ts;
+            }
+            this.meanInterval += ts;
+        }
+        this.prevTime = new Date();
 
-            const value = objectPath.get(payload, variable);
-            const gaugeValue = Math.min(Math.max(((value - minValue) / (maxValue - minValue)), 0), 1);
-            this.setState({
-                gaugeValue,
-                timeSpan: `Last interval: ${ts} sec`,
-                minint: `Minimum interval: ${this.minInterval} sec`,
-                meanint: `Mean interval: ${(this.meanInterval / (newCounter - 1)).toFixed(3)} sec`,
-                maxint: `Maximum interval: ${this.maxInterval} sec`,
-                timeSpanVal: ts,
-                minintVal: this.minInterval,
-                meanintVal: (this.meanInterval / (newCounter - 1)).toFixed(3),
-                maxintVal: this.maxInterval,
-                counter: newCounter
-            });
-        } catch {}
+        const value = objectPath.get(payload, variable);
+        const gaugeValue = Math.min(Math.max(((value - minValue) / (maxValue - minValue)), 0), 1);
+        this.setState({
+            gaugeValue,
+            timeSpan: `Last interval: ${ts} sec`,
+            minint: `Minimum interval: ${this.minInterval} sec`,
+            meanint: `Mean interval: ${(this.meanInterval / (newCounter - 1)).toFixed(3)} sec`,
+            maxint: `Maximum interval: ${this.maxInterval} sec`,
+            timeSpanVal: ts,
+            minintVal: this.minInterval,
+            meanintVal: (this.meanInterval / (newCounter - 1)).toFixed(3),
+            maxintVal: this.maxInterval,
+            counter: newCounter
+        });
     }
 
     // Establish a connection to a STOMP message broker. It takes a single source argument, which is an object containing information about the STOMP message broker, such as the URL,
@@ -139,36 +137,34 @@ class Gauge extends React.Component {
     // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectStompSource(source) {
         const {name, topic} = this.state;
-        try {
-            const stompConfig = {
-                connectHeaders: {
-                    login: source.login,
-                    passcode: source.passcode,
-                    host: source.vhost
-                },
-                // debug: (str) => {
-                //     console.log(`STOMP: ${str}`);
-                // },
-                brokerURL: source.url
-            };
-            // eslint-disable-next-line no-undef
-            this.rxStomp = new RxStomp.RxStomp();
-            this.rxStomp.configure(stompConfig);
-            this.rxStomp.activate();
-            const initialReceiptId = `${name}_start`;
+        const stompConfig = {
+            connectHeaders: {
+                login: source.login,
+                passcode: source.passcode,
+                host: source.vhost
+            },
+            // debug: (str) => {
+            //     console.log(`STOMP: ${str}`);
+            // },
+            brokerURL: source.url
+        };
+        // eslint-disable-next-line no-undef
+        this.rxStomp = new RxStomp.RxStomp();
+        this.rxStomp.configure(stompConfig);
+        this.rxStomp.activate();
+        const initialReceiptId = `${name}_start`;
 
-            this.prevTime = -1;
-            this.minInterval = -1;
-            this.maxInterval = -1;
-            this.meanInterval = 0;
+        this.prevTime = -1;
+        this.minInterval = -1;
+        this.maxInterval = -1;
+        this.meanInterval = 0;
 
-            this.rxStomp.watch(`/topic/${topic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-                this.messageReceived(payload);
-            });
-            this.rxStomp.watchForReceipt(initialReceiptId, () => {
-                this.changeSpinner(false);
-            });
-        } catch {}
+        this.rxStomp.watch(`/topic/${topic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+            this.messageReceived(payload);
+        });
+        this.rxStomp.watchForReceipt(initialReceiptId, () => {
+            this.changeSpinner(false);
+        });
     }
 
     // Establish a connection to an MQTT message broker. It takes a single source argument, which is an object containing information about the MQTT message broker, such as the URL 
@@ -177,34 +173,32 @@ class Gauge extends React.Component {
     // the messageReceived method of the component. If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectMqttSource(source) {
         const {topic} = this.state;
-        try {
-            const config = {
-                username: source.login,
-                password: source.passcode
-            };
+        const config = {
+            username: source.login,
+            password: source.passcode
+        };
 
-            this.mqttClient = mqtt.connect(source.url, config);
-            this.mqttClient.on('connect', () => {
-                this.mqttClient.subscribe(`${topic}`, (err) => {
-                    if (!err) {
-                        this.changeSpinner(false);
-                    }
-                });
+        this.mqttClient = mqtt.connect(source.url, config);
+        this.mqttClient.on('connect', () => {
+            this.mqttClient.subscribe(`${topic}`, (err) => {
+                if (!err) {
+                    this.changeSpinner(false);
+                }
             });
-            
-            this.prevTime = -1;
-            this.minInterval = -1;
-            this.maxInterval = -1;
-            this.meanInterval = 0;
+        });
+        
+        this.prevTime = -1;
+        this.minInterval = -1;
+        this.maxInterval = -1;
+        this.meanInterval = 0;
 
-            this.mqttClient.on('message', (__, message) => {
-                this.messageReceived(JSON.parse(message.toString()));
-            });
-        } catch {}
+        this.mqttClient.on('message', (__, message) => {
+            this.messageReceived(JSON.parse(message.toString()));
+        });
     }
 
     // Fetches the source for a given topic from the server and then connects to the source using either the STOMP or MQTT protocol, depending on the type of source. If the connection 
-    //is not successful, it displays an error message using the ToasterBottom component.
+    // is not successful, it displays an error message using the ToasterBottom component.
     async connectToTopic() {
         const {user, owner, name, source} = this.state;
         const response = await findSource(source, owner, user);

@@ -36,4 +36,3 @@ const App = ({store, persistor}) => (
 // The export constant is: 
 // loadPlugins given the App
 export default loadPlugins(App);
-

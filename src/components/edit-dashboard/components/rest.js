@@ -181,12 +181,12 @@ class Rest extends React.Component {
         this.setState({tempUrl: event.target.value});
     }
 
-     // Updates the value of the tempHeaders  in the component's state with the value of an event target
+    // Updates the value of the tempHeaders  in the component's state with the value of an event target
     changeInterval(value) {
         this.setState({tempInterval: value});
     }
 
-     // Updates the value of the activeText and fontSize properties in the component's state based on the width and height of the component
+    // Updates the value of the activeText and fontSize properties in the component's state based on the width and height of the component
     resize(width, height) {
         let fontSize = 18;
         if (width < 200) {

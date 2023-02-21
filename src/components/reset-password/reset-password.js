@@ -462,7 +462,6 @@ export class ResetPasswordPage extends React.Component {
     }
 }
 
-
 /*
 *
 * Default export

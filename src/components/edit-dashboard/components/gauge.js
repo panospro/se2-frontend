@@ -277,7 +277,6 @@ class Gauge extends React.Component {
         this.setState({tempRightColor: event.target.value});
     }
 
-    
     // Set the tempLevels state variable to the value passed in as an argument.
     changeLevels(value) {
         this.setState({tempLevels: value});

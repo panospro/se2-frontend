@@ -276,28 +276,26 @@ class NavigationRoute extends React.Component {
     // its dimensions before resizing the image and displaying it in a div element.
     messageReceivedMap(payload) {
         const {requestAnnotationsTopic, previousImageWidth, previousImageHeight} = this.state;
-        try {
-            const image = payload.data.img;
-            if (this.rxStomp !== null) {
-                this.rxStomp.publish({destination: `/topic/${requestAnnotationsTopic}`, body: JSON.stringify({})});
-            } else if (this.mqttClient !== null) {
-                this.mqttClient.publish(requestAnnotationsTopic, JSON.stringify({}));
-            }
-            if (previousImageWidth !== payload.data.width || previousImageHeight !== payload.data.height) {
-                this.setState({
-                    previousImageWidth: payload.data.width,
-                    previousImageHeight: payload.data.height,
-                    path: []
-                });
-            }
-            this.setState({image: `data:image/jpg;base64,${image}`}, () => {
-                setTimeout(() => {
-                    const {id} = this.state;
-                    const imageDiv = document.getElementById(`navigationRouteDiv_${id}`);
-                    this.resize(imageDiv.offsetWidth, imageDiv.offsetHeight);
-                }, 200);
+        const image = payload.data.img;
+        if (this.rxStomp !== null) {
+            this.rxStomp.publish({destination: `/topic/${requestAnnotationsTopic}`, body: JSON.stringify({})});
+        } else if (this.mqttClient !== null) {
+            this.mqttClient.publish(requestAnnotationsTopic, JSON.stringify({}));
+        }
+        if (previousImageWidth !== payload.data.width || previousImageHeight !== payload.data.height) {
+            this.setState({
+                previousImageWidth: payload.data.width,
+                previousImageHeight: payload.data.height,
+                path: []
             });
-        } catch {}
+        }
+        this.setState({image: `data:image/jpg;base64,${image}`}, () => {
+            setTimeout(() => {
+                const {id} = this.state;
+                const imageDiv = document.getElementById(`navigationRouteDiv_${id}`);
+                this.resize(imageDiv.offsetWidth, imageDiv.offsetHeight);
+            }, 200);
+        });
     }
 
     // Processes a received message that is expected to contain pose data, 
@@ -307,140 +305,130 @@ class NavigationRoute extends React.Component {
     // the map's dimensions and stores the pose data and map details in the 
     // component's state.
     messageReceivedPose(payload) {
-        try {
-            const {map_width, map_height, origin, resolution, theta, x, y} = payload.data;
-            const robotX = ((origin.x + x) / (map_width * resolution)) * 100;
-            const robotY = (1 - (((origin.y + y) / resolution) / map_height)) * 100;
-            const pose = {x: robotX, y: robotY, theta};
-            this.setState({
-                pose, 
-                map_width,
-                map_height,
-                origin,
-                resolution
-            });
-        } catch {}
+        const {map_width, map_height, origin, resolution, theta, x, y} = payload.data;
+        const robotX = ((origin.x + x) / (map_width * resolution)) * 100;
+        const robotY = (1 - (((origin.y + y) / resolution) / map_height)) * 100;
+        const pose = {x: robotX, y: robotY, theta};
+        this.setState({
+            pose, 
+            map_width,
+            map_height,
+            origin,
+            resolution
+        });
     }
 
     // ReceivES a message that is expected to contain path data, calculating
     // the positions of the points on a map in terms of percentages of the map's 
     // dimensions and storing the path data and map details in the component's state.
     messageReceivedPath(payload) {
-        try {
-            const {map_width, map_height, origin, resolution, path} = payload.data;
-            const dataPath = [];
-            path.forEach((p) => {
-                const pX = ((origin.x + p.x) / (map_width * resolution)) * 100;
-                const pY = (1 - (((origin.y + p.y) / resolution) / map_height)) * 100;
-                dataPath.push({x: pX, y: pY});
-            });
-            this.setState({
-                path: dataPath, 
-                map_width,
-                map_height,
-                origin,
-                resolution
-            });
-        } catch {}
+        const {map_width, map_height, origin, resolution, path} = payload.data;
+        const dataPath = [];
+        path.forEach((p) => {
+            const pX = ((origin.x + p.x) / (map_width * resolution)) * 100;
+            const pY = (1 - (((origin.y + p.y) / resolution) / map_height)) * 100;
+            dataPath.push({x: pX, y: pY});
+        });
+        this.setState({
+            path: dataPath, 
+            map_width,
+            map_height,
+            origin,
+            resolution
+        });
     }
 
     // This method processes a received message containing annotation data
     // and stores the data and map details in the component's state.
     messageReceivedAnnotations(payload) {
-        try {
-            const {map_width, map_height, origin, resolution, annotations} = payload.data;
-            const annotationsData = [];
-            Object.keys(annotations).forEach((p) => {
-                const pX = ((origin.x + annotations[p].pose.x) / (map_width * resolution)) * 100;
-                const pY = (1 - (((origin.y + annotations[p].pose.y) / resolution) / map_height)) * 100;
-                annotationsData.push({x: pX, y: pY, name: p});
-            });
-            this.setState({
-                annotations: annotationsData, 
-                map_width,
-                map_height,
-                origin,
-                resolution
-            });
-        } catch {}
+        const {map_width, map_height, origin, resolution, annotations} = payload.data;
+        const annotationsData = [];
+        Object.keys(annotations).forEach((p) => {
+            const pX = ((origin.x + annotations[p].pose.x) / (map_width * resolution)) * 100;
+            const pY = (1 - (((origin.y + annotations[p].pose.y) / resolution) / map_height)) * 100;
+            annotationsData.push({x: pX, y: pY, name: p});
+        });
+        this.setState({
+            annotations: annotationsData, 
+            map_width,
+            map_height,
+            origin,
+            resolution
+        });
     }
 
     // Connect to stomp source using RxStomp, listen for messages on
     // different topics and handle them accordingly.
     connectStompSource(source) {
         const {name, mapTopic, poseTopic, pathTopic, getAnnotationsTopic, requestMapTopic} = this.state;
-        try {
-            const stompConfig = {
-                connectHeaders: {
-                    login: source.login,
-                    passcode: source.passcode,
-                    host: source.vhost
-                },
-                // debug: (str) => {
-                //     console.log(`STOMP: ${str}`);
-                // },
-                brokerURL: source.url
-            };
-            // eslint-disable-next-line no-undef
-            this.rxStomp = new RxStomp.RxStomp();
-            this.rxStomp.configure(stompConfig);
-            this.rxStomp.activate();
-            const initialReceiptId = `${name}_start`;
+        const stompConfig = {
+            connectHeaders: {
+                login: source.login,
+                passcode: source.passcode,
+                host: source.vhost
+            },
+            // debug: (str) => {
+            //     console.log(`STOMP: ${str}`);
+            // },
+            brokerURL: source.url
+        };
+        // eslint-disable-next-line no-undef
+        this.rxStomp = new RxStomp.RxStomp();
+        this.rxStomp.configure(stompConfig);
+        this.rxStomp.activate();
+        const initialReceiptId = `${name}_start`;
 
-            this.rxStomp.watch(`/topic/${mapTopic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-                this.messageReceivedMap(payload);
-            });
-            this.rxStomp.watchForReceipt(initialReceiptId, () => {
-                this.changeSpinner(false);
-                this.rxStomp.publish({destination: `/topic/${requestMapTopic}`, body: JSON.stringify({})});
-            });
-            this.rxStomp.watch(`/topic/${poseTopic}`).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-                this.messageReceivedPose(payload);
-            });
-            this.rxStomp.watch(`/topic/${pathTopic}`).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-                this.messageReceivedPath(payload);
-            });
-            this.rxStomp.watch(`/topic/${getAnnotationsTopic}`).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-                this.messageReceivedAnnotations(payload);
-            });
-        } catch {}
+        this.rxStomp.watch(`/topic/${mapTopic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+            this.messageReceivedMap(payload);
+        });
+        this.rxStomp.watchForReceipt(initialReceiptId, () => {
+            this.changeSpinner(false);
+            this.rxStomp.publish({destination: `/topic/${requestMapTopic}`, body: JSON.stringify({})});
+        });
+        this.rxStomp.watch(`/topic/${poseTopic}`).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+            this.messageReceivedPose(payload);
+        });
+        this.rxStomp.watch(`/topic/${pathTopic}`).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+            this.messageReceivedPath(payload);
+        });
+        this.rxStomp.watch(`/topic/${getAnnotationsTopic}`).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+            this.messageReceivedAnnotations(payload);
+        });
     }
 
     // Sets up an MQTT client connection and subscribes to various topics
     // to receive messages which it then handles with specific functions.
     connectMqttSource(source) {
         const {mapTopic, poseTopic, pathTopic, getAnnotationsTopic, requestMapTopic} = this.state;
-        try {
-            const config = {
-                username: source.login,
-                password: source.passcode
-            };
+        const config = {
+            username: source.login,
+            password: source.passcode
+        };
 
-            this.mqttClient = mqtt.connect(source.url, config);
-            this.mqttClient.on('connect', () => {
-                this.mqttClient.subscribe(`${mapTopic}`, (err) => {
-                    if (!err) {
-                        this.changeSpinner(false);
-                        this.mqttClient.publish(requestMapTopic, JSON.stringify({}));
-                    }
-                });
-                this.mqttClient.subscribe(`${poseTopic}`, () => {});
-                this.mqttClient.subscribe(`${pathTopic}`, () => {});
-                this.mqttClient.subscribe(`${getAnnotationsTopic}`, () => {});
-            });
-
-            this.mqttClient.on('message', (topic, message) => {
-                if (topic === mapTopic) {
-                    this.messageReceivedMap(JSON.parse(message.toString()));
-                } else if (topic === poseTopic) {
-                    this.messageReceivedPose(JSON.parse(message.toString()));
-                } else if (topic === pathTopic) {
-                    this.messageReceivedPath(JSON.parse(message.toString()));
-                } else if (topic === getAnnotationsTopic) {
-                    this.messageReceivedAnnotations(JSON.parse(message.toString()));
+        this.mqttClient = mqtt.connect(source.url, config);
+        this.mqttClient.on('connect', () => {
+            this.mqttClient.subscribe(`${mapTopic}`, (err) => {
+                if (!err) {
+                    this.changeSpinner(false);
+                    this.mqttClient.publish(requestMapTopic, JSON.stringify({}));
                 }
             });
-        } catch {}
+            this.mqttClient.subscribe(`${poseTopic}`, () => {});
+            this.mqttClient.subscribe(`${pathTopic}`, () => {});
+            this.mqttClient.subscribe(`${getAnnotationsTopic}`, () => {});
+        });
+
+        this.mqttClient.on('message', (topic, message) => {
+            if (topic === mapTopic) {
+                this.messageReceivedMap(JSON.parse(message.toString()));
+            } else if (topic === poseTopic) {
+                this.messageReceivedPose(JSON.parse(message.toString()));
+            } else if (topic === pathTopic) {
+                this.messageReceivedPath(JSON.parse(message.toString()));
+            } else if (topic === getAnnotationsTopic) {
+                this.messageReceivedAnnotations(JSON.parse(message.toString()));
+            }
+        });
     }
 
     // Connects to the specified source and subscribes to relevant topics.
@@ -496,14 +484,12 @@ class NavigationRoute extends React.Component {
     // Sends a message to a certain topic to navigate to an annotation
     goToPlace(ind) {
         const {setAnnotationGoalTopic, annotations} = this.state;
-        try {
-            if (this.rxStomp !== null) {
-                this.rxStomp.publish({destination: `/topic/${setAnnotationGoalTopic}`, body: JSON.stringify({name: annotations[ind].name})});
-            } else if (this.mqttClient !== null) {
-                this.mqttClient.publish(setAnnotationGoalTopic, JSON.stringify({name: annotations[ind].name}));
-            }
-            this.setState({selectAnnotationPopupOpen: false});
-        } catch {}
+        if (this.rxStomp !== null) {
+            this.rxStomp.publish({destination: `/topic/${setAnnotationGoalTopic}`, body: JSON.stringify({name: annotations[ind].name})});
+        } else if (this.mqttClient !== null) {
+            this.mqttClient.publish(setAnnotationGoalTopic, JSON.stringify({name: annotations[ind].name}));
+        }
+        this.setState({selectAnnotationPopupOpen: false});
     }
 
     // Opens up a canvas to click on a point and sends the coordinates
@@ -518,13 +504,11 @@ class NavigationRoute extends React.Component {
     // the cancelGoalTopic.
     cancelGoal() {
         const {cancelGoalTopic} = this.state;
-        try {
-            if (this.rxStomp !== null) {
-                this.rxStomp.publish({destination: `/topic/${cancelGoalTopic}`, body: JSON.stringify({})});
-            } else if (this.mqttClient !== null) {
-                this.mqttClient.publish(cancelGoalTopic, JSON.stringify({}));
-            }
-        } catch {}
+        if (this.rxStomp !== null) {
+            this.rxStomp.publish({destination: `/topic/${cancelGoalTopic}`, body: JSON.stringify({})});
+        } else if (this.mqttClient !== null) {
+            this.mqttClient.publish(cancelGoalTopic, JSON.stringify({}));
+        }
     }
 
     // Close annotation canvas and remove mouse event listener.
@@ -543,14 +527,12 @@ class NavigationRoute extends React.Component {
     // at a specified index in the annotations array
     deleteAnnotation() {       
         const {annotations, changeAnnotationsTopic} = this.state;
-        try {
-            if (this.rxStomp !== null) {
-                this.rxStomp.publish({destination: `/topic/${changeAnnotationsTopic}`, body: JSON.stringify({mode: 'delete', name: annotations[this.tempDeleteAnnotation].name})});
-            } else if (this.mqttClient !== null) {
-                this.mqttClient.publish(changeAnnotationsTopic, JSON.stringify({mode: 'delete', name: annotations[this.tempDeleteAnnotation].name}));
-            }
-            this.setState({deleteAnnotationPopupOpen: false});
-        } catch {}
+        if (this.rxStomp !== null) {
+            this.rxStomp.publish({destination: `/topic/${changeAnnotationsTopic}`, body: JSON.stringify({mode: 'delete', name: annotations[this.tempDeleteAnnotation].name})});
+        } else if (this.mqttClient !== null) {
+            this.mqttClient.publish(changeAnnotationsTopic, JSON.stringify({mode: 'delete', name: annotations[this.tempDeleteAnnotation].name}));
+        }
+        this.setState({deleteAnnotationPopupOpen: false});
     }
 
     // Sends a goal to a topic in the form of an (x, y) coordinate, 
@@ -560,13 +542,11 @@ class NavigationRoute extends React.Component {
         const {imageWidth, imageHeight, resolution, origin, map_width, map_height, setGoalTopic} = this.state;
         const newX = (((point.x / imageWidth) * map_width) * resolution) - origin.x;
         const newY = ((((imageHeight - point.y) / imageHeight) * map_height) * resolution) - origin.y;
-        try {
-            if (this.rxStomp !== null) {
-                this.rxStomp.publish({destination: `/topic/${setGoalTopic}`, body: JSON.stringify({x: newX, y: newY, theta: 0})});
-            } else if (this.mqttClient !== null) {
-                this.mqttClient.publish(setGoalTopic, JSON.stringify({x: newX, y: newY, theta: 0}));
-            }
-        } catch {}
+        if (this.rxStomp !== null) {
+            this.rxStomp.publish({destination: `/topic/${setGoalTopic}`, body: JSON.stringify({x: newX, y: newY, theta: 0})});
+        } else if (this.mqttClient !== null) {
+            this.mqttClient.publish(setGoalTopic, JSON.stringify({x: newX, y: newY, theta: 0}));
+        }
     }
 
     // Closes the 'goto' canvas and removes mouseup event listener.
@@ -594,14 +574,12 @@ class NavigationRoute extends React.Component {
         const {tempAnnotationName, imageWidth, imageHeight, resolution, origin, map_width, map_height, changeAnnotationsTopic} = this.state;
         const newX = (((this.tempPoint.x / imageWidth) * map_width) * resolution) - origin.x;
         const newY = ((((imageHeight - this.tempPoint.y) / imageHeight) * map_height) * resolution) - origin.y;
-        try {
-            if (this.rxStomp !== null) {
-                this.rxStomp.publish({destination: `/topic/${changeAnnotationsTopic}`, body: JSON.stringify({mode: 'add', name: tempAnnotationName, pose: {x: newX, y: newY}})});
-            } else if (this.mqttClient !== null) {
-                this.mqttClient.publish(changeAnnotationsTopic, JSON.stringify({mode: 'add', name: tempAnnotationName, pose: {x: newX, y: newY}}));
-            }
-            this.cancelAnnotation();
-        } catch {}
+        if (this.rxStomp !== null) {
+            this.rxStomp.publish({destination: `/topic/${changeAnnotationsTopic}`, body: JSON.stringify({mode: 'add', name: tempAnnotationName, pose: {x: newX, y: newY}})});
+        } else if (this.mqttClient !== null) {
+            this.mqttClient.publish(changeAnnotationsTopic, JSON.stringify({mode: 'add', name: tempAnnotationName, pose: {x: newX, y: newY}}));
+        }
+        this.cancelAnnotation();
     }
 
     // Opens a delete annotation popup, closes a select annotation 
@@ -1308,7 +1286,6 @@ class NavigationRoute extends React.Component {
         ]);
     }
 }
-
 
 // Returns a JSX element representing an instance of a component. The function takes an object as an argument and uses the properties 
 // of the object as props for the returned component.

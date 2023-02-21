@@ -94,14 +94,14 @@ const ButtonWithText = ({text, info, iconWhite, handler}) => (
 );
 
 export class DashboardPage extends React.Component {
-   // The constructor of the class that initializes the variables.
-// It takes in props as an argument and utilizes the props to
-// set up the initial state of the component. It also sets up the type,
-// updateItem, deleteItem and cloneComponent props which are used to update,
-// delete, or clone components. It then sets up the properties of the state,
-// such as the id, available sources, name, source, topic, timeout, popoverOpen,
-// deletePopupOpen, tempSource, tempTopic, tempTimeout, lastSend, activeText,
-// smallIcon, fontSize and fontSize2. 
+    // The constructor of the class that initializes the variables.
+    // It takes in props as an argument and utilizes the props to
+    // set up the initial state of the component. It also sets up the type,
+    // updateItem, deleteItem and cloneComponent props which are used to update,
+    // delete, or clone components. It then sets up the properties of the state,
+    // such as the id, available sources, name, source, topic, timeout, popoverOpen,
+    // deletePopupOpen, tempSource, tempTopic, tempTimeout, lastSend, activeText,
+    // smallIcon, fontSize and fontSize2. 
     constructor(props) {
         super(props);
 
@@ -220,7 +220,7 @@ export class DashboardPage extends React.Component {
 
     // Checks if a provided password matches the password for a dashboard. If the password is correct, the method updates the component's state with the 
     // owner, name, layout and items of the dashboard. If the password is incorrect or the request is unsuccessful, the method displays a toaster notification 
-    //with an error message.
+    // with an error message.
     async confirmPassword() {
         const {tempPassword} = this.state;
         if (tempPassword !== '') {
