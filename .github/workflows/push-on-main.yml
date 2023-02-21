@@ -13,10 +13,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set Git author identity
+      run: |
+        git config --global user.email "panagiotisskaki@yahoo.gr"
+        git config --global user.name "protops"
+
     - name: Revert to previous commit
       run: |
         git revert HEAD
         git push
+
 
 
 
