@@ -13,10 +13,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Revert to previous commit
+    - name: Revert latest commit
       run: |
         git log
-        git revert HEAD^
+        git revert d678a6cbf155dc1943a658e528ffece6305bd92b
         git push
 
 
