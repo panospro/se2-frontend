@@ -15,7 +15,7 @@ jobs:
 
     - name: Revert latest commit
       run: |
-        git checkout <Panos'-Branch>
+        git ls-remote
         git branch --list
         git fetch
         git log
