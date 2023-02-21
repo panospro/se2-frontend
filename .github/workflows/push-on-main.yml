@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  ci:
+  NOT-ALLOWED-TO-PUSH-TO-MAIN:
     runs-on: ubuntu-latest
     steps:
       # Don't allow the user to push on main directly
