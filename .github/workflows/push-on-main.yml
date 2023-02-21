@@ -1,4 +1,4 @@
-name: Automatic Revert
+name: Revert to Previous Commit
 
 on:
   push:
@@ -6,20 +6,18 @@ on:
       - main
 
 jobs:
-  revert-commit:
+  revert:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout latest code
-        uses: actions/checkout@v2
-        with:
-          ref: main
-          fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Revert last commit
-        uses: peter-evans/revert@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Revert to previous commit
+      run: |
+        git revert HEAD
+        git push
+
 
 
 
