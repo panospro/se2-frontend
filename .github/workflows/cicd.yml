@@ -15,8 +15,8 @@ jobs:
       # Checkouts out of the repo
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          node-version: "16.18.0"
+        # with:
+        #   node-version: "16.18.0"
           
       # Install the dependencies  
       - name: Install dependencies
