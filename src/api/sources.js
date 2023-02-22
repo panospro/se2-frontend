@@ -1,55 +1,22 @@
 /* eslint-disable max-len */
-import { api, prefixUrl } from '../lib/api-adapter';
+import {api, prefixUrl} from '../lib/api-adapter';
 
-// Initialize the sources API with the appropriate prefix URL.
-const sourcesApi = api.extend({ prefixUrl: prefixUrl('sources') });
+const sourcesApi = api.extend({prefixUrl: prefixUrl('sources')});
 
-/**
- * Retrieves a list of sources.
- *
- * @returns {Promise} A Promise that resolves to the list of sources.
- */
+// Sends a GET request to sources to retrieve a list of sources.
 export const getSources = () => sourcesApi.get('sources').json();
 
-/**
- * Creates a new source.
- *
- * @param {Object} data - The data for the new source.
- * @returns {Promise} A Promise that resolves to the newly created source.
- */
+// Sends a POST request to create-source, with a JSON body containing data for the new source, to create a new source.
 export const createSource = (data) => sourcesApi.post('create-source', {json: data}).json();
 
-/**
- * Changes an existing source.
- *
- * @param {Object} data - The new data for the source.
- * @param {string} oldId - The ID of the source to change.
- * @returns {Promise} A Promise that resolves to the updated source.
- */
+// Sends a POST request to change-source, with a JSON body containing data for the source and the old ID of the source, to change an existing source.
 export const changeSource = (data, oldId) => sourcesApi.post('change-source', {json: {...data, id: oldId}}).json();
 
-/**
- * Deletes a source.
- *
- * @param {string} id - The ID of the source to delete.
- * @returns {Promise} A Promise that resolves to the deleted source.
- */
+// Sends a POST request to delete-source, with a JSON body containing the ID of the source to delete, to delete a source.
 export const deleteSource = (id) => sourcesApi.post('delete-source', {json: {id}}).json();
 
-/**
- * Finds a specific source.
- *
- * @param {string} name - The name of the source to find.
- * @param {string} owner - The owner of the source to find.
- * @param {string} user - The user of the source to find.
- * @returns {Promise} A Promise that resolves to the found source.
- */
+// Sends a POST request to source, with a JSON body containing the name, owner and user of the source to find, to find a specific source.
 export const findSource = (name, owner, user) => sourcesApi.post('source', {json: {name, owner, user}}).json();
 
-/**
- * Checks the status of a list of sources.
- *
- * @param {Array} sources - The list of sources to check.
- * @returns {Promise} A Promise that resolves to the status of the sources.
- */
+// Sends a POST request to check-sources, with a JSON body containing a list of sources to check, to check the status of a list of sources.
 export const checkSource = (sources) => sourcesApi.post('check-sources', {json: {sources}}).json();
