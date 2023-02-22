@@ -1,22 +1,49 @@
 /* eslint-disable max-len */
-import {api, prefixUrl} from '../lib/api-adapter';
+import { api, prefixUrl } from '../lib/api-adapter';
 
-const sourcesApi = api.extend({prefixUrl: prefixUrl('sources')});
+// Initialize the sources API with the appropriate prefix URL.
+const sourcesApi = api.extend({ prefixUrl: prefixUrl('sources') });
 
-// Sends a GET request to sources to retrieve a list of sources.
+/*
+ * Retrieves a list of sources.
+ * Returns a promise that resolves with the list of sources.
+ */
 export const getSources = () => sourcesApi.get('sources').json();
 
-// Sends a POST request to create-source, with a JSON body containing data for the new source, to create a new source.
+/*
+ * Creates a new source.
+ * data - The data for the new source.
+ * Returns a promise that resolves with the new source.
+ */
 export const createSource = (data) => sourcesApi.post('create-source', {json: data}).json();
 
-// Sends a POST request to change-source, with a JSON body containing data for the source and the old ID of the source, to change an existing source.
+/*
+ * Changes an existing source.
+ * data - The data for the source.
+ * oldId - The old ID of the source.
+ * Returns a promise that resolves with the changed source.
+ */
 export const changeSource = (data, oldId) => sourcesApi.post('change-source', {json: {...data, id: oldId}}).json();
 
-// Sends a POST request to delete-source, with a JSON body containing the ID of the source to delete, to delete a source.
+/*
+ * Deletes a source.
+ * id - The ID of the source to delete.
+ * Returns a promise that resolves with the deleted source.
+ */
 export const deleteSource = (id) => sourcesApi.post('delete-source', {json: {id}}).json();
 
-// Sends a POST request to source, with a JSON body containing the name, owner and user of the source to find, to find a specific source.
+/*
+ * Finds a specific source.
+ * name - The name of the source to find.
+ * owner - The owner of the source to find.
+ * user - The user of the source to find.
+ * Returns a promise that resolves with the specified source.
+ */
 export const findSource = (name, owner, user) => sourcesApi.post('source', {json: {name, owner, user}}).json();
 
-// Sends a POST request to check-sources, with a JSON body containing a list of sources to check, to check the status of a list of sources.
+/*
+ * Checks the status of a list of sources.
+ * @param {Array} sources - The list of sources to check.
+ * Returns a promise that resolves with the status of the sources.
+ */
 export const checkSource = (sources) => sourcesApi.post('check-sources', {json: {sources}}).json();
