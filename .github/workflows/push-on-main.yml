@@ -1,3 +1,7 @@
+# Here is a script that throws an error whenever someone pushes on main. Because the project is private and there is
+# no way to enforce the branches setting, we created this script that notifies us whenever did something wrong. When we realise it
+# we can go and revert the commit. We tried, but we couldn't have a ci/cd that returns to the previous commits, because there was no commit
+# history. 
 name: push-on-main
        
 on:
@@ -16,96 +20,3 @@ jobs:
             echo "User is not allowed to push to main branch"
             exit 1
           fi
-
-
-# name: Revert main branch on push
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   revert:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Fetch previous commit
-#         run: |
-#           git fetch
-#           PREVIOUS_COMMIT=$(git rev-list -n 2 --skip=1 main)
-#           echo "$PREVIOUS_COMMIT" > previous_commit.txt
-#         shell: bash
-
-#       - name: Check current commit
-#         run: |
-#           git log -n 1
-#           cat previous_commit.txt
-#         shell: bash
-      
-#       - name: Revert main branch to previous commit
-#         env:
-#           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-#         run: |
-#           git push -f https://$GITHUB_ACTOR:$PERSONAL_ACCESS_TOKEN@github.com/$GITHUB_REPOSITORY.git $(cat previous_commit.txt):refs/heads/main
-#         shell: bash
-
-
-
-
-
-
-
-
-
-
-# name: Revert main branch on push
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   revert:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-      
-#       - name: Revert main branch
-#         run: |
-#           git fetch
-#           git reset --hard 6271ab5
-#           git push -f 
-
-# name: Revert main branch on push
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   revert:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-      
-#       - name: Fetch list of commits on main branch
-#         run: |
-#           git fetch
-#           git rev-list --max-count=2 main > commits.txt
-#           head -n 1 commits.txt > previous_commit.txt
-#           tail -n 1 commits.txt > current_commit.txt
-#         shell: bash
-      
-#       - name: Revert main branch to previous commit
-#         run: |
-#           git reset --hard $(cat previous_commit.txt)
-#           git push -f
-#         shell: bash
-
