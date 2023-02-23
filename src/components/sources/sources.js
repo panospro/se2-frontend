@@ -459,8 +459,8 @@ export class SourcesPage extends React.Component {
         this.closeDeletePopup();
     }
 
-    // eslint-disable-next-line class-methods-use-this
     // Changes the source type and updates the form accordingly.
+    // eslint-disable-next-line class-methods-use-this
     changeSourceType(formikProps, type) {
         const {url} = formikProps.values;
 
