@@ -215,7 +215,9 @@ export class SourcesPage extends React.Component {
                 } else {
                     this.checkMQTTConnectivity(s, ind);
                 }
-            } catch {}
+            } catch (error) {
+                console.error(`Error checking connectivity for source ${ind}:`, error);
+              }
         });
     }
 
@@ -239,12 +241,16 @@ export class SourcesPage extends React.Component {
                 client.end();
                 try {
                     clearTimeout(this.timeouts[s.name]);
-                } catch {}
+                } catch (error) {
+                    console.error(`Error. Timeout for source ${ind}:`, error);
+                  }
             });   
             this.timeouts[s.name] = setTimeout(() => {
                 client.end();
             }, 5000);
-        } catch {}
+        } catch (error) {
+            console.error(`Error checking connectivity for source ${ind}:`, error);
+          }
     }
 
     checkStompConnectivity(s, ind) {
@@ -267,7 +273,9 @@ export class SourcesPage extends React.Component {
                 rxStomp.deactivate();
                 try {
                     clearTimeout(this.timeouts[s.name]);
-                } catch {}
+                } catch (error) {
+                    console.error(`Error. Timeout for source ${ind}:`, error);
+                  }
             });
             rxStomp.watchForReceipt(receiptId, () => {
                 rxStomp.publish({destination: '/topic/heartbeat', body: JSON.stringify({heartbeat: true})});
@@ -275,7 +283,9 @@ export class SourcesPage extends React.Component {
             this.timeouts[s.name] = setTimeout(() => {
                 rxStomp.deactivate();
             }, 5000);
-        } catch {}
+        } catch (error) {
+            console.error(`Error checking connectivity for source ${ind}:`, error);
+          }
     }
 
     changeSpinner(value) {
