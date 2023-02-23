@@ -243,7 +243,7 @@ class Plot extends React.Component {
         }
     }
 
-    // Resize the state
+    // Resize the state.
     resize(width, height) {
         this.setState({width, height});
     }
