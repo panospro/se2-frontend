@@ -135,6 +135,8 @@ class Value extends React.Component {
           }
     }
 
+
+    
     // Connects to a Stomp source. It uses a login, passcode
     // and host from the source to create a stompConfig.
     // It then creates a new RxStomp.RxStomp object and activates it.
