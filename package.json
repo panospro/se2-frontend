@@ -16,7 +16,7 @@
     "jwt-decode": "^3.1.2",
     "ky": "^0.27.0",
     "mqtt": "^4.2.6",
-    "object-path": "^0.11.5",
+    "object-path": "^0.11.8",
     "prop-types": "^15.7.2",
     "ramda": "^0.27.1",
     "react": "^17.0.1",
