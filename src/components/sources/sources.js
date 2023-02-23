@@ -26,10 +26,6 @@ import sourceIcon from '../../assets/sourceBlue.png';
 
 const mqtt = require('mqtt');
 
-/*
-* Sets styling properties such as height, width,
-* border-radius, display, flex-direction and alignment.
-*/
 const StyledBox = styled(Box)`
     height: 100%;
     width: 100%;
@@ -39,10 +35,6 @@ const StyledBox = styled(Box)`
     overflow: auto;
 `;
 
-/*
-* Sets width, min-height, display, flex-direction
-* justify-content, padding etc.
-*/
 const StyledArea = styled(Box)`
     width: 750px;
     min-height: 500px;
@@ -55,10 +47,6 @@ const StyledArea = styled(Box)`
     margin: auto!important;
 `;
 
-/*
-* Sets text-alignment, color, font size,
-* font-weight and letter-spacing.
-*/
 const StyledHeader = styled.h2`
     text-align: center;
     color: white;
@@ -68,10 +56,6 @@ const StyledHeader = styled.h2`
     letter-spacing: 5px;
 `;
 
-/*
-* Sets width, text-alignment, color, margin, font size, 
-* font-weight and letter-spacing.
-*/
 const StyledSubHeader = styled.h2`
     width: 100%;
     text-align: center;
@@ -83,7 +67,6 @@ const StyledSubHeader = styled.h2`
     letter-spacing: 2px;
 `;
 
-// Style SourcesArea
 const SourcesArea = styled.div`
     width: 100%;
     grid-template-columns: repeat(auto-fill, 150px);
@@ -92,7 +75,6 @@ const SourcesArea = styled.div`
     flex-wrap: wrap;
 `;
 
-// Style NewButton
 const NewButton = styled(Button)`
     border: 2px solid transparent;
     :hover {
@@ -105,9 +87,6 @@ const NewButton = styled(Button)`
     }
 `;
 
-/*
-* Sets width, height, marging-bottom and flex-direction.
-*/
 const StyledIcon = styled.img.attrs((props) => ({src: props.icon}))`
     width: 60px;
     height: 60px;
@@ -115,9 +94,6 @@ const StyledIcon = styled.img.attrs((props) => ({src: props.icon}))`
     flex-direction: column;
 `;
 
-/*
-* Sets font size to 16px
-*/
 const StyledText = styled(Text)`
     color: white;
     text-align: center;
@@ -125,10 +101,6 @@ const StyledText = styled(Text)`
     font-size: 16px;
 `;
 
-/*
-* Sets width, display, align-items, justify-content,
-* margin-bottom etc.
-*/
 const FormHeader = styled.div`
     width: 100%;
     display: flex;
@@ -140,9 +112,6 @@ const FormHeader = styled.div`
     color: #16335B;
 `;
 
-/*
-* Sets width and flex-direction.
-*/
 const StyledForm = styled.form`
     width: 100%;
     display: flex;
@@ -150,26 +119,17 @@ const StyledForm = styled.form`
     align-items: center;
 `;
 
-/*
-* Sets the stomp and the mqtt.
-*/
 const sourceTypes = {
     stomp: 'Web-Stomp',
     mqtt: 'MQTT'
 };
 
-/*
-* Sets the stomp and the mqtt.
-*/
 const sourceDefaults = {
     stomp: 'ws://<DOMAIN>:<WEB_STOMP_PORT>/ws',
     mqtt: 'mqtt://<DOMAIN>:<MQTT_PORT>'
 };
 
 export class SourcesPage extends React.Component {
-    // The constructor of the class, that sets initial values for the state
-    // of the component, such as history push, token and a few other state values.
-    // It also binds the resize and fetchStatistics functions to the component.
     constructor(props) {
         super(props);
 
@@ -213,7 +173,6 @@ export class SourcesPage extends React.Component {
         this.changeSourceType = this.changeSourceType.bind(this);
     }
 
-    // Called immediately after the component is mounted and is used to trigger an action or dispatch an event.
     componentDidMount() {
         if (jwt_decode(this.token).exp < Date.now() / 1000) {
             this.clearAuth();
@@ -226,14 +185,12 @@ export class SourcesPage extends React.Component {
         }
     }
 
-    // Gets the sources from state and sets sources.active to true 
     setActive(ind) {
         const {sources} = this.state;
         sources[ind].active = true;
         this.setState({sources});
     }
 
-    // Fetches the sources if success is true and give a message if not
     async fetchSources() {
         this.changeSpinner(true);
         const response = await getSources();
@@ -249,82 +206,82 @@ export class SourcesPage extends React.Component {
         this.changeSpinner(false);
     }
 
-    // Checks the connectivity of all sources in the component state 
-    // based on the type of the source.
     checkConnectivity() {
         const {sources} = this.state;
         sources.forEach((s, ind) => {
-            if (s.type === 'stomp') {
-                this.checkStompConnectivity(s, ind);
-            } else {
-                this.checkMQTTConnectivity(s, ind);
-            } 
-        });
-    }
-
-    // Connects to a MQTT source using the provided url, login and passcode, subscribes to
-    // the topic '/topic/heartbeat' and publishes a heartbeat message, sets the source as active
-    // if it receives a message within 5 seconds and deactivates the connection if the timeout occurs first.
-    checkMQTTConnectivity(s, ind) {
-        const config = {
-            username: s.login,
-            password: s.passcode,
-        };
-        const client = mqtt.connect(`${s.url}`, config);
-        client.on('connect', () => {
-            client.subscribe('/topic/heartbeat', (err) => {
-                if (!err) {
-                    client.publish('/topic/heartbeat', JSON.stringify({heartbeat: true}));
+            try {
+                if (s.type === 'stomp') {
+                    this.checkStompConnectivity(s, ind);
+                } else {
+                    this.checkMQTTConnectivity(s, ind);
                 }
+            } catch {}
+        });
+    }
+
+    checkMQTTConnectivity(s, ind) {
+        try {
+            const config = {
+                username: s.login,
+                password: s.passcode,
+            };
+            const client = mqtt.connect(`${s.url}`, config);
+            client.on('connect', () => {
+                client.subscribe('/topic/heartbeat', (err) => {
+                    if (!err) {
+                        client.publish('/topic/heartbeat', JSON.stringify({heartbeat: true}));
+                    }
+                });
             });
-        });
-            
-        client.on('message', () => {
-            this.setActive(ind);
-            client.end();
-            clearTimeout(this.timeouts[s.name]);
-        });   
-        this.timeouts[s.name] = setTimeout(() => {
-            client.end();
-        }, 5000);
+                
+            client.on('message', () => {
+                this.setActive(ind);
+                client.end();
+                try {
+                    clearTimeout(this.timeouts[s.name]);
+                } catch {}
+            });   
+            this.timeouts[s.name] = setTimeout(() => {
+                client.end();
+            }, 5000);
+        } catch {}
     }
 
-    // Connects to a STOMP source using the provided url, login and passcode,
-    // subscribes to the topic '/topic/heartbeat' and publishes a heartbeat message,
-    // sets the source as active if it receives a message within 5 seconds and deactivates the connection if the timeout occurs first.
     checkStompConnectivity(s, ind) {
-        const stompConfig = {
-            connectHeaders: {
-                login: s.login,
-                passcode: s.passcode,
-                host: s.vhost
-            },
-            brokerURL: s.url,
-        };
-        // eslint-disable-next-line no-undef
-        const rxStomp = new RxStomp.RxStomp();
-        rxStomp.configure(stompConfig);
-        rxStomp.activate();
-        const receiptId = s.name;
-        rxStomp.watch('/topic/heartbeat', {receipt: receiptId}).pipe(map((message) => (JSON.parse(message.body)))).subscribe(() => {
-            this.setActive(ind);
-            rxStomp.deactivate();
-            clearTimeout(this.timeouts[s.name]);
-        });
-        rxStomp.watchForReceipt(receiptId, () => {
-            rxStomp.publish({destination: '/topic/heartbeat', body: JSON.stringify({heartbeat: true})});
-        });
-        this.timeouts[s.name] = setTimeout(() => {
-            rxStomp.deactivate();
-        }, 5000);
+        try {
+            const stompConfig = {
+                connectHeaders: {
+                    login: s.login,
+                    passcode: s.passcode,
+                    host: s.vhost
+                },
+                brokerURL: s.url,
+            };
+            // eslint-disable-next-line no-undef
+            const rxStomp = new RxStomp.RxStomp();
+            rxStomp.configure(stompConfig);
+            rxStomp.activate();
+            const receiptId = s.name;
+            rxStomp.watch('/topic/heartbeat', {receipt: receiptId}).pipe(map((message) => (JSON.parse(message.body)))).subscribe(() => {
+                this.setActive(ind);
+                rxStomp.deactivate();
+                try {
+                    clearTimeout(this.timeouts[s.name]);
+                } catch {}
+            });
+            rxStomp.watchForReceipt(receiptId, () => {
+                rxStomp.publish({destination: '/topic/heartbeat', body: JSON.stringify({heartbeat: true})});
+            });
+            this.timeouts[s.name] = setTimeout(() => {
+                rxStomp.deactivate();
+            }, 5000);
+        } catch {}
     }
 
-    // Changes the spinnerOpen state of the component to the value provided.
     changeSpinner(value) {
         this.setState({spinnerOpen: value});
     }
 
-    // Sets the formInfo state to default value, oldSourceId to null and opens the form for adding a new source
     newSource() {
         this.setState({
             formInfo: {
@@ -340,7 +297,6 @@ export class SourcesPage extends React.Component {
         });
     }
 
-    // Sets the formInfo state to the source to be edited, oldSourceId to the source's id and opens the form.
     editSource(ind) {
         const {sources} = this.state;
         this.setState({
@@ -357,7 +313,6 @@ export class SourcesPage extends React.Component {
         });
     }
 
-    // Closes the form by setting formPopupOpen state to false, formInfo and oldSourceId to default values.
     closeFormPopup() {
         this.setState({
             formInfo: {
@@ -373,7 +328,6 @@ export class SourcesPage extends React.Component {
         });
     }
 
-    // Creates or updates a source and handles success/error messages.
     async saveFormPopup(formInfo) {
         this.changeSpinner(true);
         const {oldSourceId} = this.state;
@@ -405,7 +359,6 @@ export class SourcesPage extends React.Component {
         this.changeSpinner(false);
     }
 
-    // Opens a confirmation popup for deleting a source.
     openDeletePopup(ind) {
         const {sources} = this.state;
         this.deleteSourceId = sources[ind].id;
@@ -413,14 +366,12 @@ export class SourcesPage extends React.Component {
         this.setState({deleteSourcePopupOpen: true});
     }
 
-    // Closes the delete confirmation popup
     closeDeletePopup() {
         this.deleteSourceId = null;
         this.deleteSourceName = '';
         this.setState({deleteSourcePopupOpen: false});
     }
 
-    // Removes a source and handles success/error messages.
     async removeSource() {
         const response = await deleteSource(this.deleteSourceId);
         if (response.success) {
@@ -439,10 +390,7 @@ export class SourcesPage extends React.Component {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    // Changes the source type and updates the form accordingly.
     changeSourceType(formikProps, type) {
-        // ???
-        this.setState({ /* ... */ });
         const {url} = formikProps.values;
 
         if (url === sourceDefaults.stomp || url === sourceDefaults.mqtt) {
@@ -450,10 +398,6 @@ export class SourcesPage extends React.Component {
         }
     }
 
-    // Renders a section for managing sources. It maps over sources and renders a display
-    // for each source with an icon, a name and two icons for editing and deleting a source.
-    //  It also includes a button for adding a new source. Then, it rendered a modal for editing
-    //  and deleting source, when clicked on icons.
     render() {    
         const {spinnerOpen, sources, formInfo, formPopupOpen, deleteSourcePopupOpen} = this.state;
 
@@ -638,25 +582,14 @@ export class SourcesPage extends React.Component {
     }
 }
 
-// Export mapState, which is taking the user from the auth in the global state and passing 
-// it as a prop
 export const mapState = (state) => ({user: state.auth.user, token: state.auth.token});
 
-// Export mapDispatch, takes an argument and returns an object, which is a function that dispatches an "auth.clear" action when called. 
-// This action will clear the auth state in the Redux store.
 export const mapDispatch = (dispatch) => ({
     clearAuth: () => {
         dispatch(actions.auth.clear());
     }
 });
 
-/*
-*
-* Default export
-*
-*/
-// The export constant is: 
-// the connected mapState and mapDispatch with SourcesPage
 export default connect(
     mapState,
     mapDispatch
