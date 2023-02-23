@@ -113,49 +113,53 @@ class Logs extends React.Component {
     // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     messageReceived(payload) {
         const {variable, maxMessages, id} = this.state;
-        const {counter, logs} = this.state;
-        const messagesList = document.getElementById(`logsDiv_${id}`);
-        const toBottom = Math.abs((messagesList.scrollTop + messagesList.clientHeight) - (messagesList.scrollHeight)) < 5;
+        try {
+            const {counter, logs} = this.state;
+            const messagesList = document.getElementById(`logsDiv_${id}`);
+            const toBottom = Math.abs((messagesList.scrollTop + messagesList.clientHeight) - (messagesList.scrollHeight)) < 5;
 
-        const newCounter = counter + 1;
-        let ts = (new Date() - this.prevTime) / 1000.0;
-        if (this.prevTime < 0) {
-            ts = '-';
-            this.minInterval = 1000000000;
-            this.maxInterval = 0;
-            this.meanInterval = 0;
-        } else {
-            if (ts < this.minInterval) {
-                this.minInterval = ts;
+            const newCounter = counter + 1;
+            let ts = (new Date() - this.prevTime) / 1000.0;
+            if (this.prevTime < 0) {
+                ts = '-';
+                this.minInterval = 1000000000;
+                this.maxInterval = 0;
+                this.meanInterval = 0;
+            } else {
+                if (ts < this.minInterval) {
+                    this.minInterval = ts;
+                }
+                if (ts > this.maxInterval) {
+                    this.maxInterval = ts;
+                }
+                this.meanInterval += ts;
             }
-            if (ts > this.maxInterval) {
-                this.maxInterval = ts;
-            }
-            this.meanInterval += ts;
-        }
-        this.prevTime = new Date();
+            this.prevTime = new Date();
 
-        const value = objectPath.get(payload, variable);
-        logs.push({message: JSON.stringify(value), date: new Date()});
-        if (logs.length > maxMessages && maxMessages !== -1) {
-            logs.shift();
-        }
-        this.setState({
-            logs,
-            counter: newCounter,
-            timeSpan: `Last interval: ${ts} sec`,
-            minint: `Minimum interval: ${this.minInterval} sec`,
-            meanint: `Mean interval: ${(this.meanInterval / (newCounter - 1)).toFixed(3)} sec`,
-            maxint: `Maximum interval: ${this.maxInterval} sec`,
-            timeSpanVal: ts,
-            minintVal: this.minInterval,
-            meanintVal: (this.meanInterval / (newCounter - 1)).toFixed(3),
-            maxintVal: this.maxInterval,
-        }, () => {
-            if (toBottom) {
-                messagesList.scrollTop = messagesList.scrollHeight;
+            const value = objectPath.get(payload, variable);
+            logs.push({message: JSON.stringify(value), date: new Date()});
+            if (logs.length > maxMessages && maxMessages !== -1) {
+                logs.shift();
             }
-        });
+            this.setState({
+                logs,
+                counter: newCounter,
+                timeSpan: `Last interval: ${ts} sec`,
+                minint: `Minimum interval: ${this.minInterval} sec`,
+                meanint: `Mean interval: ${(this.meanInterval / (newCounter - 1)).toFixed(3)} sec`,
+                maxint: `Maximum interval: ${this.maxInterval} sec`,
+                timeSpanVal: ts,
+                minintVal: this.minInterval,
+                meanintVal: (this.meanInterval / (newCounter - 1)).toFixed(3),
+                maxintVal: this.maxInterval,
+            }, () => {
+                if (toBottom) {
+                    messagesList.scrollTop = messagesList.scrollHeight;
+                }
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Sets up the connection using the login, passcode, host and broker URL given in the source.
@@ -164,62 +168,70 @@ class Logs extends React.Component {
     // the mean interval between them.
     connectStompSource(source) {
         const {name, topic} = this.state;
-        const stompConfig = {
-            connectHeaders: {
-                login: source.login,
-                passcode: source.passcode,
-                host: source.vhost
-            },
-            // debug: (str) => {
-            //     console.log(`STOMP: ${str}`);
-            // },
-            brokerURL: source.url
-        };
-        // eslint-disable-next-line no-undef
-        this.rxStomp = new RxStomp.RxStomp();
-        this.rxStomp.configure(stompConfig);
-        this.rxStomp.activate();
-        const initialReceiptId = `${name}_start`;
+        try {
+            const stompConfig = {
+                connectHeaders: {
+                    login: source.login,
+                    passcode: source.passcode,
+                    host: source.vhost
+                },
+                // debug: (str) => {
+                //     console.log(`STOMP: ${str}`);
+                // },
+                brokerURL: source.url
+            };
+            // eslint-disable-next-line no-undef
+            this.rxStomp = new RxStomp.RxStomp();
+            this.rxStomp.configure(stompConfig);
+            this.rxStomp.activate();
+            const initialReceiptId = `${name}_start`;
 
-        this.prevTime = -1;
-        this.minInterval = -1;
-        this.maxInterval = -1;
-        this.meanInterval = 0;
+            this.prevTime = -1;
+            this.minInterval = -1;
+            this.maxInterval = -1;
+            this.meanInterval = 0;
 
-        this.rxStomp.watch(`/topic/${topic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-            this.messageReceived(payload);
-        });
-        this.rxStomp.watchForReceipt(initialReceiptId, () => {
-            this.changeSpinner(false);
-        });
+            this.rxStomp.watch(`/topic/${topic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+                this.messageReceived(payload);
+            });
+            this.rxStomp.watchForReceipt(initialReceiptId, () => {
+                this.changeSpinner(false);
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connects to an MQTT source, subscribes to a specified topic and processes messages received from
     // the topic, closing a spinner after the connection is established.
     connectMqttSource(source) {
         const {topic} = this.state;
-        const config = {
-            username: source.login,
-            password: source.passcode
-        };
+        try {
+            const config = {
+                username: source.login,
+                password: source.passcode
+            };
 
-        this.mqttClient = mqtt.connect(source.url, config);
-        this.mqttClient.on('connect', () => {
-            this.mqttClient.subscribe(`${topic}`, (err) => {
-                if (!err) {
-                    this.changeSpinner(false);
-                }
+            this.mqttClient = mqtt.connect(source.url, config);
+            this.mqttClient.on('connect', () => {
+                this.mqttClient.subscribe(`${topic}`, (err) => {
+                    if (!err) {
+                        this.changeSpinner(false);
+                    }
+                });
             });
-        });
-        
-        this.prevTime = -1;
-        this.minInterval = -1;
-        this.maxInterval = -1;
-        this.meanInterval = 0;
+            
+            this.prevTime = -1;
+            this.minInterval = -1;
+            this.maxInterval = -1;
+            this.meanInterval = 0;
 
-        this.mqttClient.on('message', (__, message) => {
-            this.messageReceived(JSON.parse(message.toString()));
-        });
+            this.mqttClient.on('message', (__, message) => {
+                this.messageReceived(JSON.parse(message.toString()));
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Retrieves the details for a specified source and connects to a specified topic using either
@@ -303,15 +315,19 @@ class Logs extends React.Component {
 
         const filteredLogs = [];
         logs.forEach((l) => {
-            if (l.message.includes(filter) || (new RegExp(filter)).test(l.message)) {
-                let color = '#16335B';
-                for (let i = colorKeys.length - 1; i >= 0; i -= 1) {
-                    if (l.message.includes(colorKeys[i]) || (new RegExp(colorKeys[i])).test(l.message)) {
-                        color = colorValues[i];
+            try {
+                if (l.message.includes(filter) || (new RegExp(filter)).test(l.message)) {
+                    let color = '#16335B';
+                    for (let i = colorKeys.length - 1; i >= 0; i -= 1) {
+                        if (l.message.includes(colorKeys[i]) || (new RegExp(colorKeys[i])).test(l.message)) {
+                            color = colorValues[i];
+                        }
                     }
+                    filteredLogs.push({message: l.message, date: l.date, color});
                 }
-                filteredLogs.push({message: l.message, date: l.date, color});
-            }
+            } catch (error) {
+            console.error('An error occurred:', error);
+          }
         });
 
         return (

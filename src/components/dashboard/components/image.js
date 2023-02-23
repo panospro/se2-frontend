@@ -92,10 +92,14 @@ class Image extends React.Component {
     // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     messageReceived(payload) {
         const {variable} = this.state;
-        const {counter} = this.state;
-        const newCounter = counter + 1;
-        const image = objectPath.get(payload, variable);
-        this.setState({image: `data:image/jpg;base64,${image}`, counter: newCounter});
+        try {
+            const {counter} = this.state;
+            const newCounter = counter + 1;
+            const image = objectPath.get(payload, variable);
+            this.setState({image: `data:image/jpg;base64,${image}`, counter: newCounter});
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Establish a connection to a STOMP message broker. It takes a single source argument, which is an object containing information about the STOMP message broker, such as the URL,
@@ -104,30 +108,35 @@ class Image extends React.Component {
     // If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectStompSource(source) {
         const {name, topic} = this.state;
-        const stompConfig = {
-            connectHeaders: {
-                login: source.login,
-                passcode: source.passcode,
-                host: source.vhost
-            },
-            // debug: (str) => {
-            //     console.log(`STOMP: ${str}`);
-            // },
-            brokerURL: source.url
-        };
-        // eslint-disable-next-line no-undef
-        this.rxStomp = new RxStomp.RxStomp();
-        this.rxStomp.configure(stompConfig);
-        this.rxStomp.activate();
-        const initialReceiptId = `${name}_start`;
+        try {
+            const stompConfig = {
+                connectHeaders: {
+                    login: source.login,
+                    passcode: source.passcode,
+                    host: source.vhost
+                },
+                // debug: (str) => {
+                //     console.log(`STOMP: ${str}`);
+                // },
+                brokerURL: source.url
+            };
+            // eslint-disable-next-line no-undef
+            this.rxStomp = new RxStomp.RxStomp();
+            this.rxStomp.configure(stompConfig);
+            this.rxStomp.activate();
+            const initialReceiptId = `${name}_start`;
 
-        this.rxStomp.watch(`/topic/${topic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-            this.messageReceived(payload);
-        });
-        this.rxStomp.watchForReceipt(initialReceiptId, () => {
-            this.changeSpinner(false);
-        });
+            this.rxStomp.watch(`/topic/${topic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+                this.messageReceived(payload);
+            });
+            this.rxStomp.watchForReceipt(initialReceiptId, () => {
+                this.changeSpinner(false);
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
+
 
     // Establish a connection to an MQTT message broker. It takes a single source argument, which is an object containing information about the MQTT message broker, such as the URL 
     // and login credentials. Then create a configuration object and create a new MQTT client using the mqtt.connect function. It then sets up a subscription to a topic on the message
@@ -135,23 +144,27 @@ class Image extends React.Component {
     // the messageReceived method of the component. If there is an error it catches it with an empty catch block to catch any errors that might occur and prevent them from crashing the application.
     connectMqttSource(source) {
         const {topic} = this.state;
-        const config = {
-            username: source.login,
-            password: source.passcode
-        };
+        try {
+            const config = {
+                username: source.login,
+                password: source.passcode
+            };
 
-        this.mqttClient = mqtt.connect(source.url, config);
-        this.mqttClient.on('connect', () => {
-            this.mqttClient.subscribe(`${topic}`, (err) => {
-                if (!err) {
-                    this.changeSpinner(false);
-                }
+            this.mqttClient = mqtt.connect(source.url, config);
+            this.mqttClient.on('connect', () => {
+                this.mqttClient.subscribe(`${topic}`, (err) => {
+                    if (!err) {
+                        this.changeSpinner(false);
+                    }
+                });
             });
-        });
 
-        this.mqttClient.on('message', (__, message) => {
-            this.messageReceived(JSON.parse(message.toString()));
-        });
+            this.mqttClient.on('message', (__, message) => {
+                this.messageReceived(JSON.parse(message.toString()));
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Fetches the source for a given topic from the server and then connects to the source using either the STOMP or MQTT protocol, depending on the type of source. If the connection 

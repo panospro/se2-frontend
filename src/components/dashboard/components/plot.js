@@ -143,74 +143,86 @@ class Plot extends React.Component {
     // the image and displaying it in a div element.
     messageReceived(payload, ind) {
         const {variables, maxValues} = this.state;
-        const {counter, values} = this.state;
-        const newCounter = counter + 1;
-        const value = objectPath.get(payload, variables[ind]);
-        values[ind].push({x: (new Date()).getTime(), y: value});
-        if (values[ind].length > maxValues && maxValues !== -1) {
-            values[ind].shift();
-        }
-        this.setState({values, counter: newCounter});
+        try {
+            const {counter, values} = this.state;
+            const newCounter = counter + 1;
+            const value = objectPath.get(payload, variables[ind]);
+            values[ind].push({x: (new Date()).getTime(), y: value});
+            if (values[ind].length > maxValues && maxValues !== -1) {
+                values[ind].shift();
+            }
+            this.setState({values, counter: newCounter});
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connect to stomp source using RxStomp, listen for messages 
     // on different topics and handle them accordingly.
     connectStompSource(source) {
         const {name, topics} = this.state;
-        const stompConfig = {
-            connectHeaders: {
-                login: source.login,
-                passcode: source.passcode,
-                host: source.vhost
-            },
-            // debug: (str) => {
-            //     console.log(`STOMP: ${str}`);
-            // },
-            brokerURL: source.url
-        };
-        // eslint-disable-next-line no-undef
-        this.rxStomp = new RxStomp.RxStomp();
-        this.rxStomp.configure(stompConfig);
-        this.rxStomp.activate();
-        const initialReceiptId = `${name}_start`;
+        try {
+            const stompConfig = {
+                connectHeaders: {
+                    login: source.login,
+                    passcode: source.passcode,
+                    host: source.vhost
+                },
+                // debug: (str) => {
+                //     console.log(`STOMP: ${str}`);
+                // },
+                brokerURL: source.url
+            };
+            // eslint-disable-next-line no-undef
+            this.rxStomp = new RxStomp.RxStomp();
+            this.rxStomp.configure(stompConfig);
+            this.rxStomp.activate();
+            const initialReceiptId = `${name}_start`;
 
-        topics.forEach((t, ind) => {
-            this.rxStomp.watch(`/topic/${t}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-                this.messageReceived(payload, ind);
+            topics.forEach((t, ind) => {
+                this.rxStomp.watch(`/topic/${t}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+                    this.messageReceived(payload, ind);
+                });
             });
-        });
-        this.rxStomp.watchForReceipt(initialReceiptId, () => {
-            this.changeSpinner(false);
-        });
+            this.rxStomp.watchForReceipt(initialReceiptId, () => {
+                this.changeSpinner(false);
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Sets up an MQTT client connection and subscribes to various 
     // topics to receive messages which it then handles with specific functions.
     connectMqttSource(source) {
         const {topics} = this.state;
-        const config = {
-            username: source.login,
-            password: source.passcode
-        };
+        try {
+            const config = {
+                username: source.login,
+                password: source.passcode
+            };
 
-        this.mqttClient = mqtt.connect(source.url, config);
-        this.mqttClient.on('connect', () => {
-            topics.forEach((t) => {
-                this.mqttClient.subscribe(`${t}`, (err) => {
-                    if (!err) {
-                        this.changeSpinner(false);
+            this.mqttClient = mqtt.connect(source.url, config);
+            this.mqttClient.on('connect', () => {
+                topics.forEach((t) => {
+                    this.mqttClient.subscribe(`${t}`, (err) => {
+                        if (!err) {
+                            this.changeSpinner(false);
+                        }
+                    });
+                });
+            });
+
+            this.mqttClient.on('message', (topic, message) => {
+                topics.forEach((t, ind) => {
+                    if (t === topic) {
+                        this.messageReceived(JSON.parse(message.toString()), ind);
                     }
                 });
             });
-        });
-
-        this.mqttClient.on('message', (topic, message) => {
-            topics.forEach((t, ind) => {
-                if (t === topic) {
-                    this.messageReceived(JSON.parse(message.toString()), ind);
-                }
-            });
-        });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connects to the specified source and subscribes to relevant topics.
