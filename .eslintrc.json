@@ -37,6 +37,7 @@
     "comma-dangle": "off",
     "import/no-named-as-default": "off",
     "no-empty": "off",
+    "no-empty-blocks": "off",
     "no-trailing-spaces": "off",
     "no-underscore-dangle": "off",
     "no-multiple-empty-lines": "warn",
