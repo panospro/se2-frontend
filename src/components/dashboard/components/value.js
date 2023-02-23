@@ -94,41 +94,45 @@ class Value extends React.Component {
     // its dimensions before resizing the image and displaying it in a div element.
     messageReceived(payload) {
         const {variable, id} = this.state;
-        const {counter} = this.state;
-        const newCounter = counter + 1;
-        let ts = (new Date() - this.prevTime) / 1000.0;
-        if (this.prevTime < 0) {
-            ts = '-';
-            this.minInterval = 1000000000;
-            this.maxInterval = 0;
-            this.meanInterval = 0;
-        } else {
-            if (ts < this.minInterval) {
-                this.minInterval = ts;
+        try {
+            const {counter} = this.state;
+            const newCounter = counter + 1;
+            let ts = (new Date() - this.prevTime) / 1000.0;
+            if (this.prevTime < 0) {
+                ts = '-';
+                this.minInterval = 1000000000;
+                this.maxInterval = 0;
+                this.meanInterval = 0;
+            } else {
+                if (ts < this.minInterval) {
+                    this.minInterval = ts;
+                }
+                if (ts > this.maxInterval) {
+                    this.maxInterval = ts;
+                }
+                this.meanInterval += ts;
             }
-            if (ts > this.maxInterval) {
-                this.maxInterval = ts;
-            }
-            this.meanInterval += ts;
-        }
-        this.prevTime = new Date();
-        const value = objectPath.get(payload, variable);
-        this.setState({
-            displayValue: value,
-            counter: newCounter,
-            timeSpan: `Last interval: ${ts} sec`,
-            minint: `Minimum interval: ${this.minInterval} sec`,
-            meanint: `Mean interval: ${(this.meanInterval / (newCounter - 1)).toFixed(3)} sec`,
-            maxint: `Maximum interval: ${this.maxInterval} sec`,
-            timeSpanVal: ts,
-            minintVal: this.minInterval,
-            meanintVal: (this.meanInterval / (newCounter - 1)).toFixed(3),
-            maxintVal: this.maxInterval
-        }, () => {
-            const height = document.getElementById(`valueDiv_${id}`).offsetHeight;
-            const width = document.getElementById(`valueDiv_${id}`).offsetWidth;
-            this.resize(width, height);
-        });
+            this.prevTime = new Date();
+            const value = objectPath.get(payload, variable);
+            this.setState({
+                displayValue: value,
+                counter: newCounter,
+                timeSpan: `Last interval: ${ts} sec`,
+                minint: `Minimum interval: ${this.minInterval} sec`,
+                meanint: `Mean interval: ${(this.meanInterval / (newCounter - 1)).toFixed(3)} sec`,
+                maxint: `Maximum interval: ${this.maxInterval} sec`,
+                timeSpanVal: ts,
+                minintVal: this.minInterval,
+                meanintVal: (this.meanInterval / (newCounter - 1)).toFixed(3),
+                maxintVal: this.maxInterval
+            }, () => {
+                const height = document.getElementById(`valueDiv_${id}`).offsetHeight;
+                const width = document.getElementById(`valueDiv_${id}`).offsetWidth;
+                this.resize(width, height);
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connects to a Stomp source. It uses a login, passcode
@@ -139,34 +143,38 @@ class Value extends React.Component {
     // watches for a receipt.
     connectStompSource(source) {
         const {name, topic} = this.state;
-        const stompConfig = {
-            connectHeaders: {
-                login: source.login,
-                passcode: source.passcode,
-                host: source.vhost
-            },
-            // debug: (str) => {
-            //     console.log(`STOMP: ${str}`);
-            // },
-            brokerURL: source.url
-        };
-        // eslint-disable-next-line no-undef
-        this.rxStomp = new RxStomp.RxStomp();
-        this.rxStomp.configure(stompConfig);
-        this.rxStomp.activate();
-        const initialReceiptId = `${name}_start`;
+        try {
+            const stompConfig = {
+                connectHeaders: {
+                    login: source.login,
+                    passcode: source.passcode,
+                    host: source.vhost
+                },
+                // debug: (str) => {
+                //     console.log(`STOMP: ${str}`);
+                // },
+                brokerURL: source.url
+            };
+            // eslint-disable-next-line no-undef
+            this.rxStomp = new RxStomp.RxStomp();
+            this.rxStomp.configure(stompConfig);
+            this.rxStomp.activate();
+            const initialReceiptId = `${name}_start`;
 
-        this.prevTime = -1;
-        this.minInterval = -1;
-        this.maxInterval = -1;
-        this.meanInterval = 0;
+            this.prevTime = -1;
+            this.minInterval = -1;
+            this.maxInterval = -1;
+            this.meanInterval = 0;
 
-        this.rxStomp.watch(`/topic/${topic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
-            this.messageReceived(payload);
-        });
-        this.rxStomp.watchForReceipt(initialReceiptId, () => {
-            this.changeSpinner(false);
-        });
+            this.rxStomp.watch(`/topic/${topic}`, {receipt: initialReceiptId}).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
+                this.messageReceived(payload);
+            });
+            this.rxStomp.watchForReceipt(initialReceiptId, () => {
+                this.changeSpinner(false);
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connect to a message queue telemetry transport (MQTT) source.
@@ -177,28 +185,32 @@ class Value extends React.Component {
     // Then the time related variables are set to their initial values.
     connectMqttSource(source) {
         const {topic} = this.state;
-        const config = {
-            username: source.login,
-            password: source.passcode
-        };
+        try {
+            const config = {
+                username: source.login,
+                password: source.passcode
+            };
 
-        this.mqttClient = mqtt.connect(source.url, config);
-        this.mqttClient.on('connect', () => {
-            this.mqttClient.subscribe(`${topic}`, (err) => {
-                if (!err) {
-                    this.changeSpinner(false);
-                }
+            this.mqttClient = mqtt.connect(source.url, config);
+            this.mqttClient.on('connect', () => {
+                this.mqttClient.subscribe(`${topic}`, (err) => {
+                    if (!err) {
+                        this.changeSpinner(false);
+                    }
+                });
             });
-        });
-        
-        this.prevTime = -1;
-        this.minInterval = -1;
-        this.maxInterval = -1;
-        this.meanInterval = 0;
+            
+            this.prevTime = -1;
+            this.minInterval = -1;
+            this.maxInterval = -1;
+            this.meanInterval = 0;
 
-        this.mqttClient.on('message', (__, message) => {
-            this.messageReceived(JSON.parse(message.toString()));
-        });
+            this.mqttClient.on('message', (__, message) => {
+                this.messageReceived(JSON.parse(message.toString()));
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
     
     // Retrieves the user, owner, name and source from the component's
