@@ -1,3 +1,5 @@
+# Create the ci part of the frontend. The cd part is done by netlify.
+# First we checkout of the repo, then we install dependencies and finally we build and test our code
 name: CI
 
 on:
