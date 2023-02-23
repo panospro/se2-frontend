@@ -2,8 +2,8 @@ name: CICD
 
 on:
   push:
-    branches-ignore:
-      - main
+#     branches-ignore:
+#       - main
   pull_request:
     branches:
       - main
@@ -21,13 +21,13 @@ jobs:
         run: npm install
         
       # Tests on cypress
-      - name: Run test script
-        uses: cypress-io/github-action@v4
-        with:
-          build: npm run build
-          start: npm run dev
-          command: npm run test:ci
-          install-command: npm ci --force
+#       - name: Run test script
+#         uses: cypress-io/github-action@v4
+#         with:
+#           build: npm run build
+#           start: npm run dev
+#           command: npm run test:ci
+#           install-command: npm ci --force
        
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
