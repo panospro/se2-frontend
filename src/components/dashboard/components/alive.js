@@ -172,7 +172,7 @@ class Alive extends React.Component {
                 counter: newCounter
             });
         } catch (error) {
-            console.error(`Message not received for alive ${ind}:`, error);
+            console.error('An error occurred:', error);
           }
     }
 
@@ -218,7 +218,7 @@ class Alive extends React.Component {
                 this.changeSpinner(false);
             });
         } catch (error) {
-            console.error(`Connectivity error for alive ${ind}:`, error);
+            console.error('An error occurred:', error);
           }
     }
 
@@ -259,7 +259,7 @@ class Alive extends React.Component {
                 this.messageReceived();
             });
         } catch (error) {
-            console.error(`Connectivity error for alive ${ind}:`, error);
+            console.error('An error occurred:', error);
           }
     }
 
