@@ -69,7 +69,7 @@ jobs:
           npm run build2
           npm run dev &
       - name: Wait for server to start
-        run: npx wait-on http://10.1.0.194
+        run: npx wait-on http://10.1.0.194/
 
       - name: Run Cypress tests
         run: npm run cypress:run
