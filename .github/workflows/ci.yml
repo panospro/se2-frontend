@@ -52,24 +52,53 @@
 #     - name: Run Cypress Tests
 #       run: npm run cypress:run
 
-name: CI
+# name: CI
 
-on: [push]
+# on: [push]
+
+# jobs:
+#   build-and-test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#       - name: Install dependencies
+#         run: npm install
+#       - name: Build and start server
+#         run: |
+#           PUBLIC_URL=http://localhost:3002 npm run build2
+#           PUBLIC_URL=http://localhost:3002 npm run dev &
+#       - name: Wait for server to start
+#         run: npx wait-on http://localhost:3002
+
+#       - name: Run Cypress tests
+#         run: npm run cypress:run
+
+name: CI/CD
+
+on: push
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3 
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.18.0"
+
       - name: Install dependencies
         run: npm install
-      - name: Build and start server
-        run: |
-          PUBLIC_URL=http://localhost:3002 npm run build2
-          PUBLIC_URL=http://localhost:3002 npm run dev &
-      - name: Wait for server to start
-        run: npx wait-on http://localhost:3002
 
-      - name: Run Cypress tests
-        run: npm run cypress:run
+      - name: Run the tests
+        uses: cypress-io/github-action@v4
+        with:
+          build: npm run build
+          start: npm run start
+          wait-on: 'http://localhost:3002/'
+          browser: chrome
+          command: npm run test
+          install-command: npm ci --force
