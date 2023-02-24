@@ -66,7 +66,7 @@ jobs:
         run: npm install
       - name: Build and start server
         run: |
-          npm run build
+          npm run build2
           npm start &
       - name: Wait for server to start
         run: npx wait-on http://localhost:3002
