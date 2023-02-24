@@ -65,7 +65,8 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build and start server
-        run: PUBLIC_URL=http://localhost:3002 npm run dev &
+        run: PUBLIC_URL=http://localhost:3002 npm run dev -- --host localhost
+
       - name: Wait for server to start
         run: npx wait-on http://localhost:3002
 
