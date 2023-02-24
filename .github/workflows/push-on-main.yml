@@ -1,0 +1,22 @@
+# Here is a script that throws an error whenever someone pushes on main. Because the project is private and there is
+# no way to enforce the branches setting, we created this script that notifies us whenever did something wrong. When we realise it
+# we can go and revert the commit. We tried, but we couldn't have a ci/cd that returns to the previous commits, because there was no commit
+# history. 
+name: push-on-main
+       
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  NOT-ALLOWED-TO-PUSH-TO-MAIN:
+    runs-on: ubuntu-latest
+    steps:
+      # Don't allow the user to push on main directly
+      - name: Refuse push to main
+        run: |
+          if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+            echo "User is not allowed to push to main branch"
+            exit 1
+          fi

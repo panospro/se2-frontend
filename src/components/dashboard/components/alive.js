@@ -171,7 +171,9 @@ class Alive extends React.Component {
                 maxintVal: this.maxInterval,
                 counter: newCounter
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Establish a connection to a STOMP message broker. It takes a single 
@@ -215,7 +217,9 @@ class Alive extends React.Component {
             this.rxStomp.watchForReceipt(initialReceiptId, () => {
                 this.changeSpinner(false);
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Establish a connection to an MQTT message broker. It takes a single 
@@ -254,7 +258,9 @@ class Alive extends React.Component {
             this.mqttClient.on('message', () => {
                 this.messageReceived();
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Fetches the source for a given topic from the server and then connects to the source using either the STOMP or MQTT protocol, depending on the type of source. If the connection 

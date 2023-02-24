@@ -157,7 +157,9 @@ class Logs extends React.Component {
                     messagesList.scrollTop = messagesList.scrollHeight;
                 }
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Sets up the connection using the login, passcode, host and broker URL given in the source.
@@ -195,7 +197,9 @@ class Logs extends React.Component {
             this.rxStomp.watchForReceipt(initialReceiptId, () => {
                 this.changeSpinner(false);
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connects to an MQTT source, subscribes to a specified topic and processes messages received from
@@ -225,7 +229,9 @@ class Logs extends React.Component {
             this.mqttClient.on('message', (__, message) => {
                 this.messageReceived(JSON.parse(message.toString()));
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Retrieves the details for a specified source and connects to a specified topic using either
@@ -319,7 +325,9 @@ class Logs extends React.Component {
                     }
                     filteredLogs.push({message: l.message, date: l.date, color});
                 }
-            } catch {}
+            } catch (error) {
+            console.error('An error occurred:', error);
+          }
         });
 
         return (

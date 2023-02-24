@@ -176,7 +176,9 @@ class Buttons extends React.Component {
             this.rxStomps[ind] = new RxStomp.RxStomp();
             this.rxStomps[ind].configure(stompConfig);
             this.rxStomps[ind].activate();
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Takes source and ind as arguments and is used to connect to an MQTT (Message Queuing Telemetry Transport) broker with the provided source object. It uses the mqtt.connect function
@@ -190,7 +192,9 @@ class Buttons extends React.Component {
             };
 
             this.mqttClients[ind] = mqtt.connect(source.url, config);
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // It is an async function that retrieves sources based on the owner, user and name in the component's state and then uses those sources to connect to brokers using
@@ -244,7 +248,9 @@ class Buttons extends React.Component {
                 this.mqttClients[buttonSelected].publish(topics[buttonSelected], payloads[buttonSelected]);
             }
             this.setState({counter: counter + 1, buttonSelected: null});
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Used to either open a popup or send a message, depending on the value of the "isDynamic"  in the component's state. If "isDynamic" is true for the specified index,

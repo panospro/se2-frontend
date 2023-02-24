@@ -152,7 +152,9 @@ class Plot extends React.Component {
                 values[ind].shift();
             }
             this.setState({values, counter: newCounter});
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connect to stomp source using RxStomp, listen for messages 
@@ -185,7 +187,9 @@ class Plot extends React.Component {
             this.rxStomp.watchForReceipt(initialReceiptId, () => {
                 this.changeSpinner(false);
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Sets up an MQTT client connection and subscribes to various 
@@ -216,7 +220,9 @@ class Plot extends React.Component {
                     }
                 });
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connects to the specified source and subscribes to relevant topics.
@@ -237,7 +243,7 @@ class Plot extends React.Component {
         }
     }
 
-    // Resize the state
+    // Resize the state.
     resize(width, height) {
         this.setState({width, height});
     }

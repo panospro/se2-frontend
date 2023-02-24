@@ -297,8 +297,11 @@ class NavigationRoute extends React.Component {
                     this.resize(imageDiv.offsetWidth, imageDiv.offsetHeight);
                 }, 200);
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
+
 
     // Processes a received message that is expected to contain pose data, 
     // including the width and height of a map, the origin and resolution of the map
@@ -319,7 +322,9 @@ class NavigationRoute extends React.Component {
                 origin,
                 resolution
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // ReceivES a message that is expected to contain path data, calculating
@@ -341,7 +346,9 @@ class NavigationRoute extends React.Component {
                 origin,
                 resolution
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // This method processes a received message containing annotation data
@@ -362,7 +369,9 @@ class NavigationRoute extends React.Component {
                 origin,
                 resolution
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connect to stomp source using RxStomp, listen for messages on
@@ -403,7 +412,9 @@ class NavigationRoute extends React.Component {
             this.rxStomp.watch(`/topic/${getAnnotationsTopic}`).pipe(map((message) => JSON.parse(message.body))).subscribe((payload) => {
                 this.messageReceivedAnnotations(payload);
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Sets up an MQTT client connection and subscribes to various topics
@@ -440,7 +451,9 @@ class NavigationRoute extends React.Component {
                     this.messageReceivedAnnotations(JSON.parse(message.toString()));
                 }
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connects to the specified source and subscribes to relevant topics.
@@ -503,7 +516,9 @@ class NavigationRoute extends React.Component {
                 this.mqttClient.publish(setAnnotationGoalTopic, JSON.stringify({name: annotations[ind].name}));
             }
             this.setState({selectAnnotationPopupOpen: false});
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Opens up a canvas to click on a point and sends the coordinates
@@ -524,7 +539,9 @@ class NavigationRoute extends React.Component {
             } else if (this.mqttClient !== null) {
                 this.mqttClient.publish(cancelGoalTopic, JSON.stringify({}));
             }
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Close annotation canvas and remove mouse event listener.
@@ -550,7 +567,9 @@ class NavigationRoute extends React.Component {
                 this.mqttClient.publish(changeAnnotationsTopic, JSON.stringify({mode: 'delete', name: annotations[this.tempDeleteAnnotation].name}));
             }
             this.setState({deleteAnnotationPopupOpen: false});
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Sends a goal to a topic in the form of an (x, y) coordinate, 
@@ -560,13 +579,11 @@ class NavigationRoute extends React.Component {
         const {imageWidth, imageHeight, resolution, origin, map_width, map_height, setGoalTopic} = this.state;
         const newX = (((point.x / imageWidth) * map_width) * resolution) - origin.x;
         const newY = ((((imageHeight - point.y) / imageHeight) * map_height) * resolution) - origin.y;
-        try {
-            if (this.rxStomp !== null) {
-                this.rxStomp.publish({destination: `/topic/${setGoalTopic}`, body: JSON.stringify({x: newX, y: newY, theta: 0})});
-            } else if (this.mqttClient !== null) {
-                this.mqttClient.publish(setGoalTopic, JSON.stringify({x: newX, y: newY, theta: 0}));
-            }
-        } catch {}
+        if (this.rxStomp !== null) {
+            this.rxStomp.publish({destination: `/topic/${setGoalTopic}`, body: JSON.stringify({x: newX, y: newY, theta: 0})});
+        } else if (this.mqttClient !== null) {
+            this.mqttClient.publish(setGoalTopic, JSON.stringify({x: newX, y: newY, theta: 0}));
+        }
     }
 
     // Closes the 'goto' canvas and removes mouseup event listener.
@@ -601,7 +618,9 @@ class NavigationRoute extends React.Component {
                 this.mqttClient.publish(changeAnnotationsTopic, JSON.stringify({mode: 'add', name: tempAnnotationName, pose: {x: newX, y: newY}}));
             }
             this.cancelAnnotation();
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Opens a delete annotation popup, closes a select annotation 

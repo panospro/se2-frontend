@@ -130,9 +130,13 @@ class Value extends React.Component {
                 const width = document.getElementById(`valueDiv_${id}`).offsetWidth;
                 this.resize(width, height);
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
+
+    
     // Connects to a Stomp source. It uses a login, passcode
     // and host from the source to create a stompConfig.
     // It then creates a new RxStomp.RxStomp object and activates it.
@@ -170,7 +174,9 @@ class Value extends React.Component {
             this.rxStomp.watchForReceipt(initialReceiptId, () => {
                 this.changeSpinner(false);
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Connect to a message queue telemetry transport (MQTT) source.
@@ -204,7 +210,9 @@ class Value extends React.Component {
             this.mqttClient.on('message', (__, message) => {
                 this.messageReceived(JSON.parse(message.toString()));
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
     
     // Retrieves the user, owner, name and source from the component's

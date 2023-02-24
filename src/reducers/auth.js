@@ -1,6 +1,4 @@
-/*
-* Import the necessary modules
-*/
+// Import the necessary modules
 import {T, cond} from 'ramda';
 import {persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
@@ -40,11 +38,5 @@ const persistedReducer = persistReducer(
     cond([set, clear, setUser, defaultCase])
 );
 
-/*
-*
-* Default export
-*
-*/
-// The export constant is: 
-// persisterReducer
+// Default export
 export default persistedReducer;

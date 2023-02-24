@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+// Import the necessary modules
 import React from 'react';
 import {Box} from 'rebass';
 import styled from 'styled-components';
@@ -260,7 +261,9 @@ export class SourcesPage extends React.Component {
                 } else {
                     this.checkMQTTConnectivity(s, ind);
                 }
-            } catch {}
+            } catch (error) {
+                console.error(`Error checking connectivity for source ${ind}:`, error);
+              }
         });
     }
 
@@ -287,12 +290,16 @@ export class SourcesPage extends React.Component {
                 client.end();
                 try {
                     clearTimeout(this.timeouts[s.name]);
-                } catch {}
+                } catch (error) {
+                    console.error(`Error. Timeout for source ${ind}:`, error);
+                  }
             });   
             this.timeouts[s.name] = setTimeout(() => {
                 client.end();
             }, 5000);
-        } catch {}
+        } catch (error) {
+            console.error(`Error checking connectivity for source ${ind}:`, error);
+          }
     }
 
     // Connects to a STOMP source using the provided url, login and passcode,
@@ -318,7 +325,9 @@ export class SourcesPage extends React.Component {
                 rxStomp.deactivate();
                 try {
                     clearTimeout(this.timeouts[s.name]);
-                } catch {}
+                } catch (error) {
+                    console.error(`Error. Timeout for source ${ind}:`, error);
+                  }
             });
             rxStomp.watchForReceipt(receiptId, () => {
                 rxStomp.publish({destination: '/topic/heartbeat', body: JSON.stringify({heartbeat: true})});
@@ -326,7 +335,9 @@ export class SourcesPage extends React.Component {
             this.timeouts[s.name] = setTimeout(() => {
                 rxStomp.deactivate();
             }, 5000);
-        } catch {}
+        } catch (error) {
+            console.error(`Error checking connectivity for source ${ind}:`, error);
+          }
     }
 
     // Changes the spinnerOpen state of the component to the value provided.
@@ -415,7 +426,7 @@ export class SourcesPage extends React.Component {
         this.changeSpinner(false);
     }
 
-    // Opens a confirmation popup for deleting a source.
+    // Opens a confirmation popup for deleting a source
     openDeletePopup(ind) {
         const {sources} = this.state;
         this.deleteSourceId = sources[ind].id;
@@ -448,11 +459,9 @@ export class SourcesPage extends React.Component {
         this.closeDeletePopup();
     }
 
-    // eslint-disable-next-line class-methods-use-this
     // Changes the source type and updates the form accordingly.
+    // eslint-disable-next-line class-methods-use-this
     changeSourceType(formikProps, type) {
-        // ???
-        this.setState({ /* ... */ });
         const {url} = formikProps.values;
 
         if (url === sourceDefaults.stomp || url === sourceDefaults.mqtt) {
@@ -463,7 +472,6 @@ export class SourcesPage extends React.Component {
     // Renders a section for managing sources. It maps over sources and renders a display
     // for each source with an icon, a name and two icons for editing and deleting a source.
     //  It also includes a button for adding a new source. Then, it rendered a modal for editing
-    //  and deleting source, when clicked on icons.
     render() {    
         const {spinnerOpen, sources, formInfo, formPopupOpen, deleteSourcePopupOpen} = this.state;
 
@@ -660,13 +668,7 @@ export const mapDispatch = (dispatch) => ({
     }
 });
 
-/*
-*
-* Default export
-*
-*/
-// The export constant is: 
-// the connected mapState and mapDispatch with SourcesPage
+// Default export mapState and mapDispatch with SourcesPage
 export default connect(
     mapState,
     mapDispatch

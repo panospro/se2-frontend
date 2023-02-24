@@ -97,7 +97,9 @@ class Image extends React.Component {
             const newCounter = counter + 1;
             const image = objectPath.get(payload, variable);
             this.setState({image: `data:image/jpg;base64,${image}`, counter: newCounter});
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Establish a connection to a STOMP message broker. It takes a single source argument, which is an object containing information about the STOMP message broker, such as the URL,
@@ -130,8 +132,11 @@ class Image extends React.Component {
             this.rxStomp.watchForReceipt(initialReceiptId, () => {
                 this.changeSpinner(false);
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
+
 
     // Establish a connection to an MQTT message broker. It takes a single source argument, which is an object containing information about the MQTT message broker, such as the URL 
     // and login credentials. Then create a configuration object and create a new MQTT client using the mqtt.connect function. It then sets up a subscription to a topic on the message
@@ -157,7 +162,9 @@ class Image extends React.Component {
             this.mqttClient.on('message', (__, message) => {
                 this.messageReceived(JSON.parse(message.toString()));
             });
-        } catch {}
+        } catch (error) {
+            console.error('An error occurred:', error);
+          }
     }
 
     // Fetches the source for a given topic from the server and then connects to the source using either the STOMP or MQTT protocol, depending on the type of source. If the connection 
