@@ -48,7 +48,8 @@
     "lint": "./node_modules/.bin/eslint src",
     "test": "cypress run",
     "cypress": "cypress open",
-    "test:ci": "cypress run --headless"
+    "test:ci": "cypress run --headless",
+    "cypress:run": "cypress run"
   },
   "eslintConfig": {
     "extends": [
