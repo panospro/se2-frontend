@@ -66,18 +66,18 @@ class DB extends React.Component {
             fontSize: 50,
         };
 
-        // // ?
-        // this.sendUpdate = this.sendUpdate.bind(this);
-        // this.delete = this.delete.bind(this);
-        // this.changeName = this.changeName.bind(this);
-        // this.openPopup = this.openPopup.bind(this);
-        // this.closePopup = this.closePopup.bind(this);
-        // this.closeConfirmPopup = this.closeConfirmPopup.bind(this);
-        // this.openDelete = this.openDelete.bind(this);
-        // this.closeDelete = this.closeDelete.bind(this);
+        this.sendUpdate = this.sendUpdate.bind(this);
+        this.delete = this.delete.bind(this);
+        this.changeName = this.changeName.bind(this);
+        this.openPopup = this.openPopup.bind(this);
+        this.closePopup = this.closePopup.bind(this);
+        this.closeConfirmPopup = this.closeConfirmPopup.bind(this);
+        this.openDelete = this.openDelete.bind(this);
+        this.closeDelete = this.closeDelete.bind(this);
+        this.changeConnection = this.changeConnection.bind(this);
+        this.changeCollection = this.changeCollection.bind(this);
+        this.clone = this.clone.bind(this);
         // this.resize = this.resize.bind(this);
-        // this.changeText = this.changeText.bind(this);
-        // this.clone = this.clone.bind(this);
     }
 
 
@@ -173,6 +173,12 @@ class DB extends React.Component {
         this.setState({tempConnection: event.target.value});
     }
 
+    // Updates the value of the activeText and fontSize properties in the component's state based
+    //  on the width and height of the component
+    // resize(width, height) {
+    //     const {text} = this.state;
+    //     this.setState({fontSize: Math.max(Math.min(height, ((2 * width) / text.length)), 12)});
+    // }
 
     render() {
         const {id, name, connection, collection, popoverOpen, deletePopupOpen, fontSize, tempCollection, tempConnection} = this.state;
@@ -267,7 +273,7 @@ class DB extends React.Component {
                     >
                         <InputGroup
                             leftIcon="tag"
-                            placeholder="COLLECTION"
+                            placeholder="Collection Name"
                             onChange={this.changeCollection}
                             value={tempCollection}
                             fill
@@ -281,7 +287,7 @@ class DB extends React.Component {
                     >
                         <InputGroup
                             leftIcon="tag"
-                            placeholder="CONNECTION"
+                            placeholder="Connection Name"
                             onChange={this.changeConnection}
                             value={tempConnection}
                             fill

@@ -370,9 +370,9 @@ const components = {
         iconHover: textHoverIcon,
         component: createDB,
         props: {
-            name: 'Text',
-            connection: 'String',
-            collection: 'Name',
+            name: 'Documents Count',
+            connection: '',
+            collection: '',
         },
         header: 'Documents of mongo',
         text: 'Number of documents for a mongo collection',
