@@ -96,7 +96,7 @@ jobs:
       - name: Run the tests
         uses: cypress-io/github-action@v4
         with:
-          start: npm run dev
+          start: npm run start
           wait-on: 'http://localhost:3002/'
           browser: chrome
           command: npm run test
