@@ -36,6 +36,7 @@
     "rxjs": "^6.6.3",
     "shortid": "^2.2.16",
     "styled-components": "^5.2.1",
+    "wait-on": "^7.0.1",
     "web-vitals": "^1.1.0",
     "yup": "^0.32.9"
   },
