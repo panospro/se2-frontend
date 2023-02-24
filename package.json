@@ -42,11 +42,11 @@
   "scripts": {
     "dev": "export SET NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development PORT=3002 react-scripts start",
     "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development PORT=3002 react-scripts start",
-    "build": "cross-env NODE_ENV=production PORT=3002 react-scripts build",
+    "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development PORT=3002 react-scripts start",
     "build2": "cross-env NODE_ENV=production PORT=3002 react-scripts --openssl-legacy-provider build",
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/eslint src",
-    "test": "cypress run",
+    "test": "export SET NODE_OPTIONS=--openssl-legacy-provider && cypress run",
     "cypress": "cypress open",
     "test:ci": "cypress run --headless"
   },
