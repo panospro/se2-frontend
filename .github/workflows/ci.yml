@@ -25,7 +25,7 @@ jobs:
       - name: Run test script
         uses: cypress-io/github-action@v4
         with:
-          build: npm run build
+          build: npm run build2
           start: npm run dev
           command: npm run test:ci
           install-command: npm ci --force
