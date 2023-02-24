@@ -4,7 +4,7 @@ const mqttName = `name${Cypress._.random(1, 100)}`
 const newMqttName = `name${Cypress._.random(1, 100)}`
 
 //Login before each test
-beforeEach(function () {
+beforeEach(() => {
     //Goes to login screen
     cy.visit('/');
     //Type username and password
