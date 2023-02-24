@@ -57,8 +57,10 @@ class DB extends React.Component {
         this.state = {
             id: props.id,
             name: props.initialState.name || 'DB',
+            uri: props.initialState.uri || '',
             connection: props.initialState.connection || '',
             collection: props.initialState.collection || '',
+            tempUri: '', 
             tempConnection: '',
             tempCollection: '',            
             popoverOpen: false,
@@ -74,6 +76,7 @@ class DB extends React.Component {
         this.closeConfirmPopup = this.closeConfirmPopup.bind(this);
         this.openDelete = this.openDelete.bind(this);
         this.closeDelete = this.closeDelete.bind(this);
+        this.changeUri = this.changeUri.bind(this);
         this.changeConnection = this.changeConnection.bind(this);
         this.changeCollection = this.changeCollection.bind(this);
         this.clone = this.clone.bind(this);
@@ -85,6 +88,7 @@ class DB extends React.Component {
         return {
             id: props.id,
             name: props.initialState.name || '',
+            uri: props.initialState.uri || '',
             connection: props.initialState.connection || '',
             collection: props.initialState.collection || '',
         };
@@ -102,9 +106,10 @@ class DB extends React.Component {
 
     // Opens the pop up and sets values to popoverOpen and tempUrl etc.
     openPopup() {
-        const {connection, collection} = this.state;
+        const {uri, connection, collection} = this.state;
         this.setState({
             popoverOpen: true,
+            tempUri: uri,
             tempConnection: connection,
             tempCollection: collection,
         });
@@ -114,6 +119,7 @@ class DB extends React.Component {
     closePopup() {
         this.setState({
             popoverOpen: false,
+            tempUri: '',
             tempConnection: '',
             tempCollection: '',
         });
@@ -122,7 +128,8 @@ class DB extends React.Component {
     // Update the url state variable based on the value of the tempUrl state variable and set the 
     // popoverOpen state variable to false etc.
     closeConfirmPopup() {
-        const {tempCollection, tempConnection} = this.state;
+        const {tempCollection, tempConnection, tempUri} = this.state;
+        this.sendUpdate('uri', tempUri);
         this.sendUpdate('collection', tempCollection);
         this.sendUpdate('connection', tempConnection);
         this.setState({popoverOpen: false});
@@ -160,19 +167,16 @@ class DB extends React.Component {
         this.setState({tempConnection: event.target.value});
     }
 
-    // Changes the test
+    // Changes the collection
     changeCollection(event) {
         event.stopPropagation();
         this.setState({tempCollection: event.target.value});
     }
 
-    // Changes the text
-    changeText(event) {
+    changeUri(event) {
         event.stopPropagation();
-        this.setState({tempCollection: event.target.value});
-        this.setState({tempConnection: event.target.value});
+        this.setState({tempUri: event.target.value});
     }
-
     // Updates the value of the activeText and fontSize properties in the component's state based
     //  on the width and height of the component
     // resize(width, height) {
@@ -181,7 +185,7 @@ class DB extends React.Component {
     // }
 
     render() {
-        const {id, name, connection, collection, popoverOpen, deletePopupOpen, fontSize, tempCollection, tempConnection} = this.state;
+        const {id, name, uri, connection, collection, popoverOpen, deletePopupOpen, fontSize, tempCollection, tempConnection, tempUri} = this.state;
 
 
         return ([
@@ -255,6 +259,7 @@ class DB extends React.Component {
                                 wordBreak: 'break-word'
                             }}
                         >
+                            {uri}
                             {connection}
                             {collection}
                         </div>
@@ -268,14 +273,14 @@ class DB extends React.Component {
                 <SettingsDiv>
                     <div
                         style={{
-                            width: '100%', height: '100%', marginTop: '10px', display: 'flex', alignItems: 'center'
+                            width: '300px', display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', marginTop: '10px'
                         }}
                     >
                         <InputGroup
                             leftIcon="tag"
-                            placeholder="Collection Name"
-                            onChange={this.changeCollection}
-                            value={tempCollection}
+                            placeholder="Uri"
+                            onChange={this.changeUri}
+                            value={tempUri}
                             fill
                             large
                         />
@@ -290,6 +295,20 @@ class DB extends React.Component {
                             placeholder="Connection Name"
                             onChange={this.changeConnection}
                             value={tempConnection}
+                            fill
+                            large
+                        />
+                    </div>
+                    <div
+                        style={{
+                            width: '100%', height: '100%', marginTop: '10px', display: 'flex', alignItems: 'center'
+                        }}
+                    >
+                        <InputGroup
+                            leftIcon="tag"
+                            placeholder="Collection Name"
+                            onChange={this.changeCollection}
+                            value={tempCollection}
                             fill
                             large
                         />

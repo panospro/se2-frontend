@@ -371,6 +371,7 @@ const components = {
         component: createDB,
         props: {
             name: 'Documents Count',
+            uri: '',
             connection: '',
             collection: '',
         },

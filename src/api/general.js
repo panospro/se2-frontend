@@ -17,3 +17,5 @@ export const getRestRequestStatus = (url, type, headers, body, params) => genera
         url, type, headers, body, params
     }
 }).json();
+
+export const connectDB = (uri, connection, collection) => generalApi.get('test-db', {searchParams: {uri, collection, connection}}).json();

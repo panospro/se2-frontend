@@ -19,6 +19,7 @@ import createText from './text';
 import createUrl from './url';
 import createRest from './rest';
 import createRestRequest from './rest-request';
+import createDB from './db';
 
 // Set the values of the object components to the ones imported
 const components = {
@@ -35,7 +36,8 @@ const components = {
     text: {component: createText},
     url: {component: createUrl},
     rest: {component: createRest},
-    restRequest: {component: createRestRequest}
+    restRequest: {component: createRestRequest},
+    db: {component: createDB},
 };
 
 /*
