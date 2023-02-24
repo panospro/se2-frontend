@@ -47,6 +47,7 @@ import createText from './text';
 import createUrl from './url';
 import createRest from './rest';
 import createRestRequest from './rest-request';
+import createDB from './db';
 
 // Object with different types of components:
 // * icon,a string showing the path to an image file that will be used as the icon for the component.
@@ -362,6 +363,23 @@ const components = {
         minH: 3,
         startW: 4,
         startH: 4,
+        category: 'web'
+    },
+    db: {
+        icon: textIcon,
+        iconHover: textHoverIcon,
+        component: createDB,
+        props: {
+            name: 'Text',
+            connection: 'String',
+            collection: 'Name',
+        },
+        header: 'Documents of mongo',
+        text: 'Number of documents for a mongo collection',
+        minW: 1,
+        minH: 1,
+        startW: 2,
+        startH: 2,
         category: 'web'
     },
 };

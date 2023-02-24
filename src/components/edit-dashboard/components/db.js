@@ -2,11 +2,9 @@
 /* eslint-disable max-len */
 
 /*
-*
 * Importing the necessary modules
 * e.g. React, modules from our code,
 * external modules and etc.
-*
 */ 
 import React from 'react';
 import styled from 'styled-components';
@@ -47,8 +45,7 @@ const SettingsDiv = styled.div`
     align-items: center;
 `;
 
-class Text extends React.Component {
-    // It sets the initial type, state, updateItem etc.
+class DB extends React.Component {
     constructor(props) {
         super(props);
 
@@ -59,62 +56,43 @@ class Text extends React.Component {
 
         this.state = {
             id: props.id,
-            name: props.initialState.name || 'Text',
-            text: props.initialState.text || '',
+            name: props.initialState.name || 'DB',
+            connection: props.initialState.connection || '',
+            collection: props.initialState.collection || '',
+            tempConnection: '',
+            tempCollection: '',            
             popoverOpen: false,
             deletePopupOpen: false,
-            tempText: '',
-            fontSize: 50
+            fontSize: 50,
         };
 
-        this.sendUpdate = this.sendUpdate.bind(this);
-        this.delete = this.delete.bind(this);
-        this.changeName = this.changeName.bind(this);
-        this.openPopup = this.openPopup.bind(this);
-        this.closePopup = this.closePopup.bind(this);
-        this.closeConfirmPopup = this.closeConfirmPopup.bind(this);
-        this.openDelete = this.openDelete.bind(this);
-        this.closeDelete = this.closeDelete.bind(this);
-        this.resize = this.resize.bind(this);
-        this.changeText = this.changeText.bind(this);
-        this.clone = this.clone.bind(this);
+        // // ?
+        // this.sendUpdate = this.sendUpdate.bind(this);
+        // this.delete = this.delete.bind(this);
+        // this.changeName = this.changeName.bind(this);
+        // this.openPopup = this.openPopup.bind(this);
+        // this.closePopup = this.closePopup.bind(this);
+        // this.closeConfirmPopup = this.closeConfirmPopup.bind(this);
+        // this.openDelete = this.openDelete.bind(this);
+        // this.closeDelete = this.closeDelete.bind(this);
+        // this.resize = this.resize.bind(this);
+        // this.changeText = this.changeText.bind(this);
+        // this.clone = this.clone.bind(this);
     }
 
-    // Returns an object containing values that should be added to the component's state based on the new props. 
-    // In this case, the returned object contains the values of the id, name and url props, with default values used
-    // if the props are not defined.
+
     static getDerivedStateFromProps(props) {
         return {
             id: props.id,
-            name: props.initialState.name || 'Text',
-            text: props.initialState.text || ''
+            name: props.initialState.name || '',
+            connection: props.initialState.connection || '',
+            collection: props.initialState.collection || '',
         };
     }
 
-    // Updates the component when text changes and then it resizes 
-    // it by finding the new height and width.
-    componentDidUpdate(__, prevState) {
-        const {id, text} = this.state;
-        if (text !== prevState.text) {
-            const height = document.getElementById(`textDiv_${id}`).offsetHeight;
-            const width = document.getElementById(`textDiv_${id}`).offsetWidth;
-            this.resize(width, height);
-        }
-    }
-
-    // Appears to take in a key and a value argument and call the updateItem function with the
-    // component's id state variable, the key and the value as arguments.
     sendUpdate(key, value) {
         const {id} = this.state;
         this.updateItem(id, key, value);
-    }
-
-    // Sets the deletePopupOpen state variable to false and then calls the deleteItem function with the component's 
-    // id state variable as an argument.
-    delete() {
-        const {id} = this.state;
-        this.setState({deletePopupOpen: false});
-        this.deleteItem(id);
     }
 
     // Updates the name 
@@ -124,10 +102,11 @@ class Text extends React.Component {
 
     // Opens the pop up and sets values to popoverOpen and tempUrl etc.
     openPopup() {
-        const {text} = this.state;
+        const {connection, collection} = this.state;
         this.setState({
             popoverOpen: true,
-            tempText: text
+            tempConnection: connection,
+            tempCollection: collection,
         });
     }
 
@@ -135,16 +114,26 @@ class Text extends React.Component {
     closePopup() {
         this.setState({
             popoverOpen: false,
-            tempText: ''
+            tempConnection: '',
+            tempCollection: '',
         });
     }
 
     // Update the url state variable based on the value of the tempUrl state variable and set the 
     // popoverOpen state variable to false etc.
     closeConfirmPopup() {
-        const {tempText} = this.state;
-        this.sendUpdate('text', tempText);
+        const {tempCollection, tempConnection} = this.state;
+        this.sendUpdate('collection', tempCollection);
+        this.sendUpdate('connection', tempConnection);
         this.setState({popoverOpen: false});
+    }
+
+    // Sets the deletePopupOpen state variable to false and then calls the deleteItem function with the component's 
+    // id state variable as an argument.
+    delete() {
+        const {id} = this.state;
+        this.setState({deletePopupOpen: false});
+        this.deleteItem(id);
     }
 
     // Sets the deletePopupOpen state variable to true.
@@ -157,19 +146,6 @@ class Text extends React.Component {
         this.setState({deletePopupOpen: false});
     }
 
-    // Updates the value of the activeText and fontSize properties in the component's state based
-    //  on the width and height of the component
-    resize(width, height) {
-        const {text} = this.state;
-        this.setState({fontSize: Math.max(Math.min(height, ((2 * width) / text.length)), 12)});
-    }
-
-    // Changes the text
-    changeText(event) {
-        event.stopPropagation();
-        this.setState({tempText: event.target.value});
-    }
-
     // Closes the popup and calls the cloneComponent function, passing in the value of the id  
     // in the component's state as an argument
     clone() {
@@ -178,12 +154,29 @@ class Text extends React.Component {
         this.cloneComponent(id);
     }
 
-    // Render the test. First by getting some values from this.state, which is an object that contains several pieces of state for the component.
-    // These values are then used in the JSX element that is returned, which is a div element with several nested elements inside it. Some of 
-    // these elements are custom or external components and style it. The timeSpan, minint, meanint and maxint states are used to render a Tooltip 
-    // component, which is a custom or external component that displays additional information when hovered over. 
+    // Changes the Connection
+    changeConnection(event) {
+        event.stopPropagation();
+        this.setState({tempConnection: event.target.value});
+    }
+
+    // Changes the test
+    changeCollection(event) {
+        event.stopPropagation();
+        this.setState({tempCollection: event.target.value});
+    }
+
+    // Changes the text
+    changeText(event) {
+        event.stopPropagation();
+        this.setState({tempCollection: event.target.value});
+        this.setState({tempConnection: event.target.value});
+    }
+
+
     render() {
-        const {id, name, text, popoverOpen, deletePopupOpen, fontSize, tempText} = this.state;
+        const {id, name, connection, collection, popoverOpen, deletePopupOpen, fontSize, tempCollection, tempConnection} = this.state;
+
 
         return ([
             <div
@@ -242,7 +235,7 @@ class Text extends React.Component {
                 <ReactResizeDetector onResize={this.resize}>
                     {() => (
                         <div
-                            id={`textDiv_${id}`}
+                            id={`db_${id}`}
                             style={{
                                 width: '100%',
                                 height: 'calc(100% - 35px)',
@@ -256,7 +249,8 @@ class Text extends React.Component {
                                 wordBreak: 'break-word'
                             }}
                         >
-                            {text}
+                            {connection}
+                            {collection}
                         </div>
                     )}
                 </ReactResizeDetector>
@@ -273,9 +267,9 @@ class Text extends React.Component {
                     >
                         <InputGroup
                             leftIcon="tag"
-                            placeholder="Text"
-                            onChange={this.changeText}
-                            value={tempText}
+                            placeholder="COLLECTION"
+                            onChange={this.changeCollection}
+                            value={tempCollection}
                             fill
                             large
                         />
@@ -285,6 +279,21 @@ class Text extends React.Component {
                             width: '300px', display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', marginTop: '10px'
                         }}
                     >
+                        <InputGroup
+                            leftIcon="tag"
+                            placeholder="CONNECTION"
+                            onChange={this.changeConnection}
+                            value={tempConnection}
+                            fill
+                            large
+                        />
+                    </div>
+                    <div
+                        style={{
+                            width: '300px', display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', marginTop: '10px'
+                        }}
+                    >
+
                         <BlueBorderButton
                             id="cancel"
                             type="button"
@@ -302,21 +311,39 @@ class Text extends React.Component {
                     </div>
                 </SettingsDiv>
             </PortalOverflowOverlay>,
-            <Alert key="delete-alert" style={{background: 'white', color: 'black'}} usePortal cancelButtonText="Cancel" confirmButtonText="Delete" icon="trash" intent="danger" isOpen={deletePopupOpen} onCancel={this.closeDelete} onConfirm={this.delete}>
-                <p>
-                    Are you sure you want to delete the component
-                    <b style={{marginLeft: '5px'}}>{name}</b>
-                    ?
-                </p>
-            </Alert>
+                <Alert key="delete-alert" style={{background: 'white', color: 'black'}} usePortal cancelButtonText="Cancel" confirmButtonText="Delete" icon="trash" intent="danger" isOpen={deletePopupOpen} onCancel={this.closeDelete} onConfirm={this.delete}>
+                    <p>
+                        Are you sure you want to delete the component
+                        <b style={{marginLeft: '5px'}}>{name}</b>
+                        ?
+                    </p>
+                </Alert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         ]);
     }
 }
 
-// Takes the arguments id, type, initialState etc and pass them to Text. The values are determined by the values 
-// of the properties in the object passed to createText.
-const createText = ({id, type, initialState, updateItem, deleteItem, cloneComponent}) => (
-    <Text
+
+
+
+
+const createDB = ({id, type, initialState, updateItem, deleteItem, cloneComponent}) => (
+    <DB
         id={id}
         type={type}
         initialState={initialState}
@@ -326,11 +353,5 @@ const createText = ({id, type, initialState, updateItem, deleteItem, cloneCompon
     />
 );
 
-/*
-*
-* Default export
-*
-*/
-// The export constant is: 
-// createText
-export default createText;
+
+export default createDB;
