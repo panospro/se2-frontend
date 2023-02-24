@@ -1,7 +1,7 @@
 const testName = `test${Cypress._.random(100, 1000)}`
 
 //Login before each test
-beforeEach(function () {
+beforeEach(() => {
     cy.visit('/');
     cy.get('#test-username').type('karanikio');
     cy.get('#test-password').type('12345');
