@@ -24,18 +24,6 @@ describe('Dashboard', () => {
         cy.contains(/Dashboard created successfully/i).should('exist');
     })
 
-    it.skip('edits dashboard', () => {
-        //Visit Dashboards
-        cy.visit(`/dashboards`)
-        cy.get('[class="sc-fvEvSO iAhaSN"]').contains(testName).parent().children().children().eq(1).children().eq(0).should('have.attr', 'data-icon', 'edit').click()
-        const dataTransfer = new DataTransfer();
-        cy.get('div[class="bp3-collapse"]').eq(0).children().children().children().eq(1)
-            .trigger('dragstart', { dataTransfer: dataTransfer })
-        cy.get('#mainmap').trigger('drop', { dataTransfer: dataTransfer });
-        //class="bp3-collapse"
-        cy.wait(19999)
-    })
-
     it('deletes dashboard', () => {
         //Visit Dashboards
         cy.visit(`/dashboards`)

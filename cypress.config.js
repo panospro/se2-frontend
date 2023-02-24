@@ -13,7 +13,7 @@ const config = {
     screenshotOnRunFailure: true,
     chromeWebSecurity: false,
     defaultCommandTimeout: 60_000,
-    numTestsKeptInMemory: 0,
+    numTestsKeptInMemory: 5,
     env: {
         TEST_TOKEN: process.env.TEST_TOKEN,
         TEST_USERNAME: process.env.TEST_USERNAME,
