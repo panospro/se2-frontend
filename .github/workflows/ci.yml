@@ -27,7 +27,7 @@ jobs:
         with:
           build: npm run build2
           start: npm run dev
-          command: npm run test:ci
+          command: npm run test
           install-command: npm ci --force
        
         env:
