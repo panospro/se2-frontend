@@ -26,13 +26,9 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           build: npm run build2
-          command: npm run test:ci
           start: npm run dev
-
-#           build: npm run build2
-#           start: npm run dev
-#           command: npm run test:ci
-#           install-command: npm ci --force
+          command: npm run test:ci
+          install-command: npm ci --force
        
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
